@@ -1,0 +1,48 @@
+services:
+  mysql:
+    image: mysql:8.0.32
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql
+    restart: unless-stopped
+    ports:
+      - "23306:3306"
+      - "41062:80" #dove si trova il webserver
+      - "41061:22"
+    volumes:
+      - ./ecogroup:/www #mappa cartella locale "app" su cartella /www del container
+      - mysql:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+  phpmyadmin:
+    image: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+      UPLOAD_LIMIT: 1G
+      MEMORY_LIMIT: 1G
+    restart: unless-stopped
+    ports:
+      - "28080:80"
+  app:
+    build:
+      context: "."
+      args:
+        - PHP_VERSION=${PHP_VERSION:-8}
+        - RUN_CMD=${RUN_CMD:-"True"}
+    environment:
+      TZ: Europe/Rome
+      MYSQL_DATABASE: ecogroupdb
+      MYSQL_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+    restart: unless-stopped
+  eco:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+volumes:
+  mysql: 
