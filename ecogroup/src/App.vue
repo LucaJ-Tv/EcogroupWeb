@@ -13,11 +13,9 @@ import { RouterView } from "vue-router";
 //user non loggato
 import SiteNavigation from "./components/SiteNavigation.vue";
 import FooterHome from "./components/SiteFooter.vue";
-
 //user loggato
 import UserHeader from "./components/User/UserHeader.vue"
 import UserNavigation from "./components/User/UserNavigation.vue"
-
 
 </script>
 <script>

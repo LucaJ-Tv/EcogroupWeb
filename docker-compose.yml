@@ -3,16 +3,15 @@ services:
     image: mysql:8.0.32
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mysql
+      MYSQL_DATABASE: eco_group
     restart: unless-stopped
     ports:
       - "23306:3306"
-      - "41062:80" #dove si trova il webserver
-      - "41061:22"
     volumes:
-      - ./ecogroup:/www #mappa cartella locale "app" su cartella /www del container
       - mysql:/var/lib/mysql
       - ./db:/docker-entrypoint-initdb.d
+    networks:
+      - eco_group_net
   phpmyadmin:
     image: phpmyadmin
     environment:
@@ -24,25 +23,38 @@ services:
     restart: unless-stopped
     ports:
       - "28080:80"
-  app:
+    networks:
+      - eco_group_net
+  backend: 
+    image: php:8.0-apache
     build:
-      context: "."
-      args:
-        - PHP_VERSION=${PHP_VERSION:-8}
-        - RUN_CMD=${RUN_CMD:-"True"}
+        context: .
+        dockerfile: mysql.dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./backend/src:/var/www/html/
+    ports:
+      - "80:80"
+    networks:
+      - eco_group_net
+  eco:
+    build:
+        context: .
+        dockerfile: Dockerfile
     environment:
       TZ: Europe/Rome
-      MYSQL_DATABASE: ecogroupdb
+      MYSQL_DATABASE: eco_group
       MYSQL_PASSWORD: root
       MYSQL_USER: root
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
     restart: unless-stopped
-  eco:
-    build:
-        context: .
-        dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    networks:
+      - eco_group_net
+networks:
+  eco_group_net:
+    driver: bridge
 volumes:
   mysql: 

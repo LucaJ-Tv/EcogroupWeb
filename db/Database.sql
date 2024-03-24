@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`CATEGORIE` (
 CREATE TABLE IF NOT EXISTS `eco_group`.`MODERATORI` (
   `codModeratore` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(64) NOT NULL,
-  `password` VARCHAR(128) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
   PRIMARY KEY (`codModeratore`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
   UNIQUE INDEX `codModeratore_UNIQUE` (`codModeratore` ASC));
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`AZIENDE` (
   `citta` VARCHAR(45) NOT NULL,
   `cap` VARCHAR(45) NOT NULL,
   `codAteco` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(128) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
   `DIMENSIONE_dimensione` VARCHAR(128) NOT NULL,
   PRIMARY KEY (`codAzienda`),
   UNIQUE INDEX `mail_UNIQUE` (`mail` ASC),
