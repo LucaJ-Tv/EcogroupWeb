@@ -44,6 +44,10 @@
 
         <input class="border-green-700 bg-green-700 shadow-md border rounded-xl p-2 mt-2 hover:bg-green-800 cursor-pointer" type="submit" value="invia" @click="prossimoStep">
 
+        <div v-if="erroreForm" class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl">
+          <p v-if="erroreForm">{{ erroreForm }}</p>
+        </div>
+
       </form>
     </div>
 </template>
@@ -65,6 +69,7 @@ export default {
       codiciCER: [],
       errorePassword: '',
       errorePasswordNumeri: '',
+      erroreForm: '',
       formOk: false,
     }
   },
@@ -108,25 +113,30 @@ export default {
       }
     },
     submitForm() {
-      console.log("ciao");
+      const formData = new FormData();
+      formData.append('nomeAzienda', this.nome);
+      formData.append('email', this.email);
+      formData.append('cap', this.cap);
+      formData.append('password', this.password);
+      formData.append('citta', this.citta);
+      formData.append('ateco', this.ateco);
+      formData.append('dimensioni', this.dimensioneAzienda);
+      formData.append('codiciCer', this.codiciCER);
+
       this.submitValidator();
       if (this.formOk) {
-        axios.post('http://localhost/api/api-user-signup.php', {
-          'NomeAzienda': this.nome,
-          'email': this.email,
-          'password': this.password,
-          'citta': this.citta,
-          'ateco': this.ateco,
-          'dimensioni': this.dimensioneAzienda,
-          'codiciCER': this.codiciCER
-        }).then(response => {
-          console.log('success', response.data);
+        axios.post('http://localhost/api/api-user-signup.php', 
+        formData).then(response => {
+          if (response.data.error == ''){
+            this.$router.push({name: 'QuestionarioObbligatorio', params: {userid: response.data.userid}});
+          } else {
+            this.erroreForm = response.data.error;
+          };
         }).catch(error => {
-          console.log(error.response);
+          console.error(error);
         });
       }
     }
-
   }
 }
 </script>
