@@ -8,7 +8,7 @@ class Database {
 
     public function __construct() {
         $this->error_string = "";
-        $this->db = new mysqli(CONF_DATABASE["server"], CONF_DATABASE["user"], CONF_DATABASE["password"], CONF_DATABASE["dbname"], CONF_DATABASE["port"]);
+        $this->db = new mysqli("mysql", "root", "root","eco_group", "3306");
         if($this->db->connect_error) {
             die("Connection failed : ".$this->db->connect_error);
         }
@@ -18,4 +18,13 @@ class Database {
         return $this->error_string;
     }
 
+
+    public function getAllMods(){
+        $query = "SELECT codModeratore, username
+                FROM MODERATORI";
+        $statement = $this->db->prepare($query);
+        $statement->execute();
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

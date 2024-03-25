@@ -1,6 +1,6 @@
 <template>
     <div class="bg-site-primary  bg-opacity-70 backdrop-blur-md drop-shadow-lg border-green-600 p-10 rounded-lg">
-      <form @submit.prevent="submitValidator" class="flex flex-col justify-between gap-2">
+      <form @submit.prevent="submitForm" class="flex flex-col justify-between gap-2">
 
         <label for="nome">Nome azienda:</label>
         <input class="bg-green-900 px-2 ring-1 ring-inset ring-green-700 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-500 rounded-md" type="nome" name="nome" v-model="nome">
@@ -49,14 +49,16 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() { 
     return {
       useridDB: '13', //inviando la form al db per l'autenticazione restituisco l'id, in modo da associare l'id al questionario compilato 
-      cap: '',
       nome: '',
-      email: '',//con v-model il binding dei dati è doppio, questo significa che oltre ad essere 
-      password: '', // modificato quando l'utente modifica i dati verrà modificato anche con funzioni
+      email: '',
+      password: '',//con v-model il binding dei dati è doppio, questo significa che oltre ad essere 
+      cap: '', // modificato quando l'utente modifica i dati verrà modificato anche con funzioni
+      citta: '',
       ateco: '',
       dimensioneAzienda: '',
       tempCER: '',
@@ -105,10 +107,26 @@ export default {
         return false;
       }
     },
-    prossimoStep (){
-      if(this.formOk)
-        this.$router.push({name: 'QuestionarioObbligatorio', params: {userid: this.useridDB}})
+    submitForm() {
+      console.log("ciao");
+      this.submitValidator();
+      if (this.formOk) {
+        axios.post('http://localhost/api/api-user-signup.php', {
+          'NomeAzienda': this.nome,
+          'email': this.email,
+          'password': this.password,
+          'citta': this.citta,
+          'ateco': this.ateco,
+          'dimensioni': this.dimensioneAzienda,
+          'codiciCER': this.codiciCER
+        }).then(response => {
+          console.log('success', response.data);
+        }).catch(error => {
+          console.log(error.response);
+        });
+      }
     }
+
   }
 }
 </script>

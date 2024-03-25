@@ -1,11 +1,11 @@
 <?php
 
 $database_data = array(
-    "server" => "mysql-1",
+    "server" => "mysql",
     "user" => "root",
-    "password" => "ecogroup1",
+    "password" => "root",
     "dbname" => "eco_group",
-    "port" => "23306"
+    "port" => "3306"
 );
 
 
