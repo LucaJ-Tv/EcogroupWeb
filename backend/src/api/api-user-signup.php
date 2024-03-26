@@ -20,33 +20,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $userId = 1;
 
   // Controllo mail
-  $error = false;
   $response = '';
   if (!is_valid_email($email)) {
-    $error = true;
     $response = "invalid email";
   }
   // Controllo nome azienda
   if (!is_valid_name($nome)) {
-    $error = true;
     $response = "invalid name";
   }
   // Controllo password
 
   // Controllo dimensioni
   if (empty($dimensioni)) {
-    $error = true;
     $response = "invalid size";
+  }
+  if (empty($cap) || !is_only_numbers($cap)) {
+    $response = "invalid cap";
   }
   // Controllo città
   if (empty($citta)) {
-    $error = true;
     $response = "invalid city";
   }
   // Controllo codice ATECO
-  if (empty($ateco) && is_only_numbers($ateco)) {
-    $error = true;
+  if (empty($ateco) || !is_only_numbers($ateco)) {
     $response = "invalid ATECO";
+  }
+  // Controllo codici CER
+  if (!empty($codiciCER)) {
+    $codiciCERPuliti = clear_CER($codiciCER);
+    if (!validate_CER($codiciCERPuliti)) {
+      $response = "invalid CER";
+    }
+  } else {
+    $response = "invalid CER";
   }
 
   $message = array(

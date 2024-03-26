@@ -11,24 +11,40 @@ function is_valid_email($email) {
         return false;
     } else {
         global $dbh;
-        if(count($dbh->isMailPresent($email)) == 0)
+        if(count($dbh->isMailPresent($email)) == 0) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }
 
-function is_valid_name($nome){
+function is_valid_name($nome) {
     if(empty($nome)) {
         return false;
-    }
-    else {
+    } else {
         global $dbh;
-        if(count($dbh->isNamePresent($nome)) == 0)
+        if (count($dbh->isNamePresent($nome)) == 0) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
+}
+
+function clear_CER($codicicer) {
+    $codicipuliti = explode(',', $codicicer);
+    $result = array_map('trim',$codicipuliti);
+    return $result;
+}
+
+function validate_CER($codicicer) {
+    foreach ( $codicicer as $codice) {
+        if(!is_only_numbers($codice)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function is_only_numbers($codice) {
