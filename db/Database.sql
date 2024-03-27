@@ -138,9 +138,8 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`DIMENSIONI` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `eco_group`.`AZIENDE` (
   `codAzienda` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(64) NOT NULL,
+  `username` VARCHAR(128) NOT NULL,
   `mail` VARCHAR(128) NOT NULL,
-  `nome` VARCHAR(128) NOT NULL,
   `citta` VARCHAR(45) NOT NULL,
   `cap` VARCHAR(45) NOT NULL,
   `codAteco` VARCHAR(45) NOT NULL,
@@ -162,9 +161,9 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`AZIENDE` (
 -- Table `eco_group`.`CODICI_CER`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `eco_group`.`CODICI_CER` (
-  `icodiciCER` INT NOT NULL,
-  PRIMARY KEY (`icodiciCER`),
-  UNIQUE INDEX `icodiciCER_UNIQUE` (`icodiciCER` ASC));
+  `codiceCER` VARCHAR(7) NOT NULL,
+  PRIMARY KEY (`codiceCER`),
+  UNIQUE INDEX `codiceCER_UNIQUE` (`codiceCER` ASC));
 
 
 -- -----------------------------------------------------
@@ -172,18 +171,18 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`CODICI_CER` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `eco_group`.`CODICI_AZIENDA` (
   `AZIENDE_codAzienda` INT NOT NULL,
-  `CODICI_CER_icodiciCER` INT NOT NULL,
-  PRIMARY KEY (`AZIENDE_codAzienda`, `CODICI_CER_icodiciCER`),
+  `CODICI_CER_codiceCER` VARCHAR(7) NOT NULL,
+  PRIMARY KEY (`AZIENDE_codAzienda`, `CODICI_CER_codiceCER`),
   INDEX `fk_CODICI_AZIENDA_AZIENDE1_idx` (`AZIENDE_codAzienda` ASC),
-  INDEX `fk_CODICI_AZIENDA_CODICI_CER1_idx` (`CODICI_CER_icodiciCER` ASC),
+  INDEX `fk_CODICI_AZIENDA_CODICI_CER1_idx` (`CODICI_CER_codiceCER` ASC),
   CONSTRAINT `fk_CODICI_AZIENDA_AZIENDE1`
     FOREIGN KEY (`AZIENDE_codAzienda`)
     REFERENCES `eco_group`.`AZIENDE` (`codAzienda`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_CODICI_AZIENDA_CODICI_CER1`
-    FOREIGN KEY (`CODICI_CER_icodiciCER`)
-    REFERENCES `eco_group`.`CODICI_CER` (`icodiciCER`)
+    FOREIGN KEY (`CODICI_CER_codiceCER`)
+    REFERENCES `eco_group`.`CODICI_CER` (`codiceCER`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 

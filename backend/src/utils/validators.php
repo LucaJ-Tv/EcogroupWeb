@@ -32,6 +32,20 @@ function is_valid_name($nome) {
     }
 }
 
+function is_valid_password($password) {
+    if(empty($password)) {
+        return false;
+    } else {
+        if(!containsNumber($password)) {
+            return false;
+        }
+        if(strlen($password) < 8) {
+            return false;
+        }
+        return true;
+    }
+}
+
 function clear_CER($codicicer) {
     $codicipuliti = explode(',', $codicicer);
     $result = array_map('trim',$codicipuliti);
@@ -49,4 +63,8 @@ function validate_CER($codicicer) {
 
 function is_only_numbers($codice) {
     return preg_match('/^[0-9]+$/', $codice);
+}
+
+function containsNumber($value){
+    return (preg_match('~[0-9]+~', $value));
 }

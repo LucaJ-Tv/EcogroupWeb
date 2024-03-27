@@ -18,7 +18,7 @@
       return{
         email: '',
         password: '',
-        id: 1, // da ottenere tramite una query 
+        id: '',
         errorePassword: '',
         formOk: false,
       }
@@ -29,6 +29,7 @@
       },
       prossimoStep(){
         if(this.formOk) {
+          this.ottieniID();
           this.$emit('LoggedInUser')
           this.$router.push({name: 'LoggedIn', params:{userid: this.id}})
         }

@@ -1,9 +1,9 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-  require_once($_SERVER["DOCUMENT_ROOT"]."/bootstrap.php");
   require_once($_SERVER["DOCUMENT_ROOT"]."/utils/validators.php");
-
+  require_once($_SERVER["DOCUMENT_ROOT"]."/bootstrap.php");
+  global $dbh;
   // Imposta gli header CORS appropriati per le richieste POST
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
@@ -17,10 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $citta = isset($_POST['citta']) ? $_POST['citta'] : '';
   $ateco = isset($_POST['ateco']) ? $_POST['ateco'] : '';
   $codiciCER = isset($_POST['codiciCer']) ? $_POST['codiciCer'] : '';
-  $userId = 1;
+  $userId = 0;
 
+  $result = "Azienda not created";
   // Controllo mail
-  $response = '';
   if (!is_valid_email($email)) {
     $response = "invalid email";
   }
@@ -29,7 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = "invalid name";
   }
   // Controllo password
-
+  if (!is_valid_password($password)) {
+    $response = "invalid password";
+  }
   // Controllo dimensioni
   if (empty($dimensioni)) {
     $response = "invalid size";
@@ -54,15 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } else {
     $response = "invalid CER";
   }
+  if(!isset($response)){
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    $dbh->createAzienda($nome, $email, $password_hash, $dimensioni, $cap, $citta, $ateco, $codiciCER);
+    $response='';
+    $userId=$dbh->getAziendaID($email);
+    $result = 'Azienda created';
+  }
 
   $message = array(
     'error' => $response,
-    'nome' => $nome,
-    'email' => $email,
-    'citta' => $citta,
-    'ateco' => $ateco,
-    'dimensioni' => $dimensioni,
-    'codiciCER' => $codiciCER,
+    'result' => $result,
     'userid' => $userId
   );
 
