@@ -34,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'error' => $error,
     'result' => $result,
     'userid' => $userId,
-    'SESSION ID' => $_SESSION['user_id']
+    'SESSION ID' => $_SESSION['user_id'],
+    'session path' => session_save_path()
   );
 
   echo json_encode($message);
