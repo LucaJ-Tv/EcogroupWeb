@@ -1,6 +1,6 @@
 <?php 
 
-require($_SERVER["DOCUMENT_ROOT"]."/bootstrap.php"); //database directory
+require($_SERVER["DOCUMENT_ROOT"]."/www/bootstrap.php"); //database directory
 
 function is_valid_email($email) {
     if(empty($email)) {

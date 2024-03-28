@@ -1,9 +1,9 @@
 <?php
 
 $database_data = array(
-    "server" => "mysql",
+    "server" => "localhost",
     "user" => "root",
-    "password" => "root",
+    "password" => "",
     "dbname" => "eco_group",
     "port" => "3306"
 );

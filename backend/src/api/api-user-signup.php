@@ -1,11 +1,11 @@
 <?php
+header('Access-Control-Allow-Origin: *');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-  require_once($_SERVER["DOCUMENT_ROOT"]."/utils/validators.php");
-  require_once($_SERVER["DOCUMENT_ROOT"]."/bootstrap.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/www/utils/validators.php");
+  require_once($_SERVER["DOCUMENT_ROOT"]."/www/bootstrap.php");
   global $dbh;
   // Imposta gli header CORS appropriati per le richieste POST
-  header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
   
   // Accedi direttamente ai dati 

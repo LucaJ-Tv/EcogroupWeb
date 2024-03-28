@@ -40,7 +40,7 @@
         formData.append('password', this.password);
 
         if (this.formOk) {
-        axios.post('http://localhost/api/api-user-login.php', 
+        axios.post('http://localhost/www/api/api-user-login.php', 
         formData).then(response => {
           if (response.data.error == ''){
             //this.$emit('loggedInUser')
@@ -56,7 +56,7 @@
         }
       },
       controlloSessione(){
-        axios.post('http://localhost/session.php').then(response => {
+        axios.post('http://localhost/www/session.php').then(response => {
           console.log(response.data)
         }).catch(error => {
           console.error(error);

@@ -1,8 +1,8 @@
 <?php
 session_start();
+header('Access-Control-Allow-Origin: *');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-  header('Access-Control-Allow-Origin: *');
 
   if (empty($_SESSION['user_id'])) {
     echo json_encode(array('error' => 'User not authenticated'));

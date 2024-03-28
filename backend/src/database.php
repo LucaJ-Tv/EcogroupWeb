@@ -1,6 +1,6 @@
 <?php
 
-require_once($_SERVER["DOCUMENT_ROOT"]."/config.php");
+require_once($_SERVER["DOCUMENT_ROOT"]."/www/config.php");
                         
 class Database {
     private $db;
