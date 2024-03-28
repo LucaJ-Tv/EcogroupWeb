@@ -8,6 +8,8 @@ import LoggedView from '../views/logged/userLoggedView.vue'
 import QuestionarioView from '../views/QuestionarioView.vue'
 import AllQuestionariView from '../views/logged/AllQuestionariView.vue'
 
+import Prove from '../views/prove.vue'
+
 const routes = [
   {
     path: '/',
@@ -41,6 +43,11 @@ const routes = [
     name: 'Questionari',
     component: AllQuestionariView,
     props: true
+  },
+  {
+    path: '/prove',
+    name: 'Prove',
+    component: Prove,
   },
   {
     path: '/:catchAll()',

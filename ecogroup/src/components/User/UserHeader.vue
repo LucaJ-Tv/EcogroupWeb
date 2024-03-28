@@ -3,7 +3,7 @@
       <nav class="container flex items-center w-full py-2 justify-between">
         <div class="flex items-center gap-2 font-Inter mx-auto">
           <img src="../../assets/ecogroup-icon.png" class="h-12 w-12" alt="ecogroup logo">
-          <router-link class="self-center text-2xl font-semibold whitespace-nowrap" to="/">Eco Group</router-link>
+          <router-link class="self-center text-2xl font-semibold whitespace-nowrap" to="/" @click.native="logout()" >Eco Group</router-link>
         </div>
         <router-link class="relative shadow-md justify-end border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary" to="/"   @click.native="logout()" ><i class="fa-solid fa-right-from-bracket"></i>Log out</router-link>
       </nav>
@@ -11,11 +11,16 @@
   </template>
   
   <script>
-    export default{
-      methods: {
-        logout(){
+  import axios from 'axios';
+  export default{
+    methods: {
+      logout(){
+        axios.get('http://localhost/api/api-logout.php').then(
           this.$emit('logout') //temporaneo solo per dimostrazione
-        }
+        ).catch(error => {
+          console.error(error);
+        });
       }
     }
+  }
   </script>

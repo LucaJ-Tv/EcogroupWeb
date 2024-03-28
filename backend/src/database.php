@@ -20,7 +20,7 @@ class Database {
 
     // QUERY Aziende
     public function createAzienda($nome, $email, $password, $dimensione, $cap, $citta, $codiceAteco, $codiciCer) {
-        if(count($this->isMailPresent($email))>0 || count($this->isNamePresent($nome)) > 0){
+        if(count($this->isMailCompanyPresent($email))>0 || count($this->isNamePresent($nome)) > 0){
             return false;
         }
         $this->createCodiciCer($codiciCer);
@@ -98,10 +98,38 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    function getModeratorID($email) {
+        $query = "SELECT codModeratore
+                FROM MODERATORI 
+                WHERE mail LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $email);
+        $this->error_string = $statement->execute() ? "MAIL" : "";
+        $result = $statement->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $cod = $row['codModeratore'];
+            return $cod;
+        } else {
+            return false;
+        }
+    }
+
     // Utils
-    public function isMailPresent($email) {
+    public function isMailCompanyPresent($email) {
         $query = "SELECT * 
                 FROM AZIENDE 
+                WHERE mail LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $email);
+        $this->error_string = $statement->execute() ? "MAIL" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function isMailModeratorPresent($email) {
+        $query = "SELECT * 
+                FROM MODERATORI
                 WHERE mail LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $email);

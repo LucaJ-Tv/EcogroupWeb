@@ -1,0 +1,26 @@
+<template>
+  <button @click="restoreSession" class="border-green-700 bg-green-700 shadow-md border rounded-xl p-2 mt-2 hover:bg-green-800 cursor-pointer w-full">restore</button>
+  <div>
+    <p>SESSION: {{ session }}</p>
+  </div>
+</template>
+
+<script>
+  import axios from 'axios';
+  export default {
+    data() {
+      return{
+        session: ''
+      }
+    },
+    methods: {
+      restoreSession() {
+        axios.get('http://localhost/session.php').then(response => {
+          this.session = response.data
+        }).catch(error => {
+          console.error(error);
+        });
+      },
+    }
+  }
+</script>

@@ -11,7 +11,7 @@ function is_valid_email($email) {
         return false;
     } else {
         global $dbh;
-        if(count($dbh->isMailPresent($email)) == 0) {
+        if(count($dbh->isMailCompanyPresent($email)) == 0) {
             return true;
         } else {
             return false;
