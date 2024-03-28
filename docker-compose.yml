@@ -1,60 +1,19 @@
+version: '3.9'
+
 services:
-  mysql:
-    image: mysql:8.0.32
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: eco_group
-    restart: unless-stopped
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql:/var/lib/mysql
-      - ./db:/docker-entrypoint-initdb.d
-    networks:
-      - eco_group_net
-  phpmyadmin:
-    image: phpmyadmin
-    environment:
-      PMA_HOST: mysql
-      PMA_USER: root
-      PMA_PASSWORD: root
-      UPLOAD_LIMIT: 1G
-      MEMORY_LIMIT: 1G
-    restart: unless-stopped
-    ports:
-      - "28080:80"
-    networks:
-      - eco_group_net
-  backend: 
-    image: php:8.0-apache
-    build:
-        context: .
-        dockerfile: mysql.dockerfile
-    restart: unless-stopped
-    volumes:
-      - ./backend/src:/var/www/html/
+  backend:
+    platform: linux/x86_64
+    image: tomsik68/xampp
     ports:
       - "80:80"
-    networks:
-      - eco_group_net
-  eco:
+    volumes:
+      - ./backend/src:/www/
+  frontend:
     build:
-        context: .
-        dockerfile: Dockerfile
-    environment:
-      TZ: Europe/Rome
-      MYSQL_DATABASE: eco_group
-      MYSQL_PASSWORD: root
-      MYSQL_USER: root
-      MYSQL_HOST: mysql
-      MYSQL_PORT: 3306
-    restart: unless-stopped
+      context: ./ecogroup
+      dockerfile: Dockerfile
+    volumes:
+      - ./ecogroup:/app
     ports:
       - "8080:8080"
-    networks:
-      - eco_group_net
-networks:
-  eco_group_net:
-    driver: bridge
-volumes:
-  mysql: 
+
