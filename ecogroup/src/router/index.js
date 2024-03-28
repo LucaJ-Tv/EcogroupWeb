@@ -8,6 +8,8 @@ import LoggedView from '../views/logged/userLoggedView.vue'
 import QuestionarioView from '../views/QuestionarioView.vue'
 import AllQuestionariView from '../views/logged/AllQuestionariView.vue'
 
+import AdminLoggedView from '../views/adminlogged/AdminLoggedView.vue'
+
 import Prove from '../views/prove.vue'
 
 const routes = [
@@ -42,6 +44,12 @@ const routes = [
     path: '/questionari/:userid',
     name: 'Questionari',
     component: AllQuestionariView,
+    props: true
+  },
+  {
+    path: '/admin/:userid',
+    name: 'AdminLogged',
+    component: AdminLoggedView,
     props: true
   },
   {

@@ -2,7 +2,6 @@
 header('Access-Control-Allow-Origin: *');
 session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  var_dump($_SERVER["DOCUMENT_ROOT"]);
   require_once($_SERVER["DOCUMENT_ROOT"]."/www/utils/validators.php");
   require_once($_SERVER["DOCUMENT_ROOT"]."/www/bootstrap.php");
   global $dbh;
@@ -34,8 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'error' => $error,
     'result' => $result,
     'userid' => $userId,
-    'SESSION ID' => $_SESSION['user_id'],
-    'session path' => session_save_path()
   );
 
   echo json_encode($message);

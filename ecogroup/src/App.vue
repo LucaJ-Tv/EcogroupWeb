@@ -5,6 +5,7 @@
     <RouterView @LoggedInUser="userLogged"/>
     <FooterHome v-if="!userIsLogged"/>
     <UserNavigation v-if="userIsLogged"/>
+    <AdminNavigation/>
   </div>
 </template>
 
@@ -14,8 +15,10 @@ import { RouterView } from "vue-router";
 import SiteNavigation from "./components/SiteNavigation.vue";
 import FooterHome from "./components/SiteFooter.vue";
 //user loggato
-import UserHeader from "./components/User/UserHeader.vue"
-import UserNavigation from "./components/User/UserNavigation.vue"
+import UserHeader from "./components/User/UserHeader.vue";
+import UserNavigation from "./components/User/UserNavigation.vue";
+//admin loggato
+import AdminNavigation from "./components/Admin/AdminNavigation.vue";
 
 </script>
 <script>

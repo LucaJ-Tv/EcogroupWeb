@@ -12,9 +12,6 @@
         <p v-if="erroreForm">{{ erroreForm }}</p>
       </div>
     </form>
-
-    <button @click="controlloSessione" class="border-green-700 bg-green-700 shadow-md border rounded-xl p-2 mt-2 hover:bg-green-800 cursor-pointer w-full">restore</button>
-
   </div>
 </template>
 
@@ -43,10 +40,9 @@
         axios.post('http://localhost/www/api/api-user-login.php', 
         formData).then(response => {
           if (response.data.error == ''){
-            //this.$emit('loggedInUser')
-            //this.$router.push({name: 'LoggedIn', params: {userid: response.data.userid}});
-            //this.$router.push('prove');
+            this.$emit('loggedInUser')
             console.log(response.data)
+            this.$router.push({name: 'LoggedIn', params: {userid: response.data.userid}});
           } else {
             this.erroreForm = response.data.error;
           };
@@ -54,13 +50,6 @@
           console.error(error);
         });
         }
-      },
-      controlloSessione(){
-        axios.post('http://localhost/www/session.php').then(response => {
-          console.log(response.data)
-        }).catch(error => {
-          console.error(error);
-        });
       }
     }
   }
