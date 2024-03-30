@@ -1,4 +1,5 @@
 <?php
+
 header('Access-Control-Allow-Origin: *');
 session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -32,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $message = array(
     'error' => $error,
     'result' => $result,
-    'userid' => $userId,
+    'userid' => $_SESSION['user_id'],
   );
 
   echo json_encode($message);

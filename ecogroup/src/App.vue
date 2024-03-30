@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-col h-screen justify-between font-Roboto text-gray-200">
-    <UserHeader v-if="userIsLogged" @logout="userLogOut"/>
-    <SiteNavigation v-if="!userIsLogged" @LoggedInUser="userLogged"/>
+    <UserHeader v-if="userIsLogged || userIsAdmin" @logout="userLogOut"/>
+    <SiteNavigation v-if="!userIsLogged && !userIsAdmin" @LoggedInUser="userLogged"/>
     <RouterView @LoggedInUser="userLogged"/>
-    <FooterHome v-if="!userIsLogged"/>
+    <FooterHome v-if="!userIsLogged && !userIsAdmin"/>
     <UserNavigation v-if="userIsLogged"/>
-    <AdminNavigation/>
+    <AdminNavigation v-if="userIsAdmin"/>
   </div>
 </template>
 
@@ -25,7 +25,8 @@ import AdminNavigation from "./components/Admin/AdminNavigation.vue";
 export default {
   data() {
     return {
-      userIsLogged: false //da fare in modo migliore con back end
+      userIsLogged: false, //da fare in modo migliore con back end
+      //userIsAdmin: true
     }
   },
   methods:{
