@@ -24,9 +24,11 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`CATEGORIE` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `eco_group`.`MODERATORI` (
   `codModeratore` INT NOT NULL AUTO_INCREMENT,
+  `mail` VARCHAR(128) NOT NULL,
   `username` VARCHAR(64) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
   PRIMARY KEY (`codModeratore`),
+  UNIQUE INDEX `mail_UNIQUE` (`mail` ASC),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
   UNIQUE INDEX `codModeratore_UNIQUE` (`codModeratore` ASC));
 
