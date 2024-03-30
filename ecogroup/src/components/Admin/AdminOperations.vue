@@ -11,9 +11,9 @@
       <label for="ripetipassword">Ripeti Password:</label>
       <input class="bg-green-900 px-2 py-1 ring-1 ring-inset ring-green-700 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-500 rounded-md" type="password" name="ripetipassword" v-model="passwordRepeat">
       <input class="border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1" type="submit" value="invia">
-      {{ formOk }}
-      {{ password }}
-      {{ passwordRepeat }}
+      <!-- {{ formOk }} -->
+      <!-- {{ password }} -->
+      <!-- {{ passwordRepeat }} -->
       <div v-if="erroreForm" class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl">
         <p v-if="erroreForm">{{ erroreForm }}</p>
       </div>
@@ -81,13 +81,13 @@ export default {
               this.risultato = 'admin aggiunto';
               this.erroreForm = '';
               //resetto per aggiungere altri admin
-                    // this.username = '';
-                    // this.email = '';
-                    // this.password = '';
-                    // this.passwordRepeat = '';
-                    // this.erroreForm = '';
-                    // this.formOk = false;
-                    // this.risultato = '';
+              this.username = '';
+              this.email = '';
+              this.password = '';
+              this.passwordRepeat = '';
+              this.erroreForm = '';
+              this.formOk = false;
+              this.risultato = '';
             } else {
               this.erroreForm = response.data.error;
             };

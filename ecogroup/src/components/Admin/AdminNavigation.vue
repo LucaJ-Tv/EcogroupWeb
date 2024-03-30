@@ -9,7 +9,10 @@
           <i class="fa-solid fa-clipboard-check"></i>
           <span class="self-center text-xl whitespace-nowrap">Admin</span>
         </RouterLink>
-
+        <RouterLink :to="{name: 'AdminQuestions', params: {userid: this.userid}}" class="flex items-center mb-4 space-x-3 shadow-md rtl:space-x-reverse bg-black bg-opacity-20 rounded-lg p-2 px-5 hover:bg-opacity-30 border border-site-primary">
+          <i class="fa-solid fa-clipboard-question"></i>
+          <span class="self-center text-xl whitespace-nowrap">domande</span>
+        </RouterLink>
       </div>
     </nav>
   </template>

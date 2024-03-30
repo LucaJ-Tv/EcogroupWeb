@@ -10,6 +10,7 @@ import AllQuestionariView from '../views/logged/AllQuestionariView.vue'
 
 import AdminLoggedView from '../views/adminlogged/AdminLoggedView.vue'
 import AdminOperationsView from '../views/adminlogged/AdminOperationsView.vue'
+import AdminQuestionsView from '../views/adminlogged/AdminQuestionsView.vue'
 
 import Prove from '../views/prove.vue'
 
@@ -54,9 +55,15 @@ const routes = [
     props: true
   },
   {
-    path: '/admin/:userid/add',
+    path: '/admin/:userid/aggiungi',
     name: 'AdminOperations',
     component: AdminOperationsView,
+    props: true
+  },
+  {
+    path: '/admin/:userid/domande',
+    name: 'AdminQuestions',
+    component: AdminQuestionsView,
     props: true
   },
   {
