@@ -3,11 +3,11 @@
       <div class="flex justify-center gap-3 md:gap-10 text-center w-full mx-auto">
         <RouterLink :to="{name: 'AdminLogged', params: {userid: this.userid}}" class="flex items-center mb-4 space-x-3 shadow-md rtl:space-x-reverse bg-black bg-opacity-20 rounded-lg p-2 px-5 hover:bg-opacity-30 border border-site-primary">
           <i class="fa-solid fa-chart-pie"></i>
-          <span class="self-center text-xl whitespace-nowrap">Aggiungi Questionario</span>
+          <span class="self-center text-xl whitespace-nowrap">Questionari</span>
         </RouterLink>
-        <RouterLink :to="{name: 'Questionari', params: {userid: this.userid}}" class="flex items-center mb-4 space-x-3 shadow-md rtl:space-x-reverse bg-black bg-opacity-20 rounded-lg p-2 px-5 hover:bg-opacity-30 border border-site-primary">
+        <RouterLink :to="{name: 'AdminOperations', params: {userid: this.userid}}" class="flex items-center mb-4 space-x-3 shadow-md rtl:space-x-reverse bg-black bg-opacity-20 rounded-lg p-2 px-5 hover:bg-opacity-30 border border-site-primary">
           <i class="fa-solid fa-clipboard-check"></i>
-          <span class="self-center text-xl whitespace-nowrap">Aggiungi Admin</span>
+          <span class="self-center text-xl whitespace-nowrap">Admin</span>
         </RouterLink>
 
       </div>

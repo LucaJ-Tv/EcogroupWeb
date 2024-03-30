@@ -12,7 +12,7 @@
         <p v-if="erroreForm">{{ erroreForm }}</p>
       </div>
     </form>
-    <button class="border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary mt-2" @click="checkUserLoggedIn">controlloSessione</button>
+    <!-- <button class="border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary mt-2" @click="checkUserLoggedIn">controlloSessione</button> -->
   </div>
 </template>
 
@@ -41,9 +41,9 @@
           axios.post('http://localhost/www/api/api-user-login.php', 
           formData).then(response => {
             if (response.data.error == ''){
-              //this.$emit('loggedInUser')
+              this.$emit('loggedInUser')
               console.log(response.data)
-              //this.$router.push({name: 'LoggedIn', params: {userid: response.data.userid}});
+              this.$router.push({name: 'LoggedIn', params: {userid: response.data.userid}});
             } else {
               this.erroreForm = response.data.error;
             };
@@ -52,14 +52,14 @@
           });
         }
       },
-      checkUserLoggedIn() {
-        axios.get('http://localhost/www/session.php'
-        ).then(response => {
-          console.log(response.data);
-        }).catch(error => {
-          console.error(error);
-        });
-      }
+      // checkUserLoggedIn() {
+      //   axios.get('http://localhost/www/session.php'
+      //   ).then(response => {
+      //     console.log(response.data);
+      //   }).catch(error => {
+      //     console.error(error);
+      //   });
+      // }
     }
   }
 

@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       userIsLogged: false, //da fare in modo migliore con back end
-      //userIsAdmin: true
+      userIsAdmin: true
     }
   },
   methods:{
@@ -35,6 +35,7 @@ export default {
     },
     userLogOut(){
       this.userIsLogged = false
+      this.userIsAdmin = false
     }
   }
 }
