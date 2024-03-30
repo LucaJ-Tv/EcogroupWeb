@@ -11,18 +11,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $email = isset($_POST['email']) ? $_POST['email'] : '';
   $password = isset($_POST['password']) ? $_POST['password'] : '';
+  $userId = -1;
+  $userType = 'unknown';
 
   $company = $dbh->isMailCompanyPresent($email);
+  $moderator = $dbh->isMailModeratorPresent($email);
   if (count($company) > 0) {
     if (password_verify($password, $company['0']['password'])) {
       $error = '';
       $userId = $dbh->getAziendaID($email);
+      $userType = 'company';
       $result = 'loggin succesfull';
       $_SESSION['user_id'] = $userId;
+      $_SESSION['user_type'] = $userType;
     } else {
       $error = 'invalid mail or password';
       $userId = 'invalid';
       $result = 'not logged';
+      $userType = 'company';
+    }
+  } elseif(count($moderator) > 0) {
+    if (password_verify($password, $moderator['0']['password'])) {
+      $error = '';
+      $userId = $dbh->getModeratorID($email);
+      $userType = 'moderator';
+      $result = 'loggin succesfull';
+      $_SESSION['user_id'] = $userId;
+      $_SESSION['user_type'] = $userType;
+    } else {
+      $error = 'invalid mail or password';
+      $userId = 'invalid';
+      $result = 'not logged';
+      $userType = 'moderator';
     }
   } else {
      $error = 'mail not registered';
@@ -33,7 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $message = array(
     'error' => $error,
     'result' => $result,
-    'userid' => $_SESSION['user_id'],
+    'userid' => $userId,
+    'usertype' => $userType
   );
 
   echo json_encode($message);

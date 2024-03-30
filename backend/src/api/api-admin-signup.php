@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!is_valid_email($email)) {
     $response = "invalid email";
   }
-  if (!is_valid_username($email)) {
+  if (!is_valid_username($username)) {
     $response = "invalid username";
   }
   // Controllo password

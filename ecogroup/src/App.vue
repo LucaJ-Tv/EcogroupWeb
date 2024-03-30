@@ -1,11 +1,14 @@
 <template>
   <div class="flex flex-col h-screen justify-between font-Roboto text-gray-200">
-    <UserHeader v-if="userIsLogged || userIsAdmin" @logout="userLogOut"/>
-    <SiteNavigation v-if="!userIsLogged && !userIsAdmin" @LoggedInUser="userLogged"/>
-    <RouterView @LoggedInUser="userLogged"/>
-    <FooterHome v-if="!userIsLogged && !userIsAdmin"/>
+    <UserHeader v-if="userIsLogged || adminIsLogged" @logout="userLogOut"/>
+    <SiteNavigation v-if="!userIsLogged && !adminIsLogged" @LoggedInUser="userLogged"/>
+
+    <RouterView @LoggedInUser="userLogged" @LoggedInAdmin="adminLogged"/>
+    
     <UserNavigation v-if="userIsLogged"/>
-    <AdminNavigation v-if="userIsAdmin"/>
+    <AdminNavigation v-if="adminIsLogged"/>
+
+    <FooterHome v-if="!userIsLogged && !adminIsLogged"/>
   </div>
 </template>
 
@@ -26,16 +29,19 @@ export default {
   data() {
     return {
       userIsLogged: false, //da fare in modo migliore con back end
-      userIsAdmin: true
+      adminIsLogged: false
     }
   },
   methods:{
-    userLogged(){
+    userLogged() {
       this.userIsLogged = true
     },
-    userLogOut(){
+    adminLogged() {
+      this.adminIsLogged = true
+    },
+    userLogOut() {
       this.userIsLogged = false
-      this.userIsAdmin = false
+      this.adminIsLogged = false
     }
   }
 }

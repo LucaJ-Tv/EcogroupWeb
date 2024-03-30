@@ -41,9 +41,14 @@
           axios.post('http://localhost/www/api/api-user-login.php', 
           formData).then(response => {
             if (response.data.error == ''){
-              this.$emit('loggedInUser')
+              if(response.data.usertype == 'moderator'){
+                this.$emit('LoggedInAdmin')
+                this.$router.push({name: 'AdminLogged', params: {userid: response.data.userid}});
+              } else {
+                this.$emit('loggedInUser')
+                this.$router.push({name: 'LoggedIn', params: {userid: response.data.userid}});
+              }
               console.log(response.data)
-              this.$router.push({name: 'LoggedIn', params: {userid: response.data.userid}});
             } else {
               this.erroreForm = response.data.error;
             };
