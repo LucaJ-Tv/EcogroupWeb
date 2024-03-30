@@ -81,13 +81,13 @@ export default {
               this.risultato = 'admin aggiunto';
               this.erroreForm = '';
               //resetto per aggiungere altri admin
-              this.username = '';
-              this.email = '';
-              this.password = '';
-              this.passwordRepeat = '';
-              this.erroreForm = '';
-              this.formOk = false;
-              this.risultato = '';
+                    // this.username = '';
+                    // this.email = '';
+                    // this.password = '';
+                    // this.passwordRepeat = '';
+                    // this.erroreForm = '';
+                    // this.formOk = false;
+                    // this.risultato = '';
             } else {
               this.erroreForm = response.data.error;
             };

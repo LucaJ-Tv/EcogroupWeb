@@ -11,7 +11,7 @@ function is_valid_email($email) {
         return false;
     } else {
         global $dbh;
-        if(count($dbh->isMailCompanyPresent($email)) == 0) {
+        if(count($dbh->isMailCompanyPresent($email)) == 0 && count($dbh->isMailModeratorPresent($email)) == 0) {
             return true;
         } else {
             return false;
@@ -25,6 +25,19 @@ function is_valid_name($nome) {
     } else {
         global $dbh;
         if (count($dbh->isNamePresent($nome)) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+function is_valid_username($nome) {
+    if(empty($nome)) {
+        return false;
+    } else {
+        global $dbh;
+        if (count($dbh->isUsernamePresent($nome)) == 0) {
             return true;
         } else {
             return false;

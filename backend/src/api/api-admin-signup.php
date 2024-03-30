@@ -19,6 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!is_valid_email($email)) {
     $response = "invalid email";
   }
+  if (!is_valid_username($email)) {
+    $response = "invalid username";
+  }
   // Controllo password
   if (!is_valid_password($password)) {
     $response = "invalid password";
@@ -26,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if(!isset($response)){
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    $dbh->createMod($username, $email, $password_hash);
+    $userId=$dbh->getModeratorID($email);
     $response='';
     $result = 'Admin created';
   }

@@ -89,6 +89,22 @@ class Database {
     }
 
     // QUERY Moderatori
+    public function createMod($nome, $email, $password) {
+        if(count($this->isMailCompanyPresent($email))>0 || count($this->isMailModeratorPresent($nome)) > 0){
+            return false;
+        }
+        $query = "INSERT INTO MODERATORI
+                  (mail,username,password)
+                   VALUES (?, ?, ?)";
+        $statement = $this->db->prepare($query);
+        if (!$statement) {
+            // Gestione dell'errore se la preparazione della query fallisce
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->bind_param('sss', $email, $nome, $password);
+        return $statement->execute();
+    }
+
     public function getAllMods() {
         $query = "SELECT codModeratore, username
                 FROM MODERATORI";
@@ -138,10 +154,20 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
     
-
     public function isNamePresent($name) {
         $query = "SELECT * 
                 FROM AZIENDE 
+                WHERE username LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $name);
+        $this->error_string = $statement->execute() ? "USERNAME" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function isUsernamePresent($name) {
+        $query = "SELECT * 
+                FROM MODERATORI 
                 WHERE username LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $name);
