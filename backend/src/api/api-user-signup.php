@@ -61,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dbh->createAzienda($nome, $email, $password_hash, $dimensioni, $cap, $citta, $ateco, $codiciCER);
     $response='';
     $userId=$dbh->getAziendaID($email);
+    $dbh->createCodiciAzienda($userId, $codiciCER);
     $result = 'Azienda created';
   }
 

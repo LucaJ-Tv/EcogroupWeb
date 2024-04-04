@@ -24,7 +24,7 @@ class Database {
             return false;
         }
         $this->createCodiciCer($codiciCer);
-        $query = "INSERT INTO AZIENDE
+        $query = "INSERT INTO aziende
                   (username,mail,citta,cap,codAteco,password, DIMENSIONE_dimensione)
                    VALUES (?, ?, ?, ?, ?, ?, ?)";
         $statement = $this->db->prepare($query);
@@ -33,13 +33,12 @@ class Database {
             die("Errore nella preparazione della query: " . $this->db->error);
         }
         $statement->bind_param('sssssss', $nome, $email, $citta, $cap, $codiceAteco, $password, $dimensione);
-        $this->createCodiciCer($codiciCer);
         return $statement->execute();
     }
 
     function getAziendaID($email) {
         $query = "SELECT codAzienda 
-                FROM AZIENDE 
+                FROM aziende 
                 WHERE mail LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $email);
@@ -54,9 +53,9 @@ class Database {
         }
     }
 
-    // QUEY categorie
+    // QUERY categorie
     public function createCategory($category) {
-        $query = "INSERT INTO CATEGORIE (nomeCategoria) VALUES (?)";
+        $query = "INSERT INTO categorie (nomeCategoria) VALUES (?)";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $category);
         $statement->execute();
@@ -64,11 +63,25 @@ class Database {
 
     public function getAllCategories() {
         $query = "SELECT *
-                FROM CATEGORIE";
+                FROM categorie";
         $statement = $this->db->prepare($query);
         $statement->execute();
         $result = $statement->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // QUERY codici_azienda
+    public function createCodiciAzienda($idAzienda, $codiciCer) {
+        $codiciArray = explode(',', $codiciCer);
+        $codiciArray = array_map('trim', $codiciArray);
+
+        foreach ($codiciArray as $codice) { 
+            $query = "INSERT INTO codici_azienda (AZIENDE_codAzienda, CODICI_CER_codiceCER) VALUES (?, ?)";
+            $statement = $this->db->prepare($query);
+            $statement->bind_param('is', $idAzienda, $codice);
+            $statement->execute();
+        }
+
     }
 
     // QUERY CodiciCER
@@ -87,7 +100,7 @@ class Database {
     }
     
     private function getExistingCodici() {
-        $query = "SELECT codiceCER FROM CODICI_CER";
+        $query = "SELECT codiceCER FROM codici_cer";
         $statement = $this->db->prepare($query);
         $statement->execute();
         $result = $statement->get_result();
@@ -99,7 +112,7 @@ class Database {
     }
     
     private function addCodiceCer($codice) {
-        $query = "INSERT INTO CODICI_CER (codiceCER) VALUES (?)";
+        $query = "INSERT INTO codici_cer (codiceCER) VALUES (?)";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $codice);
         $statement->execute();
@@ -110,7 +123,7 @@ class Database {
         if(count($this->isMailCompanyPresent($email))>0 || count($this->isMailModeratorPresent($nome)) > 0){
             return false;
         }
-        $query = "INSERT INTO MODERATORI
+        $query = "INSERT INTO moderatori
                   (mail,username,password)
                    VALUES (?, ?, ?)";
         $statement = $this->db->prepare($query);
@@ -124,7 +137,7 @@ class Database {
 
     public function getAllMods() {
         $query = "SELECT codModeratore, username
-                FROM MODERATORI";
+                FROM moderatori";
         $statement = $this->db->prepare($query);
         $statement->execute();
         $result = $statement->get_result();
@@ -133,7 +146,7 @@ class Database {
 
     function getModeratorID($email) {
         $query = "SELECT codModeratore
-                FROM MODERATORI 
+                FROM moderatori 
                 WHERE mail LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $email);
@@ -151,7 +164,7 @@ class Database {
     // Utils
     public function isMailCompanyPresent($email) {
         $query = "SELECT * 
-                FROM AZIENDE 
+                FROM aziende 
                 WHERE mail LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $email);
@@ -162,7 +175,7 @@ class Database {
 
     public function isMailModeratorPresent($email) {
         $query = "SELECT * 
-                FROM MODERATORI
+                FROM moderatori
                 WHERE mail LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $email);
@@ -173,7 +186,7 @@ class Database {
     
     public function isNamePresent($name) {
         $query = "SELECT * 
-                FROM AZIENDE 
+                FROM aziende 
                 WHERE username LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $name);
@@ -184,7 +197,7 @@ class Database {
 
     public function isUsernamePresent($name) {
         $query = "SELECT * 
-                FROM MODERATORI 
+                FROM moderatori 
                 WHERE username LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $name);
@@ -195,7 +208,7 @@ class Database {
 
     public function isCategoryPresent($category) {
         $query = "SELECT * 
-                FROM CATEGORIE 
+                FROM categorie 
                 WHERE nomeCategoria LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $category);

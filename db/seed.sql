@@ -1,1 +1,1 @@
-INSERT INTO `DIMENSIONI` (`dimensione`) VALUES ('piccola'), ('grande'), ('media');
+INSERT INTO `dimensioni` (`dimensione`) VALUES ('piccola'), ('grande'), ('media');
