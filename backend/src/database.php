@@ -54,6 +54,23 @@ class Database {
         }
     }
 
+    // QUEY categorie
+    public function createCategory($category) {
+        $query = "INSERT INTO CATEGORIE (nomeCategoria) VALUES (?)";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $category);
+        $statement->execute();
+    }
+
+    public function getAllCategories() {
+        $query = "SELECT *
+                FROM CATEGORIE";
+        $statement = $this->db->prepare($query);
+        $statement->execute();
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     // QUERY CodiciCER
     public function createCodiciCer($codiciCer) {
         $codiciArray = explode(',', $codiciCer);
@@ -172,6 +189,17 @@ class Database {
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $name);
         $this->error_string = $statement->execute() ? "USERNAME" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function isCategoryPresent($category) {
+        $query = "SELECT * 
+                FROM CATEGORIE 
+                WHERE nomeCategoria LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $category);
+        $this->error_string = $statement->execute() ? "CATEGORY" : "";
         $result = $statement->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
