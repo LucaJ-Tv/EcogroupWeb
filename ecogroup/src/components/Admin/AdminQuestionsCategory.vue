@@ -17,7 +17,7 @@
       </div>
       <div class="w-1/2 box-border bg-black bg-opacity-20 rounded-xl shadow-md p-2 max-h-96">
       <h3 class="font-Inter text-xl mb-3 bg-black bg-opacity-20 p-2 rounded-xl shadow-md">Già resenti:</h3>
-        <ul class="h-[85%] overflow-auto ">
+       <ul class="h-[85%] overflow-auto ">
           <li v-for="categoria in categorie" class="mb-2">
             <div class="flex flex-auto gap-2">
               <p class="bg-black bg-opacity-20 shadow-md px-2 rounded-full py-1"> {{ categoria.codCategoria }} </p>

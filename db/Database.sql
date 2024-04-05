@@ -1,8 +1,7 @@
-
 -- -----------------------------------------------------
 -- Schema eco_group
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `eco_group` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `eco_group` DEFAULT CHARACTER SET utf8;
 USE `eco_group` ;
 
 -- -----------------------------------------------------
@@ -12,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`dimensioni` (
   `dimensione` VARCHAR(128) NOT NULL,
   PRIMARY KEY (`dimensione`),
   UNIQUE INDEX `dimensione_UNIQUE` (`dimensione` ASC));
+
 
 
 -- -----------------------------------------------------
@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`aziende` (
   `password` VARCHAR(256) NOT NULL,
   `DIMENSIONE_dimensione` VARCHAR(128) NOT NULL,
   PRIMARY KEY (`codAzienda`),
-  UNIQUE INDEX `mail_UNIQUE` (`mail` ASC) ,
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) ,
-  UNIQUE INDEX `codAzienda_UNIQUE` (`codAzienda` ASC) ,
+  UNIQUE INDEX `mail_UNIQUE` (`mail` ASC),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
+  UNIQUE INDEX `codAzienda_UNIQUE` (`codAzienda` ASC),
   INDEX `fk_AZIENDA_DIMENSIONE1_idx` (`DIMENSIONE_dimensione` ASC),
   CONSTRAINT `fk_AZIENDA_DIMENSIONE1`
     FOREIGN KEY (`DIMENSIONE_dimensione`)
@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`categorie` (
   UNIQUE INDEX `idCATEGORIA_UNIQUE` (`nomeCategoria` ASC));
 
 
+
 -- -----------------------------------------------------
 -- Table `eco_group`.`codici_cer`
 -- -----------------------------------------------------
@@ -55,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`codici_cer` (
   `codiceCER` VARCHAR(7) NOT NULL,
   PRIMARY KEY (`codiceCER`),
   UNIQUE INDEX `codiceCER_UNIQUE` (`codiceCER` ASC));
+
 
 
 -- -----------------------------------------------------
@@ -87,9 +89,10 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`moderatori` (
   `username` VARCHAR(64) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
   PRIMARY KEY (`codModeratore`),
-  UNIQUE INDEX `mail_UNIQUE` (`mail` ASC) ,
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) ,
-  UNIQUE INDEX `codModeratore_UNIQUE` (`codModeratore` ASC) );
+  UNIQUE INDEX `mail_UNIQUE` (`mail` ASC),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
+  UNIQUE INDEX `codModeratore_UNIQUE` (`codModeratore` ASC));
+
 
 
 -- -----------------------------------------------------
@@ -100,19 +103,19 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`domande` (
   `positiva` TINYINT(4) NOT NULL,
   `testo` VARCHAR(1024) NOT NULL,
   `CATEGORIE_idCATEGORIA` VARCHAR(100) NOT NULL,
-  `MODERATORI_username` VARCHAR(64) NOT NULL,
+  `moderatori_codModeratore` INT(11) NOT NULL,
   PRIMARY KEY (`codDomanda`),
-  UNIQUE INDEX `codDomanda_UNIQUE` (`codDomanda` ASC) ,
-  INDEX `fk_DOMANDE_CATEGORIE1_idx` (`CATEGORIE_idCATEGORIA` ASC) ,
-  INDEX `fk_DOMANDE_MODERATORI1_idx` (`MODERATORI_username` ASC) ,
+  UNIQUE INDEX `codDomanda_UNIQUE` (`codDomanda` ASC),
+  INDEX `fk_DOMANDE_CATEGORIE1_idx` (`CATEGORIE_idCATEGORIA` ASC),
+  INDEX `fk_domande_moderatori1_idx` (`moderatori_codModeratore` ASC),
   CONSTRAINT `fk_DOMANDE_CATEGORIE1`
     FOREIGN KEY (`CATEGORIE_idCATEGORIA`)
     REFERENCES `eco_group`.`categorie` (`nomeCategoria`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_DOMANDE_MODERATORI1`
-    FOREIGN KEY (`MODERATORI_username`)
-    REFERENCES `eco_group`.`moderatori` (`username`)
+  CONSTRAINT `fk_domande_moderatori1`
+    FOREIGN KEY (`moderatori_codModeratore`)
+    REFERENCES `eco_group`.`moderatori` (`codModeratore`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -124,8 +127,9 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`questionari` (
   `codQuestionario` INT(11) NOT NULL AUTO_INCREMENT,
   `titolo` VARCHAR(128) NOT NULL,
   PRIMARY KEY (`codQuestionario`),
-  UNIQUE INDEX `codQuestionario_UNIQUE` (`codQuestionario` ASC) ,
-  UNIQUE INDEX `titolo_UNIQUE` (`titolo` ASC) );
+  UNIQUE INDEX `codQuestionario_UNIQUE` (`codQuestionario` ASC),
+  UNIQUE INDEX `titolo_UNIQUE` (`titolo` ASC));
+
 
 
 -- -----------------------------------------------------
@@ -138,10 +142,10 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`domande_questionari` (
   `DOMANDE_codDomanda` INT(11) NOT NULL,
   `QUESTIONARIO_codQuestionario` INT(11) NOT NULL,
   PRIMARY KEY (`codDomandaQuestionario`),
-  UNIQUE INDEX `codDomandaQuestionario_UNIQUE` (`codDomandaQuestionario` ASC) ,
-  UNIQUE INDEX `numeroDomanda_UNIQUE` (`numeroDomanda` ASC) ,
-  INDEX `fk_DOMANDA_QUESTIONARIO_DOMANDE1_idx` (`DOMANDE_codDomanda` ASC) ,
-  INDEX `fk_DOMANDA_QUESTIONARIO_QUESTIONARIO1_idx` (`QUESTIONARIO_codQuestionario` ASC) ,
+  UNIQUE INDEX `codDomandaQuestionario_UNIQUE` (`codDomandaQuestionario` ASC),
+  UNIQUE INDEX `numeroDomanda_UNIQUE` (`numeroDomanda` ASC),
+  INDEX `fk_DOMANDA_QUESTIONARIO_DOMANDE1_idx` (`DOMANDE_codDomanda` ASC),
+  INDEX `fk_DOMANDA_QUESTIONARIO_QUESTIONARIO1_idx` (`QUESTIONARIO_codQuestionario` ASC),
   CONSTRAINT `fk_DOMANDA_QUESTIONARIO_DOMANDE1`
     FOREIGN KEY (`DOMANDE_codDomanda`)
     REFERENCES `eco_group`.`domande` (`codDomanda`)
@@ -163,9 +167,9 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`modifiche` (
   `MODERATORI_codModeratore` INT(11) NOT NULL,
   `QUESTIONARI_codQuestionario` INT(11) NOT NULL,
   PRIMARY KEY (`idModifica`),
-  UNIQUE INDEX `idModifica_UNIQUE` (`idModifica` ASC) ,
-  INDEX `fk_MODIFICHE_MODERATORI1_idx` (`MODERATORI_codModeratore` ASC) ,
-  INDEX `fk_MODIFICHE_QUESTIONARI1_idx` (`QUESTIONARI_codQuestionario` ASC) ,
+  UNIQUE INDEX `idModifica_UNIQUE` (`idModifica` ASC),
+  INDEX `fk_MODIFICHE_MODERATORI1_idx` (`MODERATORI_codModeratore` ASC),
+  INDEX `fk_MODIFICHE_QUESTIONARI1_idx` (`QUESTIONARI_codQuestionario` ASC),
   CONSTRAINT `fk_MODIFICHE_MODERATORI1`
     FOREIGN KEY (`MODERATORI_codModeratore`)
     REFERENCES `eco_group`.`moderatori` (`codModeratore`)
@@ -187,9 +191,9 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`questionari_compilati` (
   `QUESTIONARI_codQuestionario` INT(11) NOT NULL,
   `aziende_codAzienda` INT(11) NOT NULL,
   PRIMARY KEY (`codQuestionarioCompilato`, `aziende_codAzienda`),
-  UNIQUE INDEX `codQuestionarioCompilato_UNIQUE` (`codQuestionarioCompilato` ASC) ,
-  INDEX `fk_QUESTIONARI_COMPILATI_QUESTIONARI1_idx` (`QUESTIONARI_codQuestionario` ASC) ,
-  INDEX `fk_questionari_compilati_aziende1_idx` (`aziende_codAzienda` ASC) ,
+  UNIQUE INDEX `codQuestionarioCompilato_UNIQUE` (`codQuestionarioCompilato` ASC),
+  INDEX `fk_QUESTIONARI_COMPILATI_QUESTIONARI1_idx` (`QUESTIONARI_codQuestionario` ASC),
+  INDEX `fk_questionari_compilati_aziende1_idx` (`aziende_codAzienda` ASC),
   CONSTRAINT `fk_QUESTIONARI_COMPILATI_QUESTIONARI1`
     FOREIGN KEY (`QUESTIONARI_codQuestionario`)
     REFERENCES `eco_group`.`questionari` (`codQuestionario`)
@@ -211,8 +215,8 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`risposte` (
   `QUESTIONARI_COMPILATI_codQuestionarioCompilato` INT(11) NOT NULL,
   `DOMANDE_QUESTIONARI_codDomandaQuestionario` INT(11) NOT NULL,
   PRIMARY KEY (`codRisposta`, `QUESTIONARI_COMPILATI_codQuestionarioCompilato`, `DOMANDE_QUESTIONARI_codDomandaQuestionario`),
-  INDEX `fk_RISPOSTE_DOMANDE_QUESTIONARI1_idx` (`DOMANDE_QUESTIONARI_codDomandaQuestionario` ASC) ,
-  INDEX `fk_RISPOSTE_QUESTIONARI_COMPILATI1` (`QUESTIONARI_COMPILATI_codQuestionarioCompilato` ASC) ,
+  INDEX `fk_RISPOSTE_DOMANDE_QUESTIONARI1_idx` (`DOMANDE_QUESTIONARI_codDomandaQuestionario` ASC),
+  INDEX `fk_RISPOSTE_QUESTIONARI_COMPILATI1` (`QUESTIONARI_COMPILATI_codQuestionarioCompilato` ASC),
   CONSTRAINT `fk_RISPOSTE_DOMANDE_QUESTIONARI1`
     FOREIGN KEY (`DOMANDE_QUESTIONARI_codDomandaQuestionario`)
     REFERENCES `eco_group`.`domande_questionari` (`codDomandaQuestionario`)
@@ -233,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`scelte` (
   `valore` VARCHAR(128) NOT NULL,
   `peso` DOUBLE NOT NULL,
   `domande_codDomanda` INT(11) NOT NULL,
-  INDEX `fk_scelte_domande1_idx` (`domande_codDomanda` ASC) ,
+  INDEX `fk_scelte_domande1_idx` (`domande_codDomanda` ASC),
   PRIMARY KEY (`codScelta`),
   CONSTRAINT `fk_scelte_domande1`
     FOREIGN KEY (`domande_codDomanda`)

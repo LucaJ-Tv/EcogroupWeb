@@ -118,6 +118,31 @@ class Database {
         $statement->execute();
     }
 
+    // QUERY Domande
+    public function addDomanda($positiva, $testo, $categoria, $moderatore) {
+        $query = "INSERT INTO domande (positiva, testo, CATEGORIE_idCATEGORIA, moderatori_codModeratore) VALUES (?, ?, ?, ?)";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('issi', $positiva, $testo, $categoria, $moderatore);
+        $statement->execute();
+    }
+
+    public function getDomandaID($testo) {
+        $query = "SELECT codDomanda
+                FROM domande 
+                WHERE testo LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $testo);
+        $this->error_string = $statement->execute() ? "TESTO" : "";
+        $result = $statement->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $cod = $row['codDomanda'];
+            return $cod;
+        } else {
+            return false;
+        }
+    }
+
     // QUERY Moderatori
     public function createMod($nome, $email, $password) {
         if(count($this->isMailCompanyPresent($email))>0 || count($this->isMailModeratorPresent($nome)) > 0){
@@ -160,6 +185,15 @@ class Database {
             return false;
         }
     }
+
+    // QUERY Scelte
+    public function addScelte($valore, $peso, $domande_codDomanda) {
+        $query = "INSERT INTO scelte (valore, peso, domande_codDomanda) VALUES (?, ?, ?)";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('sdi', $valore, $peso, $domande_codDomanda);
+        $statement->execute();
+    }
+
 
     // Utils
     public function isMailCompanyPresent($email) {

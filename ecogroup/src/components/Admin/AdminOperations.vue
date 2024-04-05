@@ -87,7 +87,6 @@ export default {
               this.passwordRepeat = '';
               this.erroreForm = '';
               this.formOk = false;
-              this.risultato = '';
             } else {
               this.erroreForm = response.data.error;
             };

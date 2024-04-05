@@ -81,3 +81,25 @@ function is_only_numbers($codice) {
 function containsNumber($value){
     return (preg_match('~[0-9]+~', $value));
 }
+
+function stringToArray($inputString) {
+    $arraypulito = explode(',', $inputString);
+    $arraypulito = array_map('trim', $arraypulito);
+    return $arraypulito;
+}
+
+function calcolaPesi($scelte) {
+    $pesoStep = 1 / (count($scelte) - 1);
+    $pesoCorrente = 0;
+    $arrayAssociativo = [];
+
+    foreach ($scelte as $scelta) {
+        $arrayAssociativo[] = [
+            'scelta' => $scelta,
+            'peso' => number_format($pesoCorrente, 2)
+        ];
+        $pesoCorrente += $pesoStep;
+    }
+
+    return $arrayAssociativo;
+}

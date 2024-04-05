@@ -1,7 +1,7 @@
 <template>
   <div class="w-full bg-black bg-opacity-20 p-2 rounded-xl shadow-md mb-2">
   <h1 class="font-Inter text-3xl mb-3 bg-black bg-opacity-20 w-full p-2 rounded-xl shadow-md">Aggiunta domanda</h1>
-    <form @submit.prevent="submintForm">
+    <form @submit.prevent="submitForm">
       <div class="mb-4">
         <label class="block font-bold mb-2" for="domandaText">Testo della domanda</label>
         <textarea class="bg-green-900 px-2 py-1 ring-1 w-full h-32 text-start ring-inset ring-green-700 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-500 rounded-md" id="domandaText" name="domandaText" maxlength="1024" v-model="testoDomanda"></textarea>
@@ -30,12 +30,12 @@
       </div>
       <div class="flex justify-center">
         <input class="border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1 w-1/4" type="submit" value="aggiungi">
-        <div v-if="erroreForm" class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl">
-          <p v-if="erroreForm">{{ erroreForm }}</p>
-        </div>
-        <div v-if="risultato" class="bg-site-secondary bg-opacity-60 border border-site-secondary text-xs p-3 rounded-xl">
-          <p v-if="risultato">{{ risultato }}</p>
-        </div>
+      </div>
+      <div v-if="erroreForm" class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl">
+        <p v-if="erroreForm">{{ erroreForm }}</p>
+      </div>
+      <div v-if="risultato" class="bg-site-secondary bg-opacity-60 border border-site-secondary text-xs p-3 rounded-xl">
+        <p v-if="risultato">{{ risultato }}</p>
       </div>
     </form>
   </div>
@@ -53,6 +53,7 @@ export default {
       positivo: false,
       tempRisposta: '',
       categoriaSelezionata: '',
+      idCategoria: '',
       risultato: '',
       erroreForm: ''
     }
@@ -62,25 +63,43 @@ export default {
   },
   methods: {
     submitForm () {
+      this.calcolaCateria(this.categoriaSelezionata);
       this.risultato = '';
-      const formData = new FormData();
-      formData.append(this.testoDomanda);
-      
-      formData.append(this.categoriaSelezionata);
-      formData.append(this.risposte);
-      
-      axios.post('http://localhost/www/api/api-admin-add-question.php', 
-      formData).then(response => {
-        if (response.data.error == ''){
-          console.log(response.data);
-          this.risultato = 'Domanda aggiunta';
-          this.erroreForm = '';
-        } else {
-          this.erroreForm = response.data.error;
-        };
-      }).catch(error => {
-        console.error(error);
-      });    
+      this.erroreForm = '';
+      if(this.isFormOk()) {
+        const formData = new FormData();
+        formData.append('testo', this.testoDomanda);
+        formData.append('categoria', this.categoriaSelezionata);
+        formData.append('isPositive', this.positivo);
+        formData.append('risposte', this.risposte);
+        axios.post('http://localhost/www/api/api-admin-add-question.php', 
+        formData).then(response => {
+          if (response.data.error == ''){
+            console.log(response.data);
+            this.risultato = 'Domanda aggiunta';
+            this.erroreForm = '';
+
+            this.testoDomanda = '';
+            this.positivo = false;
+            this.categoriaSelezionata = '';
+            this.risposte = '';
+          } else {
+            this.erroreForm = response.data.error;
+          };
+        }).catch(error => {
+          console.error(error);
+        });    
+      }
+    },
+    isFormOk() {
+      if (!this.categoriaSelezionata || this.categoriaSelezionata.trim() === '' || !this.testoDomanda || this.testoDomanda.trim() === '' || this.risposte.length < 2) {
+        this.erroreForm = 'tutti i campi devono essere compilati';
+        if(this.risposte.length < 2)
+          this.erroreForm = 'una domanda deve avere almeno due risposte';
+        return false;
+      } else {
+        return true;
+      }
     },
     updateCategories() {
       axios.get('http://localhost/www/api/api-admin-get-category.php')
@@ -106,6 +125,13 @@ export default {
     },
     rimuoviSlash(risposta) {
       return risposta.replace(/\//g, '');
+    },
+    calcolaCateria(value) {
+      for (let categoria of this.categorie) {
+        if (categoria.nomeCategoria === value) {
+            this.idCategoria = categoria.codCategoria;
+        }
+    }
     }
   }
 
