@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`questionari` (
 -- Table `eco_group`.`domande_questionari`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `eco_group`.`domande_questionari` (
-  `codDomandaQuestionario` INT(11) NOT NULL,
+  `codDomandaQuestionario` INT(11) NOT NULL AUTO_INCREMENT,
   `numeroDomanda` INT(11) NOT NULL,
   `peso` DOUBLE NOT NULL,
   `DOMANDE_codDomanda` INT(11) NOT NULL,

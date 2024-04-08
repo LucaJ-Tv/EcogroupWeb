@@ -108,9 +108,9 @@ function combinaArrayAssociativo($numeri, $pesi, $id) {
     if (count($numeri) === count($pesi) && count($numeri) === count($id)) {
         $arrayAssociativo = array_map(function ($numero, $peso, $identificativo) {
             return array(
-                'numero' => $numero,
+                'numeroDomanda' => $numero,
                 'peso' => $peso,
-                'id' => $identificativo
+                'codDomanda' => $identificativo
             );
         }, $numeri, $pesi, $id);
 
