@@ -43,9 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   $message = array(
-    'questionarioId' => $QuestionsId,
-    'questionario peso' => $QuestionsPeso,
-    'questionario numero' => $QuestionsNumber,
     'error' => $error,
     'result' => $result
   );

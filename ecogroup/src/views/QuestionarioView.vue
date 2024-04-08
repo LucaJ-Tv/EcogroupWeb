@@ -81,6 +81,9 @@ export default {
        if(numeroScelte == this.domandeDb.length) {
           this.finito=true
        }
+    },
+    popolaDomande() {
+      
     }
   }
 }
