@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $error = 'una domanda deve avere almeno due risposte';
     $result = '';
   } else {
-    if($isPositive = true) {
+    if($isPositive == 'true') {
       $isPositive = 1;
     } else {
       $isPositive = 0;
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   $message = array(
-    'test' => $category,
+    'test' => $isPositive,
     'error' => $error,
     'result' => $result,
   );

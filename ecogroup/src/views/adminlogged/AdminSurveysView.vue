@@ -7,7 +7,7 @@
             {{ azione }}
           </div>
         </div>
-          <AddSurvey v-if="this.azioneCorrente == this.azioni[0]"></AddSurvey>
+          <AddSurvey :id="userid" v-if="this.azioneCorrente == this.azioni[0]"></AddSurvey>
           <ModifySurveys v-if="this.azioneCorrente == this.azioni[1]"></ModifySurveys>
           <Surveys v-if="this.azioneCorrente == this.azioni[2]"></Surveys>
       </div>
@@ -21,8 +21,7 @@
   
   export default {
     props: ['userid'],
-    components: {
-      Surveys, AddSurvey, ModifySurveys},
+    components: { Surveys, AddSurvey, ModifySurveys},
     data () {
       return {
         azioni: ['Aggiungi', 'Modifica', 'Questionari'],

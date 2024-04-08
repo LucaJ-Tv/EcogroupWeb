@@ -143,6 +143,17 @@ class Database {
         }
     }
 
+    public function getDomandaByCategoria($categoria) {
+        $query = "SELECT * 
+                FROM domande 
+                WHERE CATEGORIE_idCATEGORIA LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $categoria);
+        $this->error_string = $statement->execute() ? "DOMANDA" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     // QUERY Moderatori
     public function createMod($nome, $email, $password) {
         if(count($this->isMailCompanyPresent($email))>0 || count($this->isMailModeratorPresent($nome)) > 0){
