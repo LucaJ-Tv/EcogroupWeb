@@ -154,6 +154,21 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    // QUERY domande_questionari
+    public function createDomandaQuestionario($numero, $peso, $codDomanda, $idQuestionario) {
+        $query = "INSERT INTO domande_questionari
+                  (numeroDomanda, peso, DOMANDE_codDomanda, QUESTIONARIO_codQuestionario)
+                   VALUES (?, ?, ?, ?)";
+        $statement = $this->db->prepare($query);
+        if (!$statement) {
+            // Gestione dell'errore se la preparazione della query fallisce
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->bind_param('sdss', $numero, $peso, $codDomanda, $idQuestionario);
+        return $statement->execute();
+    }
+
+
     // QUERY Moderatori
     public function createMod($nome, $email, $password) {
         if(count($this->isMailCompanyPresent($email))>0 || count($this->isMailModeratorPresent($nome)) > 0){
@@ -191,6 +206,47 @@ class Database {
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $cod = $row['codModeratore'];
+            return $cod;
+        } else {
+            return false;
+        }
+    }
+
+    // QUERY Questionari
+    function createQuestionario($titolo) {
+        if(count($this->getQuestionarioByTitolo($titolo))) {
+            return false;
+        }
+        $query = "INSERT INTO questionari
+                  (titolo)
+                   VALUES (?)";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $titolo);
+        return $statement->execute();
+    }
+
+    function getQuestionarioByTitolo($titolo) {
+        $query = "SELECT * 
+        FROM questionari
+        WHERE titolo LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $titolo);
+        $this->error_string = $statement->execute() ? "TITOLO" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    function getQuestionarioID($titolo) {
+        $query = "SELECT codQuestionario
+                FROM questionari 
+                WHERE titolo LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $titolo);
+        $this->error_string = $statement->execute() ? "TITOLO" : "";
+        $result = $statement->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $cod = $row['codQuestionario'];
             return $cod;
         } else {
             return false;

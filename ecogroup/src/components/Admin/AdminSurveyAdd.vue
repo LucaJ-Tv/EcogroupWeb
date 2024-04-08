@@ -13,8 +13,8 @@
         </div>
       </fieldset>
       <fieldset v-if="!primaPagina" class="flex flex-col gap-2 text-left">
-        <label class="font-Inter text-xl mb-1 bg-black bg-opacity-20 p-2 rounded-xl shadow-md" for="categoriaAttuale">Categoria</label>
-        <select @change="disponiDomande()" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700" id="CategoriaAttuale" v-model="categoriaCorrente">
+        <label class="font-Inter text-xl mb-1 bg-black bg-opacity-20 p-2 rounded-xl shadow-md" for="CategoriaAttuale">Categoria</label>
+        <select @change="disponiDomande()" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700" id="CategoriaAttuale" name="CategoriaAttuale" v-model="categoriaCorrente">
           <option v-for="categoria in categorieSelezionate">{{ categoria.nomeCategoria }}</option>
         </select>
         <div class="w-full box-border bg-black bg-opacity-20 rounded-xl shadow-md p-2 max-h-96 mt-5">
@@ -27,10 +27,10 @@
             </tr>
             <tr v-for="domanda in domandeInCategoria">
               <td class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">
-                <button @click="toggleInserita(domanda.testo)">
+                <span @click="toggleInserita(domanda.testo), addDomandeQuestionari()">
                   <p v-if="!domanda.inserire" class="bg-site-secondary bg-opacity-60 border border-site-secondary text-xs p-3 rounded-xl">Aggiungi</p>
                   <p v-if="domanda.inserire" class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl">Rimuovi</p>
-                </button>
+                </span>
               </td>
               <td class="border-l-2 border-spacing-2 border-green-800 p-2"> {{ domanda.testo }}</td>
               <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center"><i v-if="domanda.positiva == 1" class="fa-solid fa-plus"></i><i v-if="domanda.positiva == 0" class="fa-solid fa-minus"></i></td>
@@ -38,10 +38,11 @@
             </tr>
           </table>
         </div>
+        <input class="border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1" type="submit" value="Crea">
       </fieldset>
-      <input class="border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1" type="submit" value="Crea">
+
     </form>
-    {{ domandeQuestionari }}
+    <!-- {{ domandeQuestionari }} -->
     <button @click="cambiaPagina" v-if="primaPagina" class="border-green-800 mt-3 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Successivo</button>
     <button @click="cambiaPagina" v-if="!primaPagina" class="border-green-800 mt-3 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Precedente</button>
     <div v-if="erroreForm" class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl">
@@ -73,7 +74,10 @@ import axios from 'axios';
         risultato: '',
         erroreForm: '',
         primaPagina: true,
-        indiceDomandaInternoAlQuestionario: 0
+        indiceDomandaInternoAlQuestionario: 0,
+        numeriDomandaAssoc: [],
+        pesiAssoc: [],
+        codiciDomandaAssoc: []
       }
     }, 
     mounted() {
@@ -100,6 +104,7 @@ import axios from 'axios';
       },
       cambiaPagina() {
         this.erroreForm = '';
+        this.risultato = '';
         if(!this.primaPagina) {
           this.addDomandeQuestionari();
           this.domandeInCategoria = [];
@@ -141,8 +146,8 @@ import axios from 'axios';
       // presa in input una riga del array vecchio controlla il campo domanda inserire se = true allora aggiunge il codice della domanda, il peso, codice della domanda 
       addDomandeQuestionari(){
         this.domandeInCategoria.forEach(domanda => {
-          if(domanda.inserire !== undefined && domanda.inserire) {
-            if(!this.giaPresente(domanda.codDomanda)){
+          if(domanda.inserire !== undefined) {
+            if(!this.giaPresente(domanda.codDomanda) && domanda.inserire) {
               // se non completato diamo un valore di default alla domanda
               if(domanda.peso === undefined) {
                 domanda.peso = 1;
@@ -152,6 +157,13 @@ import axios from 'axios';
                 numeroDomanda: domanda.numeroDomanda,
                 peso: domanda.peso
               });
+            } else {
+              if(!domanda.inserire) {
+                const index = this.domandeQuestionari.findIndex(item => item.codDomanda === domanda.codDomanda);
+                if (index !== -1) {
+                  this.domandeQuestionari.splice(index, 1);
+                }
+              }
             }
           }
         });
@@ -165,28 +177,28 @@ import axios from 'axios';
         return false;
       },
       submitForm() {
-        this.addDomandeQuestionari();
-        console.log('ciao')
+        this.erroreForm = '';
+        this.risultato = '';
         if(this.checkForm()){
           const formData = new FormData();
+          this.sistemaArrayAssociativo();
           formData.append('adminID', this.id);
           formData.append('titolo', this.titolo);
-          formData.append('domande', this.domandeQuestionari);
+          formData.append('numeroDomanda', this.numeriDomandaAssoc);
+          formData.append('peso', this.pesiAssoc);
+          formData.append('codDomanda', this.codiciDomandaAssoc);
 
           axios.post('http://localhost/www/api/api-admin-add-survey.php', 
           formData).then(response => {
           if (response.data.error == ''){
             console.log(response.data);
-            this.risultato = 'categoria aggiunta';
-            this.erroreForm = '';
+            this.risultato = response.data.result;
             
             this.domandeQuestionari = [];
             this.titolo = '';
           } else {
             this.erroreForm = response.data.error;
           };
-          this.domandeQuestionari = [];
-          this.titolo = '';
           }).catch(error => {
             console.error(error);
            });    
@@ -194,7 +206,8 @@ import axios from 'axios';
 
       },
       checkForm(){
-        if(this.titolo = '') {
+        console.log(this.domandeQuestionari)
+        if(this.titolo == '') {
           this.erroreForm = 'il questionario non ha titolo';
           return false;
         }
@@ -209,6 +222,20 @@ import axios from 'axios';
           }
         }
         return true;
+      },
+      sistemaArrayAssociativo( ){
+        let numeriDomanda = [];
+        let pesi = [];
+        let codiciDomanda = [];
+        this.domandeQuestionari.forEach(domanda => {
+          numeriDomanda.push(domanda.numeroDomanda);
+          pesi.push(domanda.peso);
+          codiciDomanda.push(domanda.codDomanda);
+        });
+
+        this.numeriDomandaAssoc = numeriDomanda;
+        this.pesiAssoc = pesi;
+        this.codiciDomandaAssoc = codiciDomanda;
       }
     }
   }

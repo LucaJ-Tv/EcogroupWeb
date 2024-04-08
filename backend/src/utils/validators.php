@@ -103,3 +103,19 @@ function calcolaPesi($scelte) {
 
     return $arrayAssociativo;
 }
+
+function combinaArrayAssociativo($numeri, $pesi, $id) {
+    if (count($numeri) === count($pesi) && count($numeri) === count($id)) {
+        $arrayAssociativo = array_map(function ($numero, $peso, $identificativo) {
+            return array(
+                'numero' => $numero,
+                'peso' => $peso,
+                'id' => $identificativo
+            );
+        }, $numeri, $pesi, $id);
+
+        return $arrayAssociativo;
+    } else {
+        return "Gli array devono avere la stessa lunghezza";
+    }
+}
