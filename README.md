@@ -1,4 +1,4 @@
-#Ecogroup
+# Ecogroup
 
 Ecogroup è un sito web che aiuta a chiarire il grado di ecosostenibilità delle aziende, tramite dei questionari specializzati.
 La piattaforma offre agli utenti aziendali la possibilità di valutare la propria sostenibilità ambientale attraverso un processo semplice e strutturato.
@@ -37,3 +37,23 @@ Gli amministratori possono vedere inoltre le statistiche dei questionari compila
     - Gli amministratori devono poter visualizzare una lista di tutti i questionari, inclusi quelli compilati e quelli ancora da compilare.
     - Possono modificare il numero di domande e i relativi pesi all'interno dei questionari.
     - Possono visualizzare i punteggi di tutte le aziende che hanno compilato i questionari.
+  
+# Pagine
+
+Tutte le pagine in cui non viene richiesto l'accesso sono composte da una barra di navigazione che permette all'utente di accedere come amministratore o come utente aziendale ed un footer.
+
+- **Home page** presenta  una sezione composta da paragrafi che spieghino lo scopo del sito e un pulsante che porta alla pagina di sign up.
+- **Log in** presenta un form richiedente email e password, se corrette porteranno alla pagina dell'utente oppure alla pagina dell'amministratore, in base alle credenziali inserite.
+- **Sign up** presenta un form con tutti i dati richiesti per la registrazione di una nuova azienda, inseriti correttamente tutti i dati si potrà accedere al primo questionario.
+- **Pagina utente** presenta una barra di navigazione con le seguenti voci:
+	- **Statistiche** (prossima versione) *pensavo ad aree di miglioramento per l'utente in base alle sezioni in cui ha ottenuto punteggi inferiori*.
+	- **Questionari compilati** mostra una lista di tutti i questionari compilati e i punteggi.
+	- **Nuovo questionario** (prossima versione) *prevista la possibilità di completare nuovi questionari in modo da vedere come l'ecosostenibilità dell'azienda cambia nel tempo*.
+- **Pagina amministratore** presenta una barra di navigazione con le seguenti voci:
+	- **Statistiche** mostra una lista di tutti i questionari compilati, una volta selezionato un questionario verrà mostrata la lista di tutte le aziende che lo hanno compilato con i relativi punteggi.
+	- **Admin** permette l'aggiunta di nuovi amministratori tramite un form.
+	- **Domande** permette:
+		- l'aggiunta di una nuova domanda.
+		- la modifica, partendo da una lista di tutte le domande, selezionando una domanda ancora non presente in un questionario sarà possibile modificarla.
+		- l'aggiunta di una nuova categoria per l'organizzazione delle domande.
+	- **Questionari** permette:
