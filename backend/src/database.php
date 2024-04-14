@@ -143,6 +143,18 @@ class Database {
         }
     }
 
+    public function updateDomanda($id ,$testo, $positiva, $categoria) {
+        $query = "UPDATE domande 
+                SET testo=?, positiva=?, CATEGORIE_idCATEGORIA=? WHERE codDomanda=?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('sisi', $testo, $positiva, $categoria, $id);
+        if (!$statement) {
+            // Gestione dell'errore se la preparazione della query fallisce
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->execute();
+    }
+
     public function getDomandaByCategoria($categoria) {
         $query = "SELECT * 
                 FROM domande 

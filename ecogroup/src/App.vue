@@ -43,6 +43,8 @@ export default {
       this.userIsLogged = false
       this.adminIsLogged = false
     }
+  },
+  mounted() {
   }
 }
 </script>

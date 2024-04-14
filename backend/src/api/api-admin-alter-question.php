@@ -8,19 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   header('Content-Type: application/json');
 
-  //qui ci dovrebbe essere un modo usando session per recuperare l'id delladmin nel dubbio per ora lid è sempre uno
-  $id_admin = 1;
   $text = isset($_POST['testo']) ? $_POST['testo'] : '';
   $category = isset($_POST['categoria']) ? $_POST['categoria'] : '';
   $isPositive = isset($_POST['isPositive']) ? $_POST['isPositive'] : '';
-  $risposte = isset($_POST['risposte']) ? $_POST['risposte'] : '';
+  $codDomanda = isset($_POST['cod']) ? $_POST['cod'] : '';
 
-  $rispostepulite = stringToArray($risposte);
 
-  if ($text == '' || $isPositive == '' || $category == '' || $id_admin == '' || count($rispostepulite) < 2 ) {
+  if ($text == '' || $isPositive == '' || $category == '') {
     $error = 'tutti i campi devono essere compilati';
-    if (count($rispostepulite) < 2 ) 
-      $error = 'una domanda deve avere almeno due risposte';
     $result = '';
   } else {
     if($isPositive == 'true') {
@@ -28,14 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
       $isPositive = 0;
     }
-    $dbh->addDomanda($isPositive, $text, $category, $id_admin);
-    $sceltePeso = calcolaPesi($rispostepulite);
-    $codDomanda = $dbh->getDomandaID($text);
-    foreach ($sceltePeso as $scelta) {
-      $dbh->addScelte($scelta['scelta'], $scelta['peso'], $codDomanda);
-    }
+    $dbh->updateDomanda($codDomanda, $text, $isPositive, $category);
     $error = '';
-    $result = 'domanda aggiunta con successo!';
+    $result = 'domanda modificata con successo!';
   }
 
   $message = array(
