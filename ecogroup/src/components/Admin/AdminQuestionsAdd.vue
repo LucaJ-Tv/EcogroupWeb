@@ -75,14 +75,14 @@ export default {
         axios.post('http://localhost/www/api/api-admin-add-question.php', 
         formData).then(response => {
           if (response.data.error == ''){
-            console.log(response.data);
+            //console.log(response.data);
             this.risultato = 'Domanda aggiunta';
             this.erroreForm = '';
 
             this.testoDomanda = '';
             this.positivo = false;
             this.categoriaSelezionata = '';
-            this.risposte = '';
+            this.risposte = [];
           } else {
             this.erroreForm = response.data.error;
           };

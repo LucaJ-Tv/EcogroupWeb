@@ -5,17 +5,21 @@
       <fieldset class="flex flex-col gap-2 text-left" v-if="primaPagina">
         <label class="font-Inter text-xl mb-1 bg-black bg-opacity-20 p-2 rounded-xl shadow-md" for="titolo">Titolo:</label>
         <input class="bg-green-900 px-2 mb-3 py-1 ring-1 ring-inset ring-green-700 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-500 rounded-md" type="titolo" id="titolo" name="titolo" v-model="titolo">
-        <p class="font-Inter text-lg mb-3 bg-black bg-opacity-20 p-2 rounded-xl shadow-md">Categorie: </p>
-        <div class="flex flex-wrap gap-3">
-          <div v-for="categoria in categorie" :key="categoria.codCategoria">
-            <p @click="toggleCategory(categoria)" :class="{'bg-black': !categoria.selected, 'bg-white': categoria.selected, 'bg-opacity-30': true, 'rounded-xl': true, 'p-2': true, 'cursor-pointer': true, 'text-white': true }"> {{ categoria.nomeCategoria }} </p>
+
+        <label for="sezioni" class="font-Inter text-xl mb-1 bg-black bg-opacity-20 p-2 rounded-xl shadow-md">Sezioni</label>
+        <p class="text-xs pb-2 ml-2">(premi "/" una volta inserita)</p>
+        <input  type="text" id="sezioni" name="sezioni" class="bg-green-900 px-2 mb-3 py-1 ring-1 ring-inset ring-green-700 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-500 rounded-md" v-model="tempSezione" @keyup="addSezione">
+        <div class="gap-2 flex flex-wrap">
+          <div class="bg-black bg-opacity-30 rounded-xl px-2 cursor-pointer text-green-500 flex" v-for="sezione in sezioni" :key="sezione">
+            <span @click="removeSezione(sezione)" class="flex gap-1 items-center"><i class="fa-regular fa-circle-xmark"></i> {{sezione}}</span>
           </div>
         </div>
+        <!-- {{ sezioni }} -->
       </fieldset>
       <fieldset v-if="!primaPagina" class="flex flex-col gap-2 text-left">
         <label class="font-Inter text-xl mb-1 bg-black bg-opacity-20 p-2 rounded-xl shadow-md" for="CategoriaAttuale">Categoria</label>
         <select @change="disponiDomande()" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700" id="CategoriaAttuale" name="CategoriaAttuale" v-model="categoriaCorrente">
-          <option v-for="categoria in categorieSelezionate">{{ categoria.nomeCategoria }}</option>
+          <option v-for="categoria in categorie">{{ categoria.nomeCategoria }}</option>
         </select>
         <div class="w-full box-border bg-black bg-opacity-20 rounded-xl shadow-md p-2 max-h-96 mt-5">
           <table class="w-full">
@@ -42,7 +46,6 @@
       </fieldset>
 
     </form>
-    <!-- {{ domandeQuestionari }} -->
     <button @click="cambiaPagina" v-if="primaPagina" class="border-green-800 mt-3 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Successivo</button>
     <button @click="cambiaPagina" v-if="!primaPagina" class="border-green-800 mt-3 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Precedente</button>
     <div v-if="erroreForm" class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl">
@@ -67,17 +70,19 @@ import axios from 'axios';
       return {
         titolo: '',
         categorie:[],
-        categorieSelezionate: [],
         categoriaCorrente: '',
         domandeInCategoria: [],
         domandeQuestionari: [],
+        tempSezione: '',
+        sezioni: [],
         risultato: '',
         erroreForm: '',
         primaPagina: true,
         indiceDomandaInternoAlQuestionario: 0,
         numeriDomandaAssoc: [],
         pesiAssoc: [],
-        codiciDomandaAssoc: []
+        codiciDomandaAssoc: [],
+        sezioniDomandaAssoc: []
       }
     }, 
     mounted() {
@@ -91,16 +96,6 @@ import axios from 'axios';
         }).catch(error => {
           console.error(error);
         });
-      },
-      toggleCategory(category){
-        if (this.categorieSelezionate.includes(category)) {
-          this.categorieSelezionate = this.categorieSelezionate.filter((categoryPresent) => {
-            return category != categoryPresent
-          })
-        } else {
-          this.categorieSelezionate.push(category);
-        }
-        category.selected = !category.selected;
       },
       cambiaPagina() {
         this.erroreForm = '';
@@ -120,6 +115,8 @@ import axios from 'axios';
         axios.post('http://localhost/www/api/api-admin-get-questions.php', formData)
         .then(response => {
           this.domandeInCategoria = response.data;
+          if(this.domandeInCategoria !== undefined)
+            this.domandeInCategoria = this.controlloDomandeQuestionari(this.domandeInCategoria);
         }).catch(error => {
           console.error(error);
         });
@@ -155,7 +152,8 @@ import axios from 'axios';
               this.domandeQuestionari.push({
                 codDomanda: domanda.codDomanda,
                 numeroDomanda: domanda.numeroDomanda,
-                peso: domanda.peso
+                peso: domanda.peso,
+                sezione : domanda.sezione
               });
             } else {
               if(!domanda.inserire) {
@@ -176,6 +174,26 @@ import axios from 'axios';
         }
         return false;
       },
+      controlloDomandeQuestionari(domande) {
+        domande.forEach((elemento) => {
+          if (this.giaPresente(elemento.codDomanda)){
+            elemento.inserire = true;
+            this.domandeQuestionari.forEach((domanda) => {
+              if(elemento.codDomanda == domanda.codDomanda) {
+                elemento.peso = domanda.peso;
+                elemento.numeroDomanda = domanda.numeriDomanda;
+                elemento.sezione = domanda.sezione;
+              }
+            });
+          } else {
+            elemento.sezione = this.sezioni[0];
+            elemento.peso = 1;
+            elemento.numeroDomanda = '';
+          }
+          delete elemento.moderatori_codModeratore;
+        });
+        return domande;
+      },
       submitForm() {
         this.erroreForm = '';
         this.risultato = '';
@@ -187,11 +205,12 @@ import axios from 'axios';
           formData.append('numeroDomanda', this.numeriDomandaAssoc);
           formData.append('peso', this.pesiAssoc);
           formData.append('codDomanda', this.codiciDomandaAssoc);
+          formData.append('sezione', this.sezioniDomandaAssoc);
+          formData.append('sezioniDaAggiungere', this.sezioni);
 
           axios.post('http://localhost/www/api/api-admin-add-survey.php', 
           formData).then(response => {
           if (response.data.error == ''){
-            console.log(response.data);
             this.risultato = response.data.result;
             
             this.domandeQuestionari = [];
@@ -201,12 +220,10 @@ import axios from 'axios';
           };
           }).catch(error => {
             console.error(error);
-           });    
+          });    
         }
-
       },
       checkForm(){
-        console.log(this.domandeQuestionari)
         if(this.titolo == '') {
           this.erroreForm = 'il questionario non ha titolo';
           return false;
@@ -223,19 +240,39 @@ import axios from 'axios';
         }
         return true;
       },
+      addSezione(e){
+        if(e.key === '/' && this.tempSezione){
+          if(!this.sezioni.includes(this.tempSezione)){
+            this.tempSezione = this.rimuoviSlash(this.tempSezione)
+            this.sezioni.push(this.tempSezione)
+          }
+          this.tempSezione=''
+        }
+      },
+      removeSezione(sezioneDaRimuovere){
+        this.sezioni = this.sezioni.filter((sezione) => {
+          return sezioneDaRimuovere != sezione
+        })
+      },
+      rimuoviSlash(risposta) {
+        return risposta.replace(/\//g, '');
+      },
       sistemaArrayAssociativo( ){
         let numeriDomanda = [];
         let pesi = [];
         let codiciDomanda = [];
+        let sezioni = [];
         this.domandeQuestionari.forEach(domanda => {
           numeriDomanda.push(domanda.numeroDomanda);
           pesi.push(domanda.peso);
           codiciDomanda.push(domanda.codDomanda);
+          sezioni.push(domanda.sezione);
         });
 
         this.numeriDomandaAssoc = numeriDomanda;
         this.pesiAssoc = pesi;
         this.codiciDomandaAssoc = codiciDomanda;
+        this.sezioniDomandaAssoc = sezioni;
       }
     }
   }

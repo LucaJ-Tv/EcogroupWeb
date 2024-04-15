@@ -1,7 +1,7 @@
 -- -----------------------------------------------------
 -- Schema eco_group
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `eco_group` DEFAULT CHARACTER SET utf8;
+CREATE SCHEMA IF NOT EXISTS `eco_group` DEFAULT CHARACTER SET utf8 ;
 USE `eco_group` ;
 
 -- -----------------------------------------------------
@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`dimensioni` (
   `dimensione` VARCHAR(128) NOT NULL,
   PRIMARY KEY (`dimensione`),
   UNIQUE INDEX `dimensione_UNIQUE` (`dimensione` ASC));
-
 
 
 -- -----------------------------------------------------
@@ -48,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`categorie` (
   UNIQUE INDEX `idCATEGORIA_UNIQUE` (`nomeCategoria` ASC));
 
 
-
 -- -----------------------------------------------------
 -- Table `eco_group`.`codici_cer`
 -- -----------------------------------------------------
@@ -56,7 +54,6 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`codici_cer` (
   `codiceCER` VARCHAR(7) NOT NULL,
   PRIMARY KEY (`codiceCER`),
   UNIQUE INDEX `codiceCER_UNIQUE` (`codiceCER` ASC));
-
 
 
 -- -----------------------------------------------------
@@ -92,7 +89,6 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`moderatori` (
   UNIQUE INDEX `mail_UNIQUE` (`mail` ASC),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
   UNIQUE INDEX `codModeratore_UNIQUE` (`codModeratore` ASC));
-
 
 
 -- -----------------------------------------------------
@@ -131,6 +127,20 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`questionari` (
   UNIQUE INDEX `titolo_UNIQUE` (`titolo` ASC));
 
 
+-- -----------------------------------------------------
+-- Table `eco_group`.`sezioni`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `eco_group`.`sezioni` (
+  `nome` VARCHAR(255) NOT NULL,
+  `questionari_codQuestionario` INT(11) NOT NULL,
+  PRIMARY KEY (`nome`, `questionari_codQuestionario`),
+  INDEX `fk_sezioni_questionari1_idx` (`questionari_codQuestionario` ASC),
+  CONSTRAINT `fk_sezioni_questionari1`
+    FOREIGN KEY (`questionari_codQuestionario`)
+    REFERENCES `eco_group`.`questionari` (`codQuestionario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 
 -- -----------------------------------------------------
 -- Table `eco_group`.`domande_questionari`
@@ -140,20 +150,21 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`domande_questionari` (
   `numeroDomanda` INT(11) NOT NULL,
   `peso` DOUBLE NOT NULL,
   `DOMANDE_codDomanda` INT(11) NOT NULL,
-  `QUESTIONARIO_codQuestionario` INT(11) NOT NULL,
+  `sezioni_nome` VARCHAR(255) NOT NULL,
+  `sezioni_questionari_codQuestionario` INT(11) NOT NULL,
   PRIMARY KEY (`codDomandaQuestionario`),
   UNIQUE INDEX `codDomandaQuestionario_UNIQUE` (`codDomandaQuestionario` ASC),
   UNIQUE INDEX `numeroDomanda_UNIQUE` (`numeroDomanda` ASC),
   INDEX `fk_DOMANDA_QUESTIONARIO_DOMANDE1_idx` (`DOMANDE_codDomanda` ASC),
-  INDEX `fk_DOMANDA_QUESTIONARIO_QUESTIONARIO1_idx` (`QUESTIONARIO_codQuestionario` ASC),
+  INDEX `fk_domande_questionari_sezioni1_idx` (`sezioni_nome` ASC, `sezioni_questionari_codQuestionario` ASC),
   CONSTRAINT `fk_DOMANDA_QUESTIONARIO_DOMANDE1`
     FOREIGN KEY (`DOMANDE_codDomanda`)
     REFERENCES `eco_group`.`domande` (`codDomanda`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_DOMANDA_QUESTIONARIO_QUESTIONARIO1`
-    FOREIGN KEY (`QUESTIONARIO_codQuestionario`)
-    REFERENCES `eco_group`.`questionari` (`codQuestionario`)
+  CONSTRAINT `fk_domande_questionari_sezioni1`
+    FOREIGN KEY (`sezioni_nome` , `sezioni_questionari_codQuestionario`)
+    REFERENCES `eco_group`.`sezioni` (`nome` , `questionari_codQuestionario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 

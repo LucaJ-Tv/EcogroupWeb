@@ -104,15 +104,16 @@ function calcolaPesi($scelte) {
     return $arrayAssociativo;
 }
 
-function combinaArrayAssociativo($numeri, $pesi, $id) {
-    if (count($numeri) === count($pesi) && count($numeri) === count($id)) {
-        $arrayAssociativo = array_map(function ($numero, $peso, $identificativo) {
+function combinaArrayAssociativo($numeri, $pesi, $id, $sezioni) {
+    if (count($numeri) === count($pesi) && count($numeri) === count($id) && count($id) === count($sezioni)) {
+        $arrayAssociativo = array_map(function ($numero, $peso, $identificativo, $sezione) {
             return array(
                 'numeroDomanda' => $numero,
                 'peso' => $peso,
-                'codDomanda' => $identificativo
+                'codDomanda' => $identificativo,
+                'sezioni_nome' => $sezione
             );
-        }, $numeri, $pesi, $id);
+        }, $numeri, $pesi, $id, $sezioni);
 
         return $arrayAssociativo;
     } else {

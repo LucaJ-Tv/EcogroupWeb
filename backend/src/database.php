@@ -167,16 +167,16 @@ class Database {
     }
 
     // QUERY domande_questionari
-    public function createDomandaQuestionario($numero, $peso, $codDomanda, $idQuestionario) {
+    public function createDomandaQuestionario($numero, $peso, $codDomanda, $sezioneNome, $idQuestionario) {
         $query = "INSERT INTO domande_questionari
-                  (numeroDomanda, peso, DOMANDE_codDomanda, QUESTIONARIO_codQuestionario)
-                   VALUES (?, ?, ?, ?)";
+                  (numeroDomanda, peso, DOMANDE_codDomanda, sezioni_nome, sezioni_questionari_codQuestionario)
+                   VALUES (?, ?, ?, ?, ?)";
         $statement = $this->db->prepare($query);
         if (!$statement) {
             // Gestione dell'errore se la preparazione della query fallisce
             die("Errore nella preparazione della query: " . $this->db->error);
         }
-        $statement->bind_param('sdss', $numero, $peso, $codDomanda, $idQuestionario);
+        $statement->bind_param('sdsss', $numero, $peso, $codDomanda, $sezioneNome, $idQuestionario);
         return $statement->execute();
     }
 
@@ -273,6 +273,48 @@ class Database {
         $statement->execute();
     }
 
+    // QUERY sezioni
+    public function createSezioni($sezioniNomi, $idQuestionario) {
+
+        // Verifica se la sezione è già presenti nel database
+        $existingSezioni = $this->getExistingSezioni();
+        foreach ($sezioniNomi as $sezione) {
+            $sezioneDiversa = true;
+            // Verifica se la sezione è già presente nel database
+            foreach ($existingSezioni as $existingSezione) {
+                if ($existingSezione['sezione'] === $sezione && $existingSezione['questionari_codQuestionario'] === $idQuestionario) {
+                    $sezioneDiversa = false;
+                    break; // Esci dal ciclo interno se la sezione è stata trovata
+                }
+            }
+            // Se la sezione è diversa, aggiungila
+            if ($sezioneDiversa) {
+                $this->addSezione($sezione, $idQuestionario);
+            }
+        }
+    }
+
+    private function getExistingSezioni() {
+        $query = "SELECT codiceCER FROM codici_cer";
+        $statement = $this->db->prepare($query);
+        $statement->execute();
+        $result = $statement->get_result();
+        $existingCodici = array();
+        while ($row = $result->fetch_assoc()) {
+            $existingCodici[] = $row['codiceCER'];
+        }
+        return $existingCodici;
+    }
+    
+    private function addSezione($sezione, $idQuestionario) {
+        $query = "INSERT INTO sezioni (nome, questionari_codQuestionario) VALUES (?, ?)";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('ss', $sezione, $idQuestionario);
+        $statement->execute();
+    }
+
+
+    
 
     // Utils
     public function isMailCompanyPresent($email) {
