@@ -11,21 +11,20 @@ I questionari possono essere modificati solo se non ancora compilati, modificand
 Gli amministratori possono vedere inoltre le statistiche dei questionari compilati dalle diverse aziende, questo avviene selezionando un questionario e mettendo a confronto i vari punteggi tra le varie imprese.
 
 1. **Registrazione dell'Azienda:**
-    
     - Gli utenti aziendali devono poter creare un profilo inserendo le informazioni richieste.
     - Deve essere possibile accedere al profilo tramite credenziali (email e password) per futuri accessi.
+
 2. **Questionari:**
-    
     - Le aziende devono essere in grado di svolgere un questionario obbligatorio.
-    - Il questionario deve essere composto da domande suddivise in categorie.
-    - Ogni domanda deve avere un testo, appartenere a una categoria e fornire opzioni di risposta.
+    - Il questionario deve essere composto da domande suddivise in sezioni.
+    - Ogni domanda deve avere un testo, appartenere a una categoria, a una sezione e fornire opzioni di risposta.
     - Ogni domanda deve essere marcata con un checkbox che indica se influenza positivamente o negativamente il punteggio finale.
     - Le domande devono essere modificabili dagli amministratori.
+      
 3. **Punteggio del Questionario:**
-    
     - Dopo aver completato il questionario, l'azienda deve ricevere un punteggio compreso tra 0 e 100, dove 100 rappresenta un alto livello di ecosostenibilità.
+      
 4. **Gestione degli Amministratori:**
-    
     - Gli amministratori devono poter creare nuovi account amministrativi specificando nickname, email e password.
     - Devono essere in grado di creare e gestire categorie per le domande.
     - Possono visualizzare le categorie esistenti e modificarle.
@@ -33,6 +32,7 @@ Gli amministratori possono vedere inoltre le statistiche dei questionari compila
     - Possono creare questionari specificando un titolo e suddividendoli in sezioni con domande e relativi pesi.
     - Hanno la possibilità di modificare i questionari prima che siano compilati da almeno un'azienda.
     - Possono visualizzare una lista di tutti i questionari creati.
+  
 5. **Gestione dei Questionari:**
     - Gli amministratori devono poter visualizzare una lista di tutti i questionari, inclusi quelli compilati e quelli ancora da compilare.
     - Possono modificare il numero di domande e i relativi pesi all'interno dei questionari.
@@ -57,3 +57,5 @@ Tutte le pagine in cui non viene richiesto l'accesso sono composte da una barra 
 		- la modifica, partendo da una lista di tutte le domande, selezionando una domanda ancora non presente in un questionario sarà possibile modificarla.
 		- l'aggiunta di una nuova categoria per l'organizzazione delle domande.
 	- **Questionari** permette:
+   		- l'aggiunta di un nuovo questionario.
+       		- la modifica di un questionario, partendo da una lista di tutti i questionari non ancora avneti una compilazione da parte dell'azienda.
