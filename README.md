@@ -58,4 +58,4 @@ Tutte le pagine in cui non viene richiesto l'accesso sono composte da una barra 
 		- l'aggiunta di una nuova categoria per l'organizzazione delle domande.
 	- **Questionari** permette:
    		- l'aggiunta di un nuovo questionario.
-       		- la modifica di un questionario, partendo da una lista di tutti i questionari non ancora avneti una compilazione da parte dell'azienda.
+   		- la modifica di un questionario, partendo da una lista di tutti i questionari non ancora avneti una compilazione da parte dell'azienda.
