@@ -31,8 +31,8 @@
             </select>
           </div>
         </div>
-        <div class="w-full box-border bg-black bg-opacity-20 rounded-xl shadow-md p-2 max-h-96 mt-5">
-          <table class="w-full">
+        <div class="overflow-auto box-border bg-black bg-opacity-20 rounded-xl shadow-md p-2 max-h-72 mt-2">
+          <table class="overflow-auto">
             <tr class="bg-black bg-opacity-20 p-2 rounded-xl shadow-md">
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Inserita</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[70%]">Testo</th>

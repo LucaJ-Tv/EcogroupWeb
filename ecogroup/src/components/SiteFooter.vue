@@ -1,5 +1,5 @@
 <template>
-    <footer class="rounded-t-lg bg-opacity-70 shadow-md bg-site-primary border-t border-green-600 mx-1 z-50">
+    <footer class="rounded-t-lg bg-opacity-70 shadow-md bg-site-primary border-t border-green-600 mx-1 z-50 h-fit">
       <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
           <div class="sm:flex sm:items-center sm:justify-between">
               <RouterLink to="/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
