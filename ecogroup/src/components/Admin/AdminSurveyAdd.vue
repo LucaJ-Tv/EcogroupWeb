@@ -17,10 +17,20 @@
         <!-- {{ sezioni }} -->
       </fieldset>
       <fieldset v-if="!primaPagina" class="flex flex-col gap-2 text-left">
-        <label class="font-Inter text-xl mb-1 bg-black bg-opacity-20 p-2 rounded-xl shadow-md" for="CategoriaAttuale">Categoria</label>
-        <select @change="disponiDomande()" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700" id="CategoriaAttuale" name="CategoriaAttuale" v-model="categoriaCorrente">
-          <option v-for="categoria in categorie">{{ categoria.nomeCategoria }}</option>
-        </select>
+        <div class="flex justify-between gap-2">
+          <div class="flex flex-col w-full">
+            <label class="font-Inter text-xl mb-1 bg-black bg-opacity-20 p-2 rounded-xl shadow-md" for="CategoriaAttuale">Categoria</label>
+            <select @change="disponiDomande()" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700" id="CategoriaAttuale" name="CategoriaAttuale" v-model="categoriaCorrente">
+              <option v-for="categoria in categorie">{{ categoria.nomeCategoria }}</option>
+            </select>
+          </div>
+          <div class="flex flex-col w-full">
+            <label class="font-Inter text-xl mb-1 bg-black bg-opacity-20 p-2 rounded-xl shadow-md" for="SezioneAttuale">Sezione</label>
+            <select class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700" id="SezioneAttuale" name="SezioneAttuale" v-model="sezioneCorrente">
+              <option v-for="sezione in sezioni">{{ sezione }}</option>
+            </select>
+          </div>
+        </div>
         <div class="w-full box-border bg-black bg-opacity-20 rounded-xl shadow-md p-2 max-h-96 mt-5">
           <table class="w-full">
             <tr class="bg-black bg-opacity-20 p-2 rounded-xl shadow-md">
@@ -46,6 +56,7 @@
       </fieldset>
 
     </form>
+    {{ domandeQuestionari }}
     <button @click="cambiaPagina" v-if="primaPagina" class="border-green-800 mt-3 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Successivo</button>
     <button @click="cambiaPagina" v-if="!primaPagina" class="border-green-800 mt-3 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Precedente</button>
     <div v-if="erroreForm" class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl">
@@ -82,7 +93,8 @@ import axios from 'axios';
         numeriDomandaAssoc: [],
         pesiAssoc: [],
         codiciDomandaAssoc: [],
-        sezioniDomandaAssoc: []
+        sezioniDomandaAssoc: [],
+        sezioneCorrente: ''
       }
     }, 
     mounted() {
@@ -122,21 +134,26 @@ import axios from 'axios';
         });
       },
       toggleInserita(testo) {
-        this.domandeInCategoria.forEach(domanda => {
-          if (domanda.testo === testo) {
-            if (domanda.inserire === undefined) {
-              domanda.inserire = true;
-              domanda.numeroDomanda = this.indiceDomandaInternoAlQuestionario;
-              this.indiceDomandaInternoAlQuestionario++;
-            } else {
-              if (!domanda.inserire) {
+        this.erroreForm = '';
+        if (this.sezioneCorrente != '') {
+          this.domandeInCategoria.forEach(domanda => {
+            if (domanda.testo === testo) {
+              if (domanda.inserire === undefined) {
+                domanda.inserire = true;
                 domanda.numeroDomanda = this.indiceDomandaInternoAlQuestionario;
                 this.indiceDomandaInternoAlQuestionario++;
+              } else {
+                if (!domanda.inserire) {
+                  domanda.numeroDomanda = this.indiceDomandaInternoAlQuestionario;
+                  this.indiceDomandaInternoAlQuestionario++;
+                }
+                domanda.inserire = !domanda.inserire;
               }
-              domanda.inserire = !domanda.inserire;
             }
-          }
-        });
+          });
+        } else {
+          this.erroreForm = 'seleziona una sezione';
+        }
       },
       //serve una funzione di aggiunta all'array associativo Domande_questionari.
       // se il codice della domanda non è presente in una riga del nuovo array
@@ -148,13 +165,14 @@ import axios from 'axios';
               // se non completato diamo un valore di default alla domanda
               if(domanda.peso === undefined) {
                 domanda.peso = 1;
+              } else {
+                this.domandeQuestionari.push({
+                  codDomanda: domanda.codDomanda,
+                  numeroDomanda: domanda.numeroDomanda,
+                  peso: domanda.peso,
+                  sezione : this.sezioneCorrente
+                });
               }
-              this.domandeQuestionari.push({
-                codDomanda: domanda.codDomanda,
-                numeroDomanda: domanda.numeroDomanda,
-                peso: domanda.peso,
-                sezione : domanda.sezione
-              });
             } else {
               if(!domanda.inserire) {
                 const index = this.domandeQuestionari.findIndex(item => item.codDomanda === domanda.codDomanda);

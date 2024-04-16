@@ -154,7 +154,6 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`domande_questionari` (
   `sezioni_questionari_codQuestionario` INT(11) NOT NULL,
   PRIMARY KEY (`codDomandaQuestionario`),
   UNIQUE INDEX `codDomandaQuestionario_UNIQUE` (`codDomandaQuestionario` ASC),
-  UNIQUE INDEX `numeroDomanda_UNIQUE` (`numeroDomanda` ASC),
   INDEX `fk_DOMANDA_QUESTIONARIO_DOMANDE1_idx` (`DOMANDE_codDomanda` ASC),
   INDEX `fk_domande_questionari_sezioni1_idx` (`sezioni_nome` ASC, `sezioni_questionari_codQuestionario` ASC),
   CONSTRAINT `fk_DOMANDA_QUESTIONARIO_DOMANDE1`
