@@ -77,7 +77,6 @@ export default {
           axios.post('http://localhost/www/api/api-admin-signup.php', 
           formData).then(response => {
             if (response.data.error == ''){
-              console.log(response.data);
               this.risultato = 'admin aggiunto';
               this.erroreForm = '';
               //resetto per aggiungere altri admin

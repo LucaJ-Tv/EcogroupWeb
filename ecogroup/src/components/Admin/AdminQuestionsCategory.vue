@@ -54,7 +54,6 @@ export default {
       axios.post('http://localhost/www/api/api-admin-add-category.php', 
       formData).then(response => {
         if (response.data.error == ''){
-          console.log(response.data);
           this.risultato = 'categoria aggiunta';
           this.erroreForm = '';
           //resetto per aggiungere altre categorie

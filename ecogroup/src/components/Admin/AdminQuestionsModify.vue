@@ -101,7 +101,6 @@ import axios from 'axios';
         this.primaPagina= !this.primaPagina;
         this.testoDomanda = domandaSelezionata.testo
         this.categoriaSelezionata = domandaSelezionata.CATEGORIE_idCATEGORIA
-        console.log(domandaSelezionata)
         if (domandaSelezionata.positiva === 1) {
           this.positivo = true;
         } else {
