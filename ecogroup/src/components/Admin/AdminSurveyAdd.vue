@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="overflow-auto box-border bg-black bg-opacity-20 rounded-xl shadow-md p-2 max-h-72 mt-2">
-          <table class="overflow-auto">
+          <table class="overflow-auto w-full">
             <tr class="bg-black bg-opacity-20 p-2 rounded-xl shadow-md">
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Inserita</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[70%]">Testo</th>
@@ -154,9 +154,6 @@ import axios from 'axios';
           this.erroreForm = 'seleziona una sezione';
         }
       },
-      //serve una funzione di aggiunta all'array associativo Domande_questionari.
-      // se il codice della domanda non è presente in una riga del nuovo array
-      // presa in input una riga del array vecchio controlla il campo domanda inserire se = true allora aggiunge il codice della domanda, il peso, codice della domanda 
       addDomandeQuestionari(){
         this.domandeInCategoria.forEach(domanda => {
           if(domanda.inserire !== undefined) {
@@ -243,6 +240,10 @@ import axios from 'axios';
       checkForm(){
         if(this.titolo == '') {
           this.erroreForm = 'il questionario non ha titolo';
+          return false;
+        }
+        if(this.sezioneCorrente = '') {
+          this.erroreForm = 'inserisci almeno una sezione';
           return false;
         }
         if(this.domandeQuestionari.length < 1) {

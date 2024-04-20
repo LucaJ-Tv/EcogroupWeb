@@ -48,7 +48,6 @@
                 this.$emit('loggedInUser')
                 this.$router.push({name: 'LoggedIn', params: {userid: response.data.userid}});
               }
-              console.log(response.data)
             } else {
               this.erroreForm = response.data.error;
             };

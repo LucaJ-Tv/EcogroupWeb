@@ -7,7 +7,7 @@
             {{ categoria }}
           </div>
           <button @click="questionarioCompletato()" class="border-site-secondary border w-full rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary">Invia</button>
-          <!-- <p class="font-bold">{{ categoriaSelezionata }}</p> -->
+
           <div v-if="!finito" class="bg-site-error bg-opacity-60 border border-site-error text-xs p-2 rounded-xl mt-2">
             <p>Completa prima il questionario</p>
           </div>
@@ -17,19 +17,21 @@
             <Domanda :id="domanda.id" :categoria="domanda.categoria" :testo="domanda.testo" :scelte="domanda.scelte" :rispostaSel="getRisposta(domanda.id)" @eventorisposta="aggiuniRisposta($event, domanda.id)" />
           </div>
         </div>
+        {{ domande }}
       </div>
-      <!-- debugg -->
-      <!-- {{ scelte }}-->
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 import Domanda from '../components/Questionario/DomandeTemplate';
 export default {
   props: ['userid'],
   components: {Domanda},
   data(){
     return{
+      //struttura della domanda è [numeroDomanda, sezione, testo, e scelte]
+      domande: [],
       domandeDb:[{id: 1, categoria: 'parametri green', testo: 'Seeking a skilled Frontend Developer with expertise in Vue.js to join our dynamic team. You will be responsible for designing and implementing user interfaces, collaborating with the UX/UI team, and ensuring seamless integration with backend services.', scelte: ['si', 'no', 'forse'] },
       { id: 2, categoria: 'parametri green', testo: 'We are hiring a Vue.js Software Engineer to work on our innovative projects. As a key member of the development team, you will be involved in the full software development lifecycle, from design to deployment. Strong problem-solving skills and a passion for clean, efficient code are essential.', scelte: ['si', 'no', 'forse']},
       { id: 3, categoria: 'parametri green', testo: 'Seeking a skilled Frontend Developer with expertise in Vue.js to join our dynamic team. You will be responsible for designing and implementing user interfaces, collaborating with the UX/UI team, and ensuring seamless integration with backend services.', scelte: ['si', 'no', 'forse'] },
@@ -45,16 +47,28 @@ export default {
     }
   },
   mounted() {
-    this.mostraCategorie()
-    this.mostraDomande()
+    this.mostraQuestionario();
+    this.mostraCategorie();
+    this.mostraDomande();
   },
   methods:{
-    mostraDomande(){
+    mostraQuestionario() {
+      console.log(1);
+      const formData = new FormData();
+      formData.append('titolo', 'Questionario obbligarorio');
+      axios.post('http://localhost/www/api/api-user-get-survey.php', formData)
+      .then(response => {
+        this.domande = response.data;
+      }).catch(error => {
+        console.error(error);
+      });
+    },
+    mostraDomande() {
       this.domandeVisibili = this.domandeDb.filter(domanda => {
         return domanda.categoria == this.categoriaSelezionata
       });
     },
-    mostraCategorie(){
+    mostraCategorie() {
       this.categorie = []
       this.domandeDb.forEach(domanda => {
         if(!this.categorie.includes(domanda.categoria)){
@@ -63,15 +77,15 @@ export default {
         }
       });
     },
-    SelezionaCategoria(categoria){
+    SelezionaCategoria(categoria) {
       this.categoriaSelezionata = categoria
       this.mostraDomande()
       console.log(this.domandeVisibili)
     },
-    aggiuniRisposta(risposta, id){
+    aggiuniRisposta(risposta, id) {
       this.scelte[id] = risposta
     },
-    getRisposta(idDatrovare){
+    getRisposta(idDatrovare) {
       return this.scelte[idDatrovare]
     },
     questionarioCompletato() {
@@ -80,9 +94,6 @@ export default {
        if(numeroScelte == this.domandeDb.length) {
           this.finito=true
        }
-    },
-    popolaDomande() {
-      
     }
   }
 }

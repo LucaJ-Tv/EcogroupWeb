@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`questionari_compilati` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `eco_group`.`risposte` (
   `codRisposta` INT(11) NOT NULL,
-  `valore` VARCHAR(128) NULL DEFAULT NULL,
+  `punteggio` DOUBLE NOT NULL,
   `QUESTIONARI_COMPILATI_codQuestionarioCompilato` INT(11) NOT NULL,
   `DOMANDE_QUESTIONARI_codDomandaQuestionario` INT(11) NOT NULL,
   PRIMARY KEY (`codRisposta`, `QUESTIONARI_COMPILATI_codQuestionarioCompilato`, `DOMANDE_QUESTIONARI_codDomandaQuestionario`),
