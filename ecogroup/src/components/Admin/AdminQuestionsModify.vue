@@ -90,7 +90,7 @@ import axios from 'axios';
       disponiDomande() {
         const formData = new FormData();
         formData.append('categoria', this.categoriaCorrente);
-        axios.post('http://localhost/www/api/api-admin-get-questions.php', formData)
+        axios.post('http://localhost/www/api/api-admin-get-questions-alterables.php', formData)
         .then(response => {
           this.domandeInCategoria = response.data;
         }).catch(error => {

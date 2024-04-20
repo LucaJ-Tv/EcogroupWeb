@@ -175,6 +175,21 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getDomandaAlterableByCategoria($categoria){
+        $query = "SELECT d.*
+                FROM domande AS d
+                LEFT JOIN domande_questionari AS dq ON d.codDomanda = dq.DOMANDE_codDomanda
+                JOIN categorie c ON d.CATEGORIE_idCATEGORIA = c.nomeCategoria
+                WHERE nomeCategoria = ?
+                AND sezioni_questionari_codQuestionario IS NULL;";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $categoria);
+        $this->error_string = $statement->execute() ? "DOMANDA" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
     // QUERY domande_questionari
     public function createDomandaQuestionario($numero, $peso, $codDomanda, $sezioneNome, $idQuestionario) {
         $query = "INSERT INTO domande_questionari
