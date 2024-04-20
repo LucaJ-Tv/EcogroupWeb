@@ -189,6 +189,16 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function eliminateDomandaByCodDomanda($codDomanda) {
+        $query = "DELETE FROM domande
+                WHERE codDomanda LIKE ?";
+        $statement = $this->db->prepare($query);
+        if (!$statement) {
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->bind_param('s', $codDomanda);
+        return $statement->execute();
+    }
 
     // QUERY domande_questionari
     public function createDomandaQuestionario($numero, $peso, $codDomanda, $sezioneNome, $idQuestionario) {
@@ -225,7 +235,6 @@ class Database {
         $statement->bind_param('s', $idQuestionario);
         return $statement->execute();
     }
-
 
     // QUERY Moderatori
     public function createMod($nome, $email, $password) {
@@ -366,6 +375,18 @@ class Database {
         $query = "INSERT INTO scelte (valore, peso, domande_codDomanda) VALUES (?, ?, ?)";
         $statement = $this->db->prepare($query);
         $statement->bind_param('sdi', $valore, $peso, $domande_codDomanda);
+        $statement->execute();
+    }
+
+    public function eliminateAllScelteByCodDomanda($codDomanda) {
+        $query = "DELETE FROM scelte
+                WHERE domande_codDomanda LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('i', $codDomanda);
+        if (!$statement) {
+            // Gestione dell'errore se la preparazione della query fallisce
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
         $statement->execute();
     }
 

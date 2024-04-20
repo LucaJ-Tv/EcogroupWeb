@@ -8,8 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   header('Content-Type: application/json');
 
-  $codQuestionario = isset($_POST['codQuestionario']) ? $_POST['codQuestionario'] : '';
-  $dbh->eliminateAllDomandaQuestionarioByQuestionarioId($codQuestionario);
-  $dbh->eliminateSezioniByQuestionarioId($codQuestionario);
-  $dbh->eliminateQuestionarioByQuestionarioId($codQuestionario);
+  $codDomanda = isset($_POST['codDomanda']) ? $_POST['codDomanda'] : '';
+  $dbh->eliminateAllScelteByCodDomanda($codDomanda);
+  $dbh->eliminateDomandaByCodDomanda($codDomanda);
 }

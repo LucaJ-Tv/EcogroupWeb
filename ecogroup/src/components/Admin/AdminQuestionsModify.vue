@@ -11,14 +11,19 @@
         <fieldset v-if="primaPagina">
           <table class="w-full">
             <tr class="bg-black bg-opacity-20 p-2 rounded-xl shadow-md">
-              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Id</th>
+              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">ID</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[80%]">Testo</th>
-              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Impatto</th>
+              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[5%]">Impatto</th>
+              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[5%]"> Rimuovi</th>
+
             </tr>
-            <tr v-for="domanda in domandeInCategoria" class=" hover:cursor-pointer hover:bg-white hover:bg-opacity-10 rounded-xl" @click="modificaDomanda(domanda)">
-              <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center"> {{ domanda.codDomanda }}</td>
-              <td class="border-l-2 border-spacing-2 border-green-800 p-2"> {{ domanda.testo }}</td>
-              <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center"><i v-if="domanda.positiva == 1" class="fa-solid fa-plus"></i><i v-if="domanda.positiva == 0" class="fa-solid fa-minus"></i></td>
+            <tr v-for="domanda in domandeInCategoria" class=" hover:cursor-pointer hover:bg-white hover:bg-opacity-10 rounded-xl">
+              <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center" @click="modificaDomanda(domanda)"> {{ domanda.codDomanda }}</td>
+              <td class="border-l-2 border-spacing-2 border-green-800 p-2" @click="modificaDomanda(domanda)"> {{ domanda.testo }}</td>
+              <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center" @click="modificaDomanda(domanda)"><i v-if="domanda.positiva == 1" class="fa-solid fa-plus"></i><i v-if="domanda.positiva == 0" class="fa-solid fa-minus"></i></td>
+              <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center" @click="eliminaDomanda(domanda.codDomanda)"> 
+                <p class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl"> elimina </p>
+              </td>
             </tr>
           </table>
         </fieldset>
@@ -129,6 +134,17 @@ import axios from 'axios';
           console.error(error);
         });    
       }
+    },
+    eliminaDomanda(codDomanda) {
+      const formData = new FormData();
+        formData.append('codDomanda', codDomanda);
+        axios.post('http://localhost/www/api/api-admin-remove-quesion.php', formData)
+        .catch(error => {
+          console.error(error);
+        }).then(() => {
+          this.domandeInCategoria = [];
+          this.disponiDomande();
+        });
     },
     isFormOk() {
       if (!this.categoriaSelezionata || this.categoriaSelezionata.trim() === '' || !this.testoDomanda || this.testoDomanda.trim() === '') {
