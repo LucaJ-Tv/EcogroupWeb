@@ -176,7 +176,7 @@ class Database {
     }
 
     public function getDomandaAlterableByCategoria($categoria){
-        $query = "SELECT d.*
+        $query = "SELECT DISTINCT d.*
                 FROM domande AS d
                 LEFT JOIN domande_questionari AS dq ON d.codDomanda = dq.DOMANDE_codDomanda
                 JOIN categorie c ON d.CATEGORIE_idCATEGORIA = c.nomeCategoria
