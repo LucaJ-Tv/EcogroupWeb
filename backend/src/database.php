@@ -400,7 +400,7 @@ class Database {
             // Verifica se la sezione è già presente nel database
             if( count($existingSezioni) > 0) {
                 foreach ($existingSezioni as $existingSezione) {
-                    if ($existingSezione['sezione'] === $sezione && $existingSezione['questionari_codQuestionario'] === $idQuestionario) {
+                    if ($existingSezione['nome'] === $sezione && $existingSezione['questionari_codQuestionario'] === $idQuestionario) {
                         $sezioneDiversa = false;
                         break; // Esci dal ciclo interno se la sezione è stata trovata
                     }
@@ -414,15 +414,11 @@ class Database {
     }
 
     private function getExistingSezioni() {
-        $query = "SELECT nome FROM sezioni";
+        $query = "SELECT * FROM sezioni";
         $statement = $this->db->prepare($query);
         $statement->execute();
         $result = $statement->get_result();
-        $existingCodici = array();
-        while ($row = $result->fetch_assoc()) {
-            $existingCodici[] = $row['nome'];
-        }
-        return $existingCodici;
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
     
     private function addSezione($sezione, $idQuestionario) {
