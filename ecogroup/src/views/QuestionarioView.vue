@@ -25,7 +25,6 @@
 
 <script>
 import Domanda from '../components/Questionario/DomandeTemplate';
-
 export default {
   props: ['userid'],
   components: {Domanda},

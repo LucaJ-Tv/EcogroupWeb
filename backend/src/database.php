@@ -143,6 +143,15 @@ class Database {
         }
     }
 
+    public function getAllDomande() {
+        $query = "SELECT * 
+                FROM domande";
+        $statement = $this->db->prepare($query);
+        $this->error_string = $statement->execute() ? "DOMANDA" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function updateDomanda($id ,$testo, $positiva, $categoria) {
         $query = "UPDATE domande 
                 SET testo=?, positiva=?, CATEGORIE_idCATEGORIA=? WHERE codDomanda=?";
@@ -177,6 +186,28 @@ class Database {
             die("Errore nella preparazione della query: " . $this->db->error);
         }
         $statement->bind_param('sdsss', $numero, $peso, $codDomanda, $sezioneNome, $idQuestionario);
+        return $statement->execute();
+    }
+
+    public function getDomandaQuestionarioByQuestionarioID($idQuestionario) {
+        $query = "SELECT * 
+                FROM domande_questionari 
+                WHERE sezioni_questionari_codQuestionario LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $idQuestionario);
+        $this->error_string = $statement->execute() ? "DOMANDAQUESTIONARIO" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function eliminateAllDomandaQuestionarioByQuestionarioId($idQuestionario) {
+        $query = "DELETE FROM domande_questionari
+                WHERE sezioni_questionari_codQuestionario LIKE ?";
+        $statement = $this->db->prepare($query);
+        if (!$statement) {
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->bind_param('s', $idQuestionario);
         return $statement->execute();
     }
 
@@ -224,6 +255,20 @@ class Database {
         }
     }
 
+    // QUERY modifiche
+    function createModifica($codModeratore, $descrizione, $codQuestionario) {
+        $query = "INSERT INTO modifiche
+                (descrizione, MODERATORI_codModeratore, QUESTIONARI_codQuestionario)
+                VALUES (?, ?, ?)";
+        $statement = $this->db->prepare($query);
+        if (!$statement) {
+          // Gestione dell'errore se la preparazione della query fallisce
+          die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->bind_param('sii', $descrizione, $codModeratore, $codQuestionario);
+        return $statement->execute();
+    }
+
     // QUERY Questionari
     function createQuestionario($titolo) {
         if(count($this->getQuestionarioByTitolo($titolo))) {
@@ -265,6 +310,30 @@ class Database {
         }
     }
 
+    function modificaTitoloQuestionario($titolo, $codQuestionario) {
+        $query = "UPDATE questionari 
+                SET titolo=?
+                WHERE codQuestionario=?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('si', $titolo, $codQuestionario);
+        if (!$statement) {
+            // Gestione dell'errore se la preparazione della query fallisce
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->execute();
+    }
+
+    function getQuestionariNonCompilati(){
+        $query = "SELECT *
+            FROM questionari AS q
+            LEFT JOIN questionari_compilati AS qc ON q.codQuestionario = qc.QUESTIONARI_codQuestionario
+            WHERE qc.codQuestionarioCompilato IS NULL";
+        $statement = $this->db->prepare($query);
+        $statement->execute();
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     // QUERY Scelte
     public function addScelte($valore, $peso, $domande_codDomanda) {
         $query = "INSERT INTO scelte (valore, peso, domande_codDomanda) VALUES (?, ?, ?)";
@@ -275,7 +344,6 @@ class Database {
 
     // QUERY sezioni
     public function createSezioni($sezioniNomi, $idQuestionario) {
-
         // Verifica se la sezione è già presenti nel database
         $existingSezioni = $this->getExistingSezioni();
         foreach ($sezioniNomi as $sezione) {
@@ -313,8 +381,16 @@ class Database {
         $statement->execute();
     }
 
-
-    
+    public function getSezioniByCodQuestionario($codQuestionario) {
+        $query = "SELECT * 
+                FROM sezioni 
+                WHERE questionari_codQuestionario LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $codQuestionario);
+        $this->error_string = $statement->execute() ? "SEZIONI" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 
     // Utils
     public function isMailCompanyPresent($email) {
@@ -368,6 +444,17 @@ class Database {
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $category);
         $this->error_string = $statement->execute() ? "CATEGORY" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    function getQuestionarioByTitoloDiverso($titolo , $codQuestionario) {
+        $query = "SELECT * 
+        FROM questionari
+        WHERE titolo LIKE ? AND codQuestionario NOT LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('ss', $titolo, $codQuestionario);
+        $this->error_string = $statement->execute() ? "TITOLO" : "";
         $result = $statement->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }

@@ -7,8 +7,8 @@
           {{ azione }}
         </div>
       </div>
-        <AddQuestions v-if="this.azioneCorrente == this.azioni[1]"></AddQuestions>
-        <ModifyQuestions v-if="this.azioneCorrente == this.azioni[0]"></ModifyQuestions>
+        <AddQuestions v-if="this.azioneCorrente == this.azioni[0]"></AddQuestions>
+        <ModifyQuestions v-if="this.azioneCorrente == this.azioni[1]"></ModifyQuestions>
         <AddCategory v-if="this.azioneCorrente == this.azioni[2]"></AddCategory>
     </div>
   </div>
@@ -25,7 +25,7 @@ export default {
     AddQuestions, AddCategory, ModifyQuestions},
   data () {
     return {
-      azioni: ['Modifica', 'Aggiungi', 'Categorie'],
+      azioni: ['Aggiungi', 'Modifica', 'Categorie'],
       azioneCorrente: 'Modifica'
     }
   },

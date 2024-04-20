@@ -8,23 +8,21 @@
           </div>
         </div>
           <AddSurvey :id="userid" v-if="this.azioneCorrente == this.azioni[0]"></AddSurvey>
-          <ModifySurveys v-if="this.azioneCorrente == this.azioni[1]"></ModifySurveys>
-          <Surveys v-if="this.azioneCorrente == this.azioni[2]"></Surveys>
+          <ModifySurveys :id="userid" v-if="this.azioneCorrente == this.azioni[1]"></ModifySurveys>
       </div>
     </div>
   </template>
     
   <script>
-  import Surveys from '../../components/Admin/AdminSurveys.vue';
   import AddSurvey from '../../components/Admin/AdminSurveyAdd.vue';
   import ModifySurveys from '../../components/Admin/AdminSurveyModify.vue';
   
   export default {
     props: ['userid'],
-    components: { Surveys, AddSurvey, ModifySurveys},
+    components: { AddSurvey, ModifySurveys},
     data () {
       return {
-        azioni: ['Aggiungi', 'Modifica', 'Questionari'],
+        azioni: ['Aggiungi', 'Modifica'],
         azioneCorrente: 'Aggiungi'
       }
     },
