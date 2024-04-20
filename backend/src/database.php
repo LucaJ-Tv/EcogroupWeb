@@ -323,6 +323,18 @@ class Database {
         $statement->execute();
     }
 
+    function eliminateQuestionarioByQuestionarioId($codQuestionario) {
+        $query = "DELETE FROM questionari
+                WHERE codQuestionario LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('i', $codQuestionario);
+        if (!$statement) {
+            // Gestione dell'errore se la preparazione della query fallisce
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->execute();
+    }
+
     function getQuestionariNonCompilati(){
         $query = "SELECT *
             FROM questionari AS q
@@ -390,6 +402,17 @@ class Database {
         $this->error_string = $statement->execute() ? "SEZIONI" : "";
         $result = $statement->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    function eliminateSezioniByQuestionarioId($codQuestionario) {
+        $query = "DELETE FROM sezioni
+                WHERE questionari_codQuestionario LIKE ?";
+        $statement = $this->db->prepare($query);
+        if (!$statement) {
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->bind_param('s', $codQuestionario);
+        return $statement->execute();
     }
 
     // Utils

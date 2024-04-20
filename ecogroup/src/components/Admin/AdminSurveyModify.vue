@@ -7,11 +7,15 @@
         <table class="w-full">
           <tr class="bg-black bg-opacity-20 p-2 rounded-xl shadow-md">
             <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">ID</th>
-            <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[90%]">Titolo</th>
+            <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[80%]">Titolo</th>
+            <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Elimina</th>
           </tr>
-          <tr v-for="questionario in questionari" class=" hover:cursor-pointer hover:bg-white hover:bg-opacity-10 rounded-xl" @click="modificaQuestionario(questionario)">
-            <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center"> {{ questionario.codQuestionario }}</td>
-            <td class="border-l-2 border-spacing-2 border-green-800 p-2"> {{ questionario.titolo }}</td>
+          <tr v-for="questionario in questionari" class=" hover:cursor-pointer hover:bg-white hover:bg-opacity-10 rounded-xl">
+            <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center" @click="modificaQuestionario(questionario)"> {{ questionario.codQuestionario }}</td>
+            <td class="border-l-2 border-spacing-2 border-green-800 p-2" @click="modificaQuestionario(questionario)"> {{ questionario.titolo }}</td>
+            <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center" @click="eliminaQuestionaio(questionario)"> 
+              <p class="bg-site-error bg-opacity-60 border border-site-error text-xs p-3 rounded-xl"> elimina </p>
+            </td>
           </tr>
         </table>
       </fieldset>
@@ -174,6 +178,17 @@ export default {
             console.error(error);
           });
         }
+      },
+      eliminaQuestionaio(questionario) {
+        const formData = new FormData();
+        formData.append('codQuestionario', questionario.codQuestionario);
+        axios.post('http://localhost/www/api/api-admin-remove-survey.php', formData)
+        .catch(error => {
+          console.error(error);
+        }).then(() => {
+          this.questionari = [];
+          this.mostraQuestionari();
+        });
       },
       disponiDomande() {
         this.domandeVisibili = [];
