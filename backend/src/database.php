@@ -394,13 +394,16 @@ class Database {
     public function createSezioni($sezioniNomi, $idQuestionario) {
         // Verifica se la sezione è già presenti nel database
         $existingSezioni = $this->getExistingSezioni();
+        var_dump($existingSezioni);
         foreach ($sezioniNomi as $sezione) {
             $sezioneDiversa = true;
             // Verifica se la sezione è già presente nel database
-            foreach ($existingSezioni as $existingSezione) {
-                if ($existingSezione['sezione'] === $sezione && $existingSezione['questionari_codQuestionario'] === $idQuestionario) {
-                    $sezioneDiversa = false;
-                    break; // Esci dal ciclo interno se la sezione è stata trovata
+            if( count($existingSezioni) > 0) {
+                foreach ($existingSezioni as $existingSezione) {
+                    if ($existingSezione['sezione'] === $sezione && $existingSezione['questionari_codQuestionario'] === $idQuestionario) {
+                        $sezioneDiversa = false;
+                        break; // Esci dal ciclo interno se la sezione è stata trovata
+                    }
                 }
             }
             // Se la sezione è diversa, aggiungila
@@ -411,13 +414,13 @@ class Database {
     }
 
     private function getExistingSezioni() {
-        $query = "SELECT codiceCER FROM codici_cer";
+        $query = "SELECT nome FROM sezioni";
         $statement = $this->db->prepare($query);
         $statement->execute();
         $result = $statement->get_result();
         $existingCodici = array();
         while ($row = $result->fetch_assoc()) {
-            $existingCodici[] = $row['codiceCER'];
+            $existingCodici[] = $row['nome'];
         }
         return $existingCodici;
     }
