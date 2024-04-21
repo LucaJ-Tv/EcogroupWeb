@@ -200,6 +200,17 @@ class Database {
         return $statement->execute();
     }
 
+    public function getDomandaByCodDomanda($codDomanda) {
+        $query = "SELECT * 
+                FROM domande 
+                WHERE codDomanda LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('i', $codDomanda);
+        $this->error_string = $statement->execute() ? "DOMANDA" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     // QUERY domande_questionari
     public function createDomandaQuestionario($numero, $peso, $codDomanda, $sezioneNome, $idQuestionario) {
         $query = "INSERT INTO domande_questionari
@@ -388,6 +399,17 @@ class Database {
             die("Errore nella preparazione della query: " . $this->db->error);
         }
         $statement->execute();
+    }
+
+    public function getScelteByCodDomanda($codDomanda) {
+        $query = "SELECT *
+            FROM scelte
+            WHERE domande_codDomanda LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('i', $codDomanda);
+        $this->error_string = $statement->execute() ? "SCELTE" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     // QUERY sezioni

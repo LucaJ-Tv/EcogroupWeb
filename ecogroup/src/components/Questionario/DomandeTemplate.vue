@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between items-start gap-2 max-w-5xl bg-black bg-opacity-20 p-2 rounded-xl shadow-md mb-2">
+    <div class="w-full flex justify-between items-center gap-2 max-w-5xl bg-black bg-opacity-20 p-2 rounded-xl shadow-md mb-2">
       <h2 class="bg-black bg-opacity-20 px-2 rounded-full">
         {{ id }}
       </h2>
