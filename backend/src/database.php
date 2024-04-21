@@ -381,6 +381,43 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    // QUERY questionari_compilati
+    function createQuestionarioCompilato($codQuestionario, $codAzienda) {
+        $query = "INSERT INTO questionari_compilati (dataCompilazione, QUESTIONARI_codQuestionario, aziende_codAzienda)
+                VALUES (CURRENT_DATE(), ?, ?)";
+        $statement = $this->db->prepare($query);
+        if (!$statement) {
+          // Gestione dell'errore se la preparazione della query fallisce
+          die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->bind_param('ii', $codQuestionario, $codAzienda);
+        return $statement->execute();
+    }
+
+    function getQuestionarioCompilatoByCodQuestionarioCodAzienda($codQuestionario, $codAzienda) {
+        $query = "SELECT codQuestionarioCompilato
+            FROM questionari_compilati
+            WHERE QUESTIONARI_codQuestionario = ? AND aziende_codAzienda = ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('ii', $codQuestionario, $codAzienda);
+        $this->error_string = $statement->execute() ? "QUESTIONARIOCOMPILATO" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // QUERY risposte
+    function createRisposta($valore, $codQuestionario, $codDomanda) {
+        $query = "INSERT INTO risposte (punteggio, QUESTIONARI_COMPILATI_codQuestionarioCompilato, DOMANDE_QUESTIONARI_codDomandaQuestionario)
+        VALUES (?, ?, ?)";
+        $statement = $this->db->prepare($query);
+        if (!$statement) {
+          // Gestione dell'errore se la preparazione della query fallisce
+          die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->bind_param('dii', $valore, $codQuestionario, $codDomanda);
+        return $statement->execute();
+    }
+
     // QUERY Scelte
     public function addScelte($valore, $peso, $domande_codDomanda) {
         $query = "INSERT INTO scelte (valore, peso, domande_codDomanda) VALUES (?, ?, ?)";

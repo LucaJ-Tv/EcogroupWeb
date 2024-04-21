@@ -20,7 +20,10 @@
       </div>
       <div class="mb-4">
         <label for="risposte">Possibili risposte</label>
-        <p class="text-xs pb-2">(premi "/" una volta inserita)</p>
+        <div class="flex gap-2">
+          <p class="text-xs pb-2">(premi "/" una volta inserita)</p>
+          <!-- aggiungi spiegazione di come funzionano i valori delle domande -->
+        </div>
         <input  type="text" id="risposte" name="risposte" class="bg-green-900 px-2 ring-1 ring-inset ring-green-700 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-500 rounded-md w-full" v-model="tempRisposta" @keyup="addRisposta">
         <div class="gap-2 flex">
           <div class="bg-black bg-opacity-30 rounded-xl px-2 mt-3 cursor-pointer text-green-500" v-for="risposta in risposte" :key="risposta">

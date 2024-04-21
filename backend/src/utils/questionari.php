@@ -2,14 +2,12 @@
 
 require($_SERVER["DOCUMENT_ROOT"]."/www/bootstrap.php"); //database directory
 
-function creaScelteAssociativo($scelte) {
-    $valori = array_column($scelte, 'valore');
-    $pesi = array_column($scelte, 'peso');
-    $arrayAssociativo = array_map(function ($valore, $peso){
+function creaScelteAssociativo($valori, $codDomande) {
+    $arrayAssociativo = array_map(function ($valore, $codDomanda) {
         return array(
             'valore' => $valore,
-            'peso' => $peso,
+            'codDomanda' => $codDomanda,
         );
-    }, $valori, $pesi);
+    }, $valori, $codDomande);
     return $arrayAssociativo;
 }
