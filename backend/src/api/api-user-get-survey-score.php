@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $punteggioMax = 0;
       $punteggioOttenuto = 0;
       foreach ($rispostePunteggio as &$rispostaPunteggio) {
-        $peso = $dbh->getDomandaQuestionarioByCodDomandaQuesrionario($rispostaPunteggio['codDomandaQuestionario']);
+        $peso = $dbh->getDomandaQuestionarioByCodDomandaQuestionario($rispostaPunteggio['codDomandaQuestionario']);
         $rispostaPunteggio['peso'] = $peso[0]['peso'];
         $punteggioOttenuto = $punteggioOttenuto + $rispostaPunteggio['peso'] * $rispostaPunteggio['punteggio'];
         $punteggioMax = $punteggioMax + $peso[0]['peso'];

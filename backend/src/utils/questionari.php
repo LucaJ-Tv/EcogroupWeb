@@ -32,3 +32,28 @@ function creaQuestionarioCompilato($titoli, $punteggi) {
     }
     return $arrayAssociativo;
 }
+
+function rimuoviColonna(&$array, $colonnaDaRimuovere) {
+    foreach ($array as &$row) {
+        unset($row[$colonnaDaRimuovere]);
+    }
+}
+
+function estraiCodiciETitoli($array) {
+    $numero = 1;
+    $risultato = array();
+    $codiciPresenti = array();
+    foreach ($array as $elemento) {
+        $codice = $elemento['codQuestionario'];
+        if(!in_array($codice, $codiciPresenti)){
+            $titolo = $elemento['titolo'];
+            $risultato[] = array(
+                'ordine' => $numero,
+                'codQuestionario' => $codice,
+                'titolo' => $titolo);
+            $codiciPresenti[] = $codice;
+            $numero++;
+        }
+    }
+    return $risultato;
+}

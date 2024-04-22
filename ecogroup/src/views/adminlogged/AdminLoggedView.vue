@@ -1,14 +1,17 @@
 <template>
-    <div>
-        statistiche ancora da vedere cosa
-    </div>
-</template>
-
-<script>
-export default {
+    <Questionari></Questionari>
+  </template>
+  
+  <script>
+  import Questionari from '../../components/Admin/AdminSurveys.vue';
+  
+  export default {
     props: ['userid'],
-    setup () {
-        return {}
+    components: {Questionari},
+    data () {
+      return {
+  
+      }
     }
-}
-</script>
+  }
+  </script>

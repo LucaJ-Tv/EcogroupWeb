@@ -236,7 +236,7 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getDomandaQuestionarioByCodDomandaQuesrionario($codDomandaQuestionario) {
+    public function getDomandaQuestionarioByCodDomandaQuestionario($codDomandaQuestionario) {
         $query = "SELECT codDomandaQuestionario, peso
                 FROM domande_questionari 
                 WHERE codDomandaQuestionario LIKE ?";
@@ -399,6 +399,17 @@ class Database {
         $statement = $this->db->prepare($query);
         $statement->bind_param('s', $codQuestionario);
         $this->error_string = $statement->execute() ? "TITOLO" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    function getAllQuestionariCompilati() {
+        $query = "SELECT *
+            FROM questionari AS q
+            LEFT JOIN questionari_compilati AS qc ON q.codQuestionario = qc.QUESTIONARI_codQuestionario
+            WHERE qc.codQuestionarioCompilato IS NOT NULL";
+        $statement = $this->db->prepare($query);
+        $statement->execute();
         $result = $statement->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
