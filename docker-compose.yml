@@ -16,4 +16,5 @@ services:
       - ./ecogroup:/app
     ports:
       - "8080:8080"
+      # - "8080:3000" per build
 

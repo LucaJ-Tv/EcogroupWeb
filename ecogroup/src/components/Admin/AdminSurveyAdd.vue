@@ -88,7 +88,7 @@ import axios from 'axios';
         risultato: '',
         erroreForm: '',
         primaPagina: true,
-        indiceDomandaInternoAlQuestionario: 0,
+        indiceDomandaInternoAlQuestionario: 1,
         numeriDomandaAssoc: [],
         pesiAssoc: [],
         codiciDomandaAssoc: [],
@@ -226,7 +226,7 @@ import axios from 'axios';
           formData).then(response => {
           if (response.data.error == ''){
             this.risultato = response.data.result;
-            
+            this.risultato = 'questionario aggiunto';
             this.domandeQuestionari = [];
             this.titolo = '';
           } else {

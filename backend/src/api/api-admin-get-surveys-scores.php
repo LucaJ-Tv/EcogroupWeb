@@ -34,9 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
   rimuoviColonna($AllQuestionari, 'titolo');
   rimuoviColonna($AllQuestionari, 'codQuestionarioCompilato');
   rimuoviColonna($AllQuestionari, 'QUESTIONARI_codQuestionario');
-  
-  var_dump($QuestionarioSingolo);
-  var_dump($AllQuestionari);
 
   $message = array(
    'error' => $error,
