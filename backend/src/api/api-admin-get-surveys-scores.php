@@ -27,7 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
       $punteggioOttenuto = $punteggioOttenuto + $rispostaPunteggio['peso'] * $rispostaPunteggio['punteggio'];
       $punteggioMax = $punteggioMax + $peso[0]['peso'];
     }
+    $nomeAzienda = $dbh->getNomeAziendaByCodAzienda($codAzienda);
     $punteggiofinale = calcolaPunteggio($punteggioMax, $punteggioOttenuto);
+    $questionario['nomeAzienda'] = $nomeAzienda[0]['username'];
     $questionario['punteggio'] = $punteggiofinale;
   }
 

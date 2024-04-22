@@ -24,7 +24,7 @@
           <p>{{ item.punteggio }}</p>
         </div>
       </div>
-      <button @click="tornaIndietro" class="border-green-800 mt-3 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Precedente</button>
+      <button @click="tornaIndietro" class="border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Precedente</button>
     </div>
   </div>
 </template>

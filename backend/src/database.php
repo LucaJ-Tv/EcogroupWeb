@@ -53,6 +53,17 @@ class Database {
         }
     }
 
+    public function getNomeAziendaByCodAzienda($codAzienda) {
+        $query = "SELECT username 
+                FROM aziende 
+                WHERE codAzienda LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $codAzienda);
+        $this->error_string = $statement->execute() ? "AZIENDE" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     // QUERY categorie
     public function createCategory($category) {
         $query = "INSERT INTO categorie (nomeCategoria) VALUES (?)";
