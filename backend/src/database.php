@@ -236,6 +236,17 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getDomandaQuestionarioByCodDomandaQuesrionario($codDomandaQuestionario) {
+        $query = "SELECT codDomandaQuestionario, peso
+                FROM domande_questionari 
+                WHERE codDomandaQuestionario LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $codDomandaQuestionario);
+        $this->error_string = $statement->execute() ? "DOMANDAQUESTIONARIO" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function eliminateAllDomandaQuestionarioByQuestionarioId($idQuestionario) {
         $query = "DELETE FROM domande_questionari
                 WHERE sezioni_questionari_codQuestionario LIKE ?";
@@ -381,6 +392,18 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    function getTitoloByCodQuestionario($codQuestionario) {
+        $query = "SELECT titolo
+            FROM questionari
+            WHERE codQuestionario LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('s', $codQuestionario);
+        $this->error_string = $statement->execute() ? "TITOLO" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
     // QUERY questionari_compilati
     function createQuestionarioCompilato($codQuestionario, $codAzienda) {
         $query = "INSERT INTO questionari_compilati (dataCompilazione, QUESTIONARI_codQuestionario, aziende_codAzienda)
@@ -406,7 +429,7 @@ class Database {
     }
 
     function getAllQuestionarioCompilatoByCodAzienda($codAzienda) {
-        $query = "SELECT codQuestionarioCompilato
+        $query = "SELECT *
             FROM questionari_compilati
             WHERE aziende_codAzienda = ?";
         $statement = $this->db->prepare($query);
