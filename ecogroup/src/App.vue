@@ -5,14 +5,14 @@
 
     <RouterView @LoggedInUser="userLogged" @LoggedInAdmin="adminLogged"/>
     
-    <UserNavigation v-if="userIsLogged"/>
-    <AdminNavigation v-if="adminIsLogged"/>
+    <UserNavigation v-if="userIsLogged" :userid="userid"/>
+    <AdminNavigation v-if="adminIsLogged" :userid="userid"/>
 
     <FooterHome v-if="!userIsLogged && !adminIsLogged"/>
   </div>
 </template>
 
-<script setup>
+<script>
 import { RouterView } from "vue-router";
 //user non loggato
 import SiteNavigation from "./components/SiteNavigation.vue";
@@ -23,21 +23,30 @@ import UserNavigation from "./components/User/UserNavigation.vue";
 //admin loggato
 import AdminNavigation from "./components/Admin/AdminNavigation.vue";
 
-</script>
-<script>
 export default {
+  components:{
+    RouterView,
+    SiteNavigation,
+    FooterHome,
+    UserHeader,
+    UserNavigation,
+    AdminNavigation
+  },
   data() {
     return {
       userIsLogged: false, //da fare in modo migliore con back end
-      adminIsLogged: false
+      adminIsLogged: false,
+      userid: ''
     }
   },
   methods:{
-    userLogged() {
-      this.userIsLogged = true
+    userLogged(id) {
+      this.userIsLogged = true;
+      this.userid = id;
     },
-    adminLogged() {
-      this.adminIsLogged = true
+    adminLogged(id) {
+      this.userid = id;
+      this.adminIsLogged = true;
     },
     userLogOut() {
       this.userIsLogged = false

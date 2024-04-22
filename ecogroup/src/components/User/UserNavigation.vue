@@ -20,15 +20,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      userid: '13'
-    }
-  },
-  setup () {
-        
-
-    return {}
-  }
+  props: ['userid'],
 }
 </script>

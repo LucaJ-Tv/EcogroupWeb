@@ -17,8 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $codDomande = isset($_POST['codDomande']) ? $_POST['codDomande'] : '';
   $valoreRisposte = isset($_POST['risposte']) ? $_POST['risposte'] : '';
 
-  // creo un qeustionario compilato
-  // ha dataCompilazione, QUESTIONARI_codQuestionario, aziende_codAzienda
   if($codQuestionario != '' && $codAzienda != '' && $codDomande != '' && $valoreRisposte) {
     if(count($dbh->getQuestionarioCompilatoByCodQuestionarioCodAzienda($codQuestionario, $codAzienda)) > 0) {
       $error = 'Questionario già stato compilato in precedenza';
@@ -33,11 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
     }
   }
-  // creo la risposta
-  // ha punteggio, QUESTIONARI_COMPILATI_codQuestionarioCompilato, DOMANDE_QUESTIONARI_codDomandaQuestionario
-
-  // se tutto va bene il risultato è questionario compilato
-  //$dbh->getErrorString()
   
   $message = array(
     'error' => $error,

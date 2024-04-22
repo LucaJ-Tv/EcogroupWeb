@@ -42,10 +42,10 @@
           formData).then(response => {
             if (response.data.error == ''){
               if(response.data.usertype == 'moderator'){
-                this.$emit('LoggedInAdmin')
+                this.$emit('LoggedInAdmin', response.data.userid);
                 this.$router.push({name: 'AdminLogged', params: {userid: response.data.userid}});
               } else {
-                this.$emit('loggedInUser')
+                this.$emit('loggedInUser', response.data.userid);
                 this.$router.push({name: 'LoggedIn', params: {userid: response.data.userid}});
               }
             } else {

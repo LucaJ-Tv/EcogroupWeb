@@ -22,16 +22,7 @@
   </template>
   
   <script>
-  export default {
-    data() {
-      return {
-        userid: '1'
-      }
-    },
-    setup () {
-          
-  
-      return {}
-    }
+  export default {  
+    props: ['userid'],
   }
   </script>

@@ -405,6 +405,17 @@ class Database {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    function getAllQuestionarioCompilatoByCodAzienda($codAzienda) {
+        $query = "SELECT codQuestionarioCompilato
+            FROM questionari_compilati
+            WHERE aziende_codAzienda = ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('i', $codAzienda);
+        $this->error_string = $statement->execute() ? "QUESTIONARIOCOMPILATO" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     // QUERY risposte
     function createRisposta($valore, $codQuestionario, $codDomanda) {
         $query = "INSERT INTO risposte (punteggio, QUESTIONARI_COMPILATI_codQuestionarioCompilato, DOMANDE_QUESTIONARI_codDomandaQuestionario)
@@ -416,6 +427,17 @@ class Database {
         }
         $statement->bind_param('dii', $valore, $codQuestionario, $codDomanda);
         return $statement->execute();
+    }
+
+    function getRisposteByCodQuestionario($codQuestionario) {
+        $query = "SELECT punteggio, DOMANDE_QUESTIONARI_codDomandaQuestionario AS codDomandaQuestionario
+                FROM risposte
+                WHERE QUESTIONARI_COMPILATI_codQuestionarioCompilato = ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('i', $codQuestionario);
+        $this->error_string = $statement->execute() ? "RISPOSTA" : "";
+        $result = $statement->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     // QUERY Scelte

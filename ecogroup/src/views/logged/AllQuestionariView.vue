@@ -4,6 +4,7 @@
     <div class="QUESTIONARI">
       <Questionario v-for="questionario in questionari" :key="questionario.id" :id="questionario.id" :titolo="questionario.titolo" :punteggio="questionario.punteggio"></Questionario>
     </div>
+    {{ punteggi }}
   </div>
 </template>
 
@@ -11,17 +12,32 @@
 
 import Questionario from '../../components/Questionario/QuestionarioCompletato.vue';
 
+import axios from 'axios';
 export default {
   props: ['userid'],
   components: {Questionario},
   data() {
     return {
-
       //importato dal db con i punteggi calcolati in base alle risposte
+      punteggi: [],
       questionari: [{id: '1', titolo: 'Questionario obbligatorio', punteggio: '51'},
       {id: '2', titolo: 'Questionario 2', punteggio: '81'}, 
       {id: '3', titolo: 'Questionario 3', punteggio: '100'}, 
       {id: '4', titolo: 'Questionario 4', punteggio: '91'},]
+    }
+  },
+  mounted() {
+    this.mostraQuestionari();
+  },methods: {
+    mostraQuestionari () {
+      const formData = new FormData();
+        formData.append('categoria', this.userid);
+        axios.post('http://localhost/www/api/api-user-get-survey-score.php', formData)
+        .then(response => {
+          this.punteggi = response.data;
+        }).catch(error => {
+          console.error(error);
+        });
     }
   },
   setup () {

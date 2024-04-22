@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `eco_group`.`questionari_compilati` (
 -- Table `eco_group`.`risposte`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `eco_group`.`risposte` (
-  `codRisposta` INT(11) NOT NULL,
+  `codRisposta` INT(11) NOT NULL AUTO_INCREMENT,
   `punteggio` DOUBLE NOT NULL,
   `QUESTIONARI_COMPILATI_codQuestionarioCompilato` INT(11) NOT NULL,
   `DOMANDE_QUESTIONARI_codDomandaQuestionario` INT(11) NOT NULL,
