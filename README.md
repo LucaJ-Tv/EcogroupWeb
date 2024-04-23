@@ -1,3 +1,14 @@
+# Istruzioni per l'uso
+
+Per far partire il progetto:
+```
+docker compose up -d --build
+```
+Per fermare il progetto:
+```
+docker compose down
+```
+
 # Ecogroup
 
 Ecogroup è un sito web che aiuta a chiarire il grado di ecosostenibilità delle aziende, tramite dei questionari specializzati.
