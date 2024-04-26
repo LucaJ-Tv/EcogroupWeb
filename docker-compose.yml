@@ -3,18 +3,10 @@ version: '3.9'
 services:
   backend:
     platform: linux/x86_64
-    image: tomsik68/xampp
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     volumes:
       - ./backend/src:/www/
-  frontend:
-    build:
-      context: ./ecogroup
-      dockerfile: Dockerfile
-    volumes:
-      - ./ecogroup:/app
-    ports:
-      - "8080:8080"
-      # - "8080:3000" per build
-
