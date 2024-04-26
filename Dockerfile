@@ -1,8 +1,13 @@
-# Dockerfile for the backend service
+# Usa un'immagine di base di Node.js
+FROM node:latest
 
-# Usa l'immagine base di tomsik68/xampp
-FROM tomsik68/xampp
+WORKDIR /www/
 
-# Copia la cartella dist (risultato del build Vue.js) nel backend
-COPY ./backend/src /www
-COPY ./ecogroup/dist /www
+COPY ./ecogroup/package*.json ./
+COPY ./ecogroup/dist/ ./dist
+
+
+RUN npm install
+RUN npm install -g serve
+
+CMD ["serve", "-s", "dist"]
