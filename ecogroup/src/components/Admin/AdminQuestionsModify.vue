@@ -9,13 +9,13 @@
       </select>
       <table class="w-full mt-4">
         <fieldset v-if="primaPagina">
-          <table class="w-full">
+          <div class="max-h-96 overflow-auto">
+            <table class="w-full">
             <tr class="bg-black bg-opacity-20 p-2 rounded-xl shadow-md">
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">ID</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[80%]">Testo</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[5%]">Impatto</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[5%]"> Rimuovi</th>
-
             </tr>
             <tr v-for="domanda in domandeInCategoria" class=" hover:cursor-pointer hover:bg-white hover:bg-opacity-10 rounded-xl">
               <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center" @click="modificaDomanda(domanda)"> {{ domanda.codDomanda }}</td>
@@ -26,6 +26,7 @@
               </td>
             </tr>
           </table>
+          </div>
         </fieldset>
         <fieldset v-if="!primaPagina">
           <div class="mb-4">
