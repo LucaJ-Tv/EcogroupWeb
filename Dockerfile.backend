@@ -1,0 +1,4 @@
+FROM tomsik68/xampp
+RUN apt update
+RUN apt install npm -y
+

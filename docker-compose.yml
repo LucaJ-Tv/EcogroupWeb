@@ -1,14 +1,24 @@
-version: '3.9'
-
 services:
-  fullstack:
-    image: tomsik68/xampp
+  frontend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./ecogroup/dist/:/www/dist
+
+  backend:
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
     ports:
       - "80:80"
-      - "3000:3000"
     volumes:
       - ./backend/src:/www/
       - ./ecogroup/dist/:/www/dist
+
+volumes:
+  backend:
+  frontend:
