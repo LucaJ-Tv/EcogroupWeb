@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $domanda['inserire'] = false;
     foreach ($domandeQuestionari as $valoriAggiunti) {
       if ($domanda['codDomanda'] == $valoriAggiunti['DOMANDE_codDomanda']) {
-        $domanda['peso'] = $valoriAggiunti['DOMANDE_codDomanda'];
+        $domanda['peso'] = $valoriAggiunti['peso'];
         $domanda['sezione'] = $valoriAggiunti['sezioni_nome'];
         $domanda['numero'] = $valoriAggiunti['DOMANDE_codDomanda'];
         $domanda['inserire'] = true;

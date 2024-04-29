@@ -11,7 +11,7 @@
             <p>{{ error }}</p>
           </div>
         </div>
-        <div class="DOMANDE w-full">
+        <div class="DOMANDE w-full overflow-auto h-96">
           <div v-for="domanda in domandeVisibili" :key="domanda.codDomandaQuestionario" :v-if="domanda.sezioni_nome == sezioneSelezionata">
             <Domanda :id="domanda.numeroDomanda" :sezione="domanda.sezioni_nome" :testo="domanda.testo" :scelte="domanda.scelteValori" :rispostaSel="getRisposta(domanda.codDomandaQuestionario)" @eventorisposta="aggiuniRisposta($event, domanda.codDomandaQuestionario)" />
           </div>
