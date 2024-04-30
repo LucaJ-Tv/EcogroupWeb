@@ -520,7 +520,6 @@ class Database {
     public function createSezioni($sezioniNomi, $idQuestionario) {
         // Verifica se la sezione è già presenti nel database
         $existingSezioni = $this->getExistingSezioni();
-        var_dump($existingSezioni);
         foreach ($sezioniNomi as $sezione) {
             $sezioneDiversa = true;
             // Verifica se la sezione è già presente nel database

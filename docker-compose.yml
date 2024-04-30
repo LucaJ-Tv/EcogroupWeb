@@ -3,8 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    ports:
-      - "3000:3000"
+    #   - "3000:3000"
     volumes:
       - ./ecogroup/dist/:/www/dist
 
