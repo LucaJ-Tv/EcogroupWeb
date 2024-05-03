@@ -2,7 +2,9 @@
 
 Per far partire il progetto:
 ```
-docker compose up -d --build
+chmod +x setup.sh
+
+./setup.sh
 ```
 In [http://localhost/phpmyadmin/](http://localhost/phpmyadmin/) sarà presente il pannello di phpmyadmin in cui bisogna aggiungere le query presenti in **EcogroupWeb/db/Database.sql** e **EcogroupWeb/db/Seed.sql**.
 A questo punto l'app sarà presente e funzionante all'url [https://localhost/www/dist/](https://localhost/www/dist/).
