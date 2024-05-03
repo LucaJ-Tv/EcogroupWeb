@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Mag 02, 2024 alle 21:21
+-- Creato il: Mag 03, 2024 alle 15:51
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -173,11 +173,120 @@ INSERT INTO `domande` (`codDomanda`, `positiva`, `testo`, `CATEGORIE_idCATEGORIA
 (105, 1, 'In che misura i sottoprodotti o gli scarti industriali vengono riciclati o riutilizzati?', 'Risorse input-output', 1);
 
 --
+-- Dump dei dati per la tabella `domande_questionari`
+--
+
+INSERT INTO `domande_questionari` (`codDomandaQuestionario`, `numeroDomanda`, `peso`, `DOMANDE_codDomanda`, `sezioni_nome`, `sezioni_questionari_codQuestionario`) VALUES
+(1, 1, 1, 35, 'parametri lean', 1),
+(2, 2, 1, 36, 'parametri lean', 1),
+(3, 3, 1, 37, 'parametri lean', 1),
+(4, 4, 1, 38, 'parametri lean', 1),
+(5, 5, 1, 39, 'parametri lean', 1),
+(6, 6, 1, 40, 'parametri lean', 1),
+(7, 7, 1, 41, 'parametri lean', 1),
+(8, 8, 1, 42, 'parametri lean', 1),
+(9, 9, 1, 43, 'parametri lean', 1),
+(10, 10, 1, 44, 'parametri lean', 1),
+(11, 11, 1, 45, 'parametri lean', 1),
+(12, 12, 1, 46, 'parametri lean', 1),
+(13, 13, 1, 47, 'parametri lean', 1),
+(14, 14, 1, 48, 'parametri lean', 1),
+(15, 15, 1, 49, 'parametri lean', 1),
+(16, 16, 1, 50, 'parametri lean', 1),
+(17, 17, 1, 51, 'parametri lean', 1),
+(18, 18, 1, 52, 'parametri lean', 1),
+(19, 19, 1, 53, 'parametri lean', 1),
+(20, 20, 1, 54, 'parametri lean', 1),
+(21, 21, 1, 55, 'parametri lean', 1),
+(22, 22, 1, 56, 'parametri lean', 1),
+(23, 23, 1, 57, 'parametri lean', 1),
+(24, 24, 1, 10, 'parametri green', 1),
+(25, 25, 1, 11, 'parametri green', 1),
+(26, 26, 1, 12, 'parametri green', 1),
+(27, 27, 1, 13, 'parametri green', 1),
+(28, 28, 1, 14, 'parametri green', 1),
+(29, 29, 1, 15, 'parametri green', 1),
+(30, 30, 1, 16, 'parametri green', 1),
+(31, 31, 1, 17, 'parametri green', 1),
+(32, 32, 1, 18, 'parametri green', 1),
+(33, 33, 1, 19, 'parametri green', 1),
+(34, 34, 1, 20, 'parametri green', 1),
+(35, 35, 1, 21, 'parametri green', 1),
+(36, 36, 1, 22, 'parametri green', 1),
+(37, 37, 1, 23, 'parametri green', 1),
+(38, 38, 1, 24, 'parametri green', 1),
+(39, 39, 1, 25, 'parametri green', 1),
+(40, 40, 1, 26, 'parametri green', 1),
+(41, 41, 1, 27, 'parametri green', 1),
+(42, 42, 1, 28, 'parametri green', 1),
+(43, 43, 1, 29, 'parametri green', 1),
+(44, 44, 1, 30, 'parametri green', 1),
+(45, 45, 1, 31, 'parametri green', 1),
+(46, 46, 1, 32, 'parametri green', 1),
+(47, 47, 1, 33, 'parametri green', 1),
+(48, 48, 1, 34, 'parametri green', 1),
+(49, 49, 1, 79, 'maturità aziendale', 1),
+(50, 50, 1, 80, 'maturità aziendale', 1),
+(51, 51, 1, 81, 'maturità aziendale', 1),
+(52, 52, 1, 82, 'maturità aziendale', 1),
+(53, 53, 1, 83, 'maturità aziendale', 1),
+(54, 54, 1, 84, 'maturità aziendale', 1),
+(55, 55, 1, 85, 'maturità aziendale', 1),
+(56, 56, 1, 86, 'maturità aziendale', 1),
+(57, 57, 1, 87, 'maturità aziendale', 1),
+(58, 58, 1, 88, 'maturità aziendale', 1),
+(59, 59, 1, 58, 'parametri agile', 1),
+(60, 60, 1, 59, 'parametri agile', 1),
+(61, 61, 1, 60, 'parametri agile', 1),
+(62, 62, 1, 61, 'parametri agile', 1),
+(63, 63, 1, 62, 'parametri agile', 1),
+(64, 64, 1, 63, 'parametri agile', 1),
+(65, 65, 1, 64, 'parametri agile', 1),
+(66, 66, 1, 65, 'parametri agile', 1),
+(67, 67, 1, 66, 'parametri agile', 1),
+(68, 68, 1, 67, 'parametri agile', 1),
+(69, 69, 1, 68, 'parametri agile', 1),
+(70, 71, 1, 69, 'parametri resilient', 1),
+(71, 72, 1, 70, 'parametri resilient', 1),
+(72, 73, 1, 71, 'parametri resilient', 1),
+(73, 74, 1, 72, 'parametri resilient', 1),
+(74, 75, 1, 73, 'parametri resilient', 1),
+(75, 76, 1, 74, 'parametri resilient', 1),
+(76, 77, 1, 75, 'parametri resilient', 1),
+(77, 78, 1, 76, 'parametri resilient', 1),
+(78, 79, 1, 77, 'parametri resilient', 1),
+(79, 80, 1, 78, 'parametri resilient', 1),
+(80, 81, 1, 89, 'risorse input-output', 1),
+(81, 82, 1, 90, 'risorse input-output', 1),
+(82, 83, 1, 91, 'risorse input-output', 1),
+(83, 84, 1, 92, 'risorse input-output', 1),
+(84, 85, 1, 93, 'risorse input-output', 1),
+(85, 86, 1, 94, 'risorse input-output', 1),
+(86, 87, 1, 95, 'risorse input-output', 1),
+(87, 88, 1, 96, 'risorse input-output', 1),
+(88, 89, 1, 97, 'risorse input-output', 1),
+(89, 90, 1, 98, 'risorse input-output', 1),
+(90, 91, 1, 99, 'risorse input-output', 1),
+(91, 92, 1, 100, 'risorse input-output', 1),
+(92, 93, 1, 101, 'risorse input-output', 1),
+(93, 94, 1, 102, 'risorse input-output', 1),
+(94, 95, 1, 103, 'risorse input-output', 1),
+(95, 96, 1, 104, 'risorse input-output', 1),
+(96, 97, 1, 105, 'risorse input-output', 1);
+
+--
 -- Dump dei dati per la tabella `moderatori`
 --
 
 INSERT INTO `moderatori` (`codModeratore`, `mail`, `username`, `password`) VALUES
 (1, 'ferarluca@gmail.com', 'lucone113', '$2y$10$.UkAvACHBS2VDSAQDsKXreJ4o02KfkZXytx1a993sxsuKbR9yh/ze');
+
+--
+-- Dump dei dati per la tabella `questionari`
+--
+
+INSERT INTO `questionari` (`codQuestionario`, `titolo`) VALUES
+(1, 'Questionario obbligatorio');
 
 --
 -- Dump dei dati per la tabella `scelte`
@@ -649,6 +758,18 @@ INSERT INTO `scelte` (`codScelta`, `valore`, `peso`, `domande_codDomanda`) VALUE
 (491, 'a volte', 0.6, 105),
 (492, 'spesso', 0.8, 105),
 (493, 'sempre', 1, 105);
+
+--
+-- Dump dei dati per la tabella `sezioni`
+--
+
+INSERT INTO `sezioni` (`nome`, `questionari_codQuestionario`) VALUES
+('parametri green', 1),
+('parametri lean', 1),
+('maturità aziendale', 1),
+('parametri agile', 1),
+('parametri resilient', 1),
+('risorse input-output', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

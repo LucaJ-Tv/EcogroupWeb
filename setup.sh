@@ -1,10 +1,8 @@
 #!/bin/bash
 
-if [ -d "/backend/src/dist" ]; then
-    rm dist -rf
-fi
-
 cd ecogroup
+
+rm dist -rf
 
 vue build
 
