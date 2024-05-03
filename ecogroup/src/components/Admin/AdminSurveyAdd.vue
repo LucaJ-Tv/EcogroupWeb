@@ -51,15 +51,11 @@
               <td class="border-x-2 border-spacing-2 border-green-800 p-2 text-center"> <input v-model="domanda.numeroDomanda" type="number" value="1" min="0" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700 w-12"></td>
               <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center"><i v-if="domanda.positiva == 1" class="fa-solid fa-plus"></i><i v-if="domanda.positiva == 0" class="fa-solid fa-minus"></i></td>
               <td class="border-x-2 border-spacing-2 border-green-800 p-2 text-center"> <input v-model="domanda.peso" type="number" value="1" min="0" max="10" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700"></td>
-              <!-- <td class="border-x-2 border-spacing-2 border-green-800 p-2 text-center"> <input v-model="domanda.peso" type="number" value="1" min="0" max="10" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700"></td> -->
             </tr>
           </table>
         </div>
-        {{ domandeInCategoria }}
-        {{ domandeQuestionari }}
         <input class="border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1" type="submit" value="Crea">
       </fieldset>
-
     </form>
     <button @click="cambiaPagina" v-if="primaPagina" class="border-green-800 mt-3 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Successivo</button>
     <button @click="cambiaPagina" v-if="!primaPagina" class="border-green-800 mt-3 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1">Precedente</button>
@@ -93,7 +89,6 @@ import axios from 'axios';
         risultato: '',
         erroreForm: '',
         primaPagina: true,
-        indiceDomandaInternoAlQuestionario: 1,
         numeriDomandaAssoc: [],
         pesiAssoc: [],
         codiciDomandaAssoc: [],
@@ -145,15 +140,12 @@ import axios from 'axios';
               if (domanda.inserire === undefined) {
                 domanda.inserire = true;
                 if (domanda.numeroDomanda === '' || domanda.numeroDomanda === 0) {
-                  domanda.numeroDomanda = this.indiceDomandaInternoAlQuestionario;
-                  this.indiceDomandaInternoAlQuestionario++;
+                  domanda.numeroDomanda = this.prossimoNumeroDomanda();
                 }
-
               } else {
                 if (!domanda.inserire) {
                   if (domanda.numeroDomanda === '' || domanda.numeroDomanda === 0) {
-                  domanda.numeroDomanda = this.indiceDomandaInternoAlQuestionario;
-                  this.indiceDomandaInternoAlQuestionario++;
+                    domanda.numeroDomanda = this.prossimoNumeroDomanda();
                   }
                 }
                 domanda.inserire = !domanda.inserire;
@@ -290,6 +282,7 @@ import axios from 'axios';
         let pesi = [];
         let codiciDomanda = [];
         let sezioni = [];
+        this.controllaNumeroDomande();
         this.domandeQuestionari.forEach(domanda => {
           numeriDomanda.push(domanda.numeroDomanda);
           pesi.push(domanda.peso);
@@ -301,6 +294,27 @@ import axios from 'axios';
         this.pesiAssoc = pesi;
         this.codiciDomandaAssoc = codiciDomanda;
         this.sezioniDomandaAssoc = sezioni;
+      },
+      controllaNumeroDomande() {
+        this.domandeQuestionari.forEach(domanda => {
+          let domandeSenzaDomanda = this.domandeQuestionari.filter( (domandaPresente) => {
+            return domandaPresente != domanda;
+          });
+          domandeSenzaDomanda.forEach(domandaDaControllare => {
+            if(domanda.numeroDomanda === domandaDaControllare.numeroDomanda) {
+              domandaDaControllare.numeroDomanda = this.prossimoNumeroDomanda();
+            }
+          });
+        });
+      },
+      prossimoNumeroDomanda() {
+        let index = 0;
+        this.domandeQuestionari.forEach(domanda => {
+          if (domanda.numeroDomanda >= index)
+            index = domanda.numeroDomanda;
+        });
+        index++;
+        return index;
       }
     }
   }
