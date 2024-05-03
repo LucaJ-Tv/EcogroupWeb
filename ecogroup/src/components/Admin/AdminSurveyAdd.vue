@@ -36,8 +36,9 @@
             <tr class="bg-black bg-opacity-20 p-2 rounded-xl shadow-md">
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Inserita</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[70%]">Testo</th>
+              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[5%]">Numero</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Impatto</th>
-              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[10%]">Peso</th>
+              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[5%]">Peso</th>
             </tr>
             <tr v-for="domanda in domandeInCategoria">
               <td class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">
@@ -47,11 +48,15 @@
                 </span>
               </td>
               <td class="border-l-2 border-spacing-2 border-green-800 p-2"> {{ domanda.testo }}</td>
+              <td class="border-x-2 border-spacing-2 border-green-800 p-2 text-center"> <input v-model="domanda.numeroDomanda" type="number" value="1" min="0" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700 w-12"></td>
               <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center"><i v-if="domanda.positiva == 1" class="fa-solid fa-plus"></i><i v-if="domanda.positiva == 0" class="fa-solid fa-minus"></i></td>
               <td class="border-x-2 border-spacing-2 border-green-800 p-2 text-center"> <input v-model="domanda.peso" type="number" value="1" min="0" max="10" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700"></td>
+              <!-- <td class="border-x-2 border-spacing-2 border-green-800 p-2 text-center"> <input v-model="domanda.peso" type="number" value="1" min="0" max="10" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700"></td> -->
             </tr>
           </table>
         </div>
+        {{ domandeInCategoria }}
+        {{ domandeQuestionari }}
         <input class="border-green-800 border rounded-xl p-2 hover:bg-green-700 cursor-pointer bg-site-primary my-1" type="submit" value="Crea">
       </fieldset>
 
@@ -139,12 +144,17 @@ import axios from 'axios';
             if (domanda.testo === testo) {
               if (domanda.inserire === undefined) {
                 domanda.inserire = true;
-                domanda.numeroDomanda = this.indiceDomandaInternoAlQuestionario;
-                this.indiceDomandaInternoAlQuestionario++;
-              } else {
-                if (!domanda.inserire) {
+                if (domanda.numeroDomanda === '' || domanda.numeroDomanda === 0) {
                   domanda.numeroDomanda = this.indiceDomandaInternoAlQuestionario;
                   this.indiceDomandaInternoAlQuestionario++;
+                }
+
+              } else {
+                if (!domanda.inserire) {
+                  if (domanda.numeroDomanda === '' || domanda.numeroDomanda === 0) {
+                  domanda.numeroDomanda = this.indiceDomandaInternoAlQuestionario;
+                  this.indiceDomandaInternoAlQuestionario++;
+                  }
                 }
                 domanda.inserire = !domanda.inserire;
               }
@@ -195,7 +205,7 @@ import axios from 'axios';
             this.domandeQuestionari.forEach((domanda) => {
               if(elemento.codDomanda == domanda.codDomanda) {
                 elemento.peso = domanda.peso;
-                elemento.numeroDomanda = domanda.numeriDomanda;
+                elemento.numeroDomanda = domanda.numeroDomanda;
                 elemento.sezione = domanda.sezione;
               }
             });
