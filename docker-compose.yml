@@ -3,9 +3,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    #   - "3000:3000"
+    ports:
+       - "8080:8080"
     volumes:
-      - ./ecogroup/dist/:/www/dist
+      - ./ecogroup/:/app
 
   backend:
     platform: linux/x86_64
