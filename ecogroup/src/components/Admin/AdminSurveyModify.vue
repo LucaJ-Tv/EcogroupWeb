@@ -39,10 +39,11 @@
         <div class="overflow-auto box-border bg-black bg-opacity-20 rounded-xl shadow-md p-2 max-h-72 mt-2">
           <table class="overflow-auto w-full">
             <tr class="bg-black bg-opacity-20 p-2 rounded-xl shadow-md">
-              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Inserita</th>
+              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%] text-center">Inserita</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[70%]">Testo</th>
-              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Impatto</th>
-              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[10%]">Peso</th>
+              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[5%] text-center">Numero</th>
+              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%] text-center">Impatto</th>
+              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[5%] text-center">Peso</th>
             </tr>
             <tr v-for="domanda in domandeVisibili" :key="domanda.codDomanda">
               <td class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">
@@ -52,6 +53,7 @@
                 </span>
               </td>
               <td class="border-l-2 border-spacing-2 border-green-800 p-2"> {{ domanda.testo }}</td>
+              <td class="border-x-2 border-spacing-2 border-green-800 p-2 text-center"> <input v-model="domanda.numero" type="number" value="1" min="0" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700 w-12"></td>
               <td class="border-l-2 border-spacing-2 border-green-800 p-2 text-center">
                 <i v-if="domanda.positiva == 1" class="fa-solid fa-plus"></i>
                 <i v-if="domanda.positiva == 0" class="fa-solid fa-minus"></i>
@@ -59,6 +61,8 @@
               <td class="border-x-2 border-spacing-2 border-green-800 p-2 text-center"> <input v-model="domanda.peso" type="number" value="1" min="0" max="10" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700"></td>
             </tr>
           </table>
+          {{ domandeVisibili }}
+          <button @click="controllaNumeroDomande()">provami</button>
         </div>
       </fieldset>
       <fieldset v-if="PaginaCorrente == 2" class="flex flex-col gap-2">
@@ -84,7 +88,6 @@
 
 <script>
 import axios from 'axios';
-// per pushare il questionario aggiornato vanno eliminate tutte le occorenze in domande questionari e aggiornate con le nuove
 
 export default {
     props: ['id'],
@@ -98,7 +101,6 @@ export default {
         sezioni: [], 
         sezioneCorrente: [],
         categoriaCorrente: '',
-        numeroDomanda: 0,
         cod: '',
         titolo: '',
         commento: '',
@@ -128,7 +130,6 @@ export default {
         axios.post('http://localhost/www/api/api-admin-get-questions-survey.php', formData)
         .then(response => {
           this.domandeQuestionario = response.data;
-          this.calcolaPrimoNumeroDomanda();
         }).catch(error => {
           console.error(error);
         });
@@ -219,19 +220,10 @@ export default {
           this.PaginaCorrente++;
         }
       },
-      calcolaPrimoNumeroDomanda(){
-        this.domandeQuestionario.forEach(element => {
-          if (element.numero > this.numeroDomanda) {
-            this.numeroDomanda = element.numero;
-          }
-        });
-        if(this.numeroDomanda != 0)
-          this.numeroDomanda++;
-      },
       modificaDomandeQuestionario(domanda){
         domanda.sezione = this.sezioneCorrente;
-        domanda.numero = this.numeroDomanda;
-        this.numeroDomanda++;
+        if(domanda.numero === 0 || domanda.numero === '')
+          domanda.numero = this.prossimoNumeroDomanda();
       },
       controlloModifiche(){
         this.erroreForm = '';
@@ -245,7 +237,6 @@ export default {
             }
           }
         });
-        //appena arrivato a casa aggiungere textbox e backend
         if(this.titolo == '') {
           this.erroreForm = 'inserire un titolo valido';
           return false;
@@ -267,6 +258,7 @@ export default {
         let pesi = [];
         let codiciDomanda = [];
         let sezioni = [];
+        this.controllaNumeroDomande();
         this.domandeQuestionario.forEach(domanda => {
           if(domanda.inserire){
             numeriDomanda.push(domanda.numero);
@@ -275,11 +267,31 @@ export default {
             sezioni.push(domanda.sezione);
           }
         });
-
         this.numeriDomandaAssoc = numeriDomanda;
         this.pesiAssoc = pesi;
         this.codiciDomandaAssoc = codiciDomanda;
         this.sezioniDomandaAssoc = sezioni;
+      },
+      controllaNumeroDomande() {
+        this.domandeQuestionario.forEach(domanda => {
+          let domandeSenzaDomanda = this.domandeQuestionario.filter( (domandaPresente) => {
+            return (domanda.inserire && domandaPresente != domanda);
+          });
+          domandeSenzaDomanda.forEach(domandaDaControllare => {
+            if(domanda.numero === domandaDaControllare.numero) {
+              domandaDaControllare.numero = this.prossimoNumeroDomanda();
+            }
+          });
+        });
+      },
+      prossimoNumeroDomanda() {
+        let index = 0;
+        this.domandeQuestionario.forEach(domanda => {
+          if (domanda.numero >= index)
+            index = domanda.numero;
+        });
+        index++;
+        return index;
       }
     }
 }

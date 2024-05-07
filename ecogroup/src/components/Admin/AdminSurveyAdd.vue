@@ -34,11 +34,11 @@
         <div class="overflow-auto box-border bg-black bg-opacity-20 rounded-xl shadow-md p-2 max-h-72 mt-2">
           <table class="overflow-auto w-full">
             <tr class="bg-black bg-opacity-20 p-2 rounded-xl shadow-md">
-              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Inserita</th>
+              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%] text-center">Inserita</th>
               <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[70%]">Testo</th>
-              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[5%]">Numero</th>
-              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">Impatto</th>
-              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[5%]">Peso</th>
+              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[5%] text-center">Numero</th>
+              <th class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%] text-center">Impatto</th>
+              <th class="border-x-2 border-spacing-2 border-green-800 p-2 w-[5%] text-center">Peso</th>
             </tr>
             <tr v-for="domanda in domandeInCategoria">
               <td class="border-l-2 border-spacing-2 border-green-800 p-2 w-[10%]">

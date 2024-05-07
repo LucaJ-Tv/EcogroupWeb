@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($domanda['codDomanda'] == $valoriAggiunti['DOMANDE_codDomanda']) {
         $domanda['peso'] = $valoriAggiunti['peso'];
         $domanda['sezione'] = $valoriAggiunti['sezioni_nome'];
-        $domanda['numero'] = $valoriAggiunti['DOMANDE_codDomanda'];
+        $domanda['numero'] = $valoriAggiunti['numeroDomanda'];
         $domanda['inserire'] = true;
       }
     }
