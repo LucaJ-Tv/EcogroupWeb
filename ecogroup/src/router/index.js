@@ -32,12 +32,6 @@ const routes = [
     component: SignInView
   },
   {
-    path: '/user/:userid',
-    name: 'LoggedIn',
-    component: LoggedView,
-    props: true
-  },
-  {
     path: '/questionario/:userid',
     name: 'QuestionarioObbligatorio',
     component: QuestionarioView,
