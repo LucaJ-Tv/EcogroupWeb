@@ -2,7 +2,7 @@
 
 cd ecogroup
 
-rm dist -rf
+rm -r dist
 
 vue build
 
