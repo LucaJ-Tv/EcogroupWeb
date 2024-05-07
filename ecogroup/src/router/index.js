@@ -44,7 +44,7 @@ const routes = [
     props: true
   },
   {
-    path: '/questionari/:userid',
+    path: '/statistiche/:userid',
     name: 'Questionari',
     component: AllQuestionariView,
     props: true

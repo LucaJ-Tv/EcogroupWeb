@@ -71,7 +71,7 @@ export default {
         this.error = '';
         if(response.data.error == '') {
           this.$emit('loggedInUser')
-          this.$router.push({name: 'LoggedIn', params: {userid: this.userid}});
+          this.$router.push({name: 'AllQuestionariView', params: {userid: this.userid}});
         } else {
           this.error = response.data.error;
         }
