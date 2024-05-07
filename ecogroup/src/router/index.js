@@ -4,7 +4,6 @@ import LoginView from '../views/LoginView.vue'
 import SignInView from '../views/SignInView.vue'
 import notFoundView from '../views/notFound.vue'
 
-import LoggedView from '../views/logged/userLoggedView.vue'
 import QuestionarioView from '../views/QuestionarioView.vue'
 import AllQuestionariView from '../views/logged/AllQuestionariView.vue'
 

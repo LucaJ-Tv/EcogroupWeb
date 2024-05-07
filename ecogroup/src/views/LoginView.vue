@@ -46,7 +46,7 @@
                 this.$router.push({name: 'AdminLogged', params: {userid: response.data.userid}});
               } else {
                 this.$emit('loggedInUser', response.data.userid);
-                this.$router.push({name: 'LoggedIn', params: {userid: response.data.userid}});
+                this.$router.push({name: 'Questionari', params: {userid: response.data.userid}});
               }
             } else {
               this.erroreForm = response.data.error;
