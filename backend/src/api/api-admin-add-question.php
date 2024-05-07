@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header('Content-Type: application/json');
 
   //qui ci dovrebbe essere un modo usando session per recuperare l'id delladmin nel dubbio per ora lid è sempre uno
-  $id_admin = 1;
+  $id_admin = isset($_POST['codModeratore']) ? $_POST['codModeratore'] : '';
   $text = isset($_POST['testo']) ? $_POST['testo'] : '';
   $category = isset($_POST['categoria']) ? $_POST['categoria'] : '';
   $isPositive = isset($_POST['isPositive']) ? $_POST['isPositive'] : '';

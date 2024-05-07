@@ -48,6 +48,7 @@
 import axios from 'axios';
 
 export default {
+  props: ['id'],
   data () {
     return {
       testoDomanda: '',
@@ -71,6 +72,7 @@ export default {
       this.erroreForm = '';
       if(this.isFormOk()) {
         const formData = new FormData();
+        formData.append('codModeratore', this.id);
         formData.append('testo', this.testoDomanda);
         formData.append('categoria', this.categoriaSelezionata);
         formData.append('isPositive', this.positivo);

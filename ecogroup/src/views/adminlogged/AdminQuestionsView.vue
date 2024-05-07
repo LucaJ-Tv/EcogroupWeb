@@ -7,7 +7,7 @@
           {{ azione }}
         </div>
       </div>
-        <AddQuestions v-if="this.azioneCorrente == this.azioni[0]"></AddQuestions>
+        <AddQuestions :id="userid" v-if="this.azioneCorrente == this.azioni[0]"></AddQuestions>
         <ModifyQuestions v-if="this.azioneCorrente == this.azioni[1]"></ModifyQuestions>
         <AddCategory v-if="this.azioneCorrente == this.azioni[2]"></AddCategory>
     </div>

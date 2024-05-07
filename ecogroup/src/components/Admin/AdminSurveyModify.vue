@@ -61,8 +61,6 @@
               <td class="border-x-2 border-spacing-2 border-green-800 p-2 text-center"> <input v-model="domanda.peso" type="number" value="1" min="0" max="10" class="bg-green-900 p-1 rounded-md ring-1 ring-inset ring-green-700"></td>
             </tr>
           </table>
-          {{ domandeVisibili }}
-          <button @click="controllaNumeroDomande()">provami</button>
         </div>
       </fieldset>
       <fieldset v-if="PaginaCorrente == 2" class="flex flex-col gap-2">
