@@ -1,13 +1,4 @@
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    ports:
-       - "8080:8080"
-    volumes:
-      - ./ecogroup/:/app
-
   backend:
     platform: linux/x86_64
     build:
@@ -16,9 +7,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./backend/src:/www/
-      - ./ecogroup/dist/:/www/dist
+      - ./backend/src/:/www/
+      - ./ecogroup/:/www/ecogroup
 
 volumes:
   backend:
-  frontend:

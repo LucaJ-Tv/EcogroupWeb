@@ -1,4 +1,9 @@
 FROM tomsik68/xampp
+
 RUN apt update
 RUN apt install npm -y
+RUN npm install -g @vue/cli
 
+WORKDIR /www/ecogroup
+
+RUN pwd
