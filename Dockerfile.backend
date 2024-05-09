@@ -6,4 +6,7 @@ RUN npm install -g @vue/cli
 
 WORKDIR /www/ecogroup
 
-RUN pwd
+COPY ./ecogroup/ ./
+
+RUN npm install
+RUN vue build
