@@ -8,7 +8,7 @@ services:
       - "80:80"
     volumes:
       - ./backend/src/:/www/
-      - ./ecogroup/:/www/ecogroup
-
-volumes:
-  backend:
+      - ./ecogroup/:/www/ecogroup/
+    working_dir: /www/ecogroup
+    command: >
+      sh -c "npm run build && /usr/bin/supervisord -n"

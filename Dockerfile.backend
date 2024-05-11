@@ -1,12 +1,8 @@
 FROM tomsik68/xampp
 
-RUN apt update
-RUN apt install npm -y
-RUN npm install -g @vue/cli
-
 WORKDIR /www/ecogroup
 
-COPY ./ecogroup/ ./
+COPY ./ecogroup/package*.json ./
 
+RUN apt update && apt install npm -y
 RUN npm install
-RUN vue build
