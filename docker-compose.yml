@@ -11,4 +11,4 @@ services:
       - ./ecogroup/:/www/ecogroup/
     working_dir: /www/ecogroup
     command: >
-      sh -c "npm run build && /usr/bin/supervisord -n"
+      sh -c "npm install @vue/cli && npm run build && /usr/bin/supervisord -n"
