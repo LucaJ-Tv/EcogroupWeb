@@ -115,7 +115,7 @@ export default {
     },
     methods:{
       mostraQuestionari(){
-        axios.get('http://localhost/www/api/api-admin-get-surveys-alterables.php')
+        axios.get('./../../../api/api-admin-get-surveys-alterables.php')
         .then(response => {
           this.questionari = response.data;
         }).catch(error => {
@@ -125,7 +125,7 @@ export default {
       mostraDomandeQuestionario() {
         const formData = new FormData();
         formData.append('codQuestionario', this.cod);
-        axios.post('http://localhost/www/api/api-admin-get-questions-survey.php', formData)
+        axios.post('./../../../api/api-admin-get-questions-survey.php', formData)
         .then(response => {
           this.domandeQuestionario = response.data;
         }).catch(error => {
@@ -133,7 +133,7 @@ export default {
         });
       },
       mostraCategorie() {
-        axios.get('http://localhost/www/api/api-admin-get-category.php')
+        axios.get('./../../../api/api-admin-get-category.php')
         .then(response => {
           this.categorie = response.data;
         }).catch(error => {
@@ -143,7 +143,7 @@ export default {
       mostraSezioni() {
         const formData = new FormData();
         formData.append('codQuestionario', this.cod);
-        axios.post('http://localhost/www/api/api-admin-get-sections.php', formData)
+        axios.post('./../../../api/api-admin-get-sections.php', formData)
         .then(response => {
           this.sezioni = response.data;
           this.sezioneCorrente = this.sezioni[0]['nome'];
@@ -166,7 +166,7 @@ export default {
           formData.append('codDomanda', this.codiciDomandaAssoc);
           formData.append('sezione', this.sezioniDomandaAssoc);
 
-          axios.post('http://localhost/www/api/api-admin-alter-survey.php', formData)
+          axios.post('./../../../api/api-admin-alter-survey.php', formData)
           .then(response => {
             if (response.data.error == '') {
               this.risultato = 'Questionario modificato';
@@ -181,7 +181,7 @@ export default {
       eliminaQuestionaio(questionario) {
         const formData = new FormData();
         formData.append('codQuestionario', questionario.codQuestionario);
-        axios.post('http://localhost/www/api/api-admin-remove-survey.php', formData)
+        axios.post('./../../../api/api-admin-remove-survey.php', formData)
         .catch(error => {
           console.error(error);
         }).then(() => {

@@ -45,7 +45,7 @@ import axios from 'axios';
     },
     methods: {
       mostraQuestionari() {
-        axios.get('http://localhost/www/api/api-admin-get-surveys-scores.php')
+        axios.get('./../../api/api-admin-get-surveys-scores.php')
         .then(response => {
           this.questionari = response.data.surveys;
           this.punteggi = response.data.scores;

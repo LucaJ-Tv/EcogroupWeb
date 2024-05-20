@@ -84,7 +84,7 @@ import axios from 'axios';
     }, 
     methods: {
       updateCategories(){
-        axios.get('http://localhost/www/api/api-admin-get-category.php')
+        axios.get('./../../../api/api-admin-get-category.php')
         .then(response => {
           this.categorie = response.data;
           this.categoriaCorrente = this.categorie[0]['nomeCategoria'];
@@ -96,7 +96,7 @@ import axios from 'axios';
       disponiDomande() {
         const formData = new FormData();
         formData.append('categoria', this.categoriaCorrente);
-        axios.post('http://localhost/www/api/api-admin-get-questions-alterables.php', formData)
+        axios.post('./../../../api/api-admin-get-questions-alterables.php', formData)
         .then(response => {
           this.domandeInCategoria = response.data;
         }).catch(error => {
@@ -123,7 +123,7 @@ import axios from 'axios';
         formData.append('categoria', this.categoriaSelezionata);
         formData.append('isPositive', this.positivo);
         formData.append('cod', this.cod);
-        axios.post('http://localhost/www/api/api-admin-alter-question.php', 
+        axios.post('./../../../api/api-admin-alter-question.php', 
         formData).then(response => {
           if (response.data.error == ''){
             this.risultato = 'Domanda Modificata';
@@ -139,7 +139,7 @@ import axios from 'axios';
     eliminaDomanda(codDomanda) {
       const formData = new FormData();
         formData.append('codDomanda', codDomanda);
-        axios.post('http://localhost/www/api/api-admin-remove-quesion.php', formData)
+        axios.post('./../../../api/api-admin-remove-quesion.php', formData)
         .catch(error => {
           console.error(error);
         }).then(() => {

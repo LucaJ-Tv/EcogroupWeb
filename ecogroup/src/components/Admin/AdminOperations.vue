@@ -74,7 +74,7 @@ export default {
 
         this.validator();
         if (this.formOk) {
-          axios.post('http://localhost/www/api/api-admin-signup.php', 
+          axios.post('./../../../api/api-admin-signup.php', 
           formData).then(response => {
             if (response.data.error == ''){
               this.risultato = 'admin aggiunto';

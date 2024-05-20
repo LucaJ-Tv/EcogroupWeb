@@ -77,7 +77,7 @@ export default {
         formData.append('categoria', this.categoriaSelezionata);
         formData.append('isPositive', this.positivo);
         formData.append('risposte', this.risposte);
-        axios.post('http://localhost/www/api/api-admin-add-question.php', 
+        axios.post('./../../../api/api-admin-add-question.php', 
         formData).then(response => {
           if (response.data.error == ''){
             //console.log(response.data);
@@ -107,7 +107,7 @@ export default {
       }
     },
     updateCategories() {
-      axios.get('http://localhost/www/api/api-admin-get-category.php')
+      axios.get('./../../../api/api-admin-get-category.php')
       .then(response => {
         this.categorie = response.data;
       }).catch(error => {

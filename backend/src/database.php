@@ -381,8 +381,21 @@ class Database {
     }
 
     function eliminateQuestionarioByQuestionarioId($codQuestionario) {
+        $this->eliminateModifiche($codQuestionario);
         $query = "DELETE FROM questionari
                 WHERE codQuestionario LIKE ?";
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('i', $codQuestionario);
+        if (!$statement) {
+            // Gestione dell'errore se la preparazione della query fallisce
+            die("Errore nella preparazione della query: " . $this->db->error);
+        }
+        $statement->execute();
+    }
+
+    private function eliminateModifiche($codQuestionario) {
+        $query = "DELETE FROM modifiche
+        WHERE QUESTIONARI_codQuestionario LIKE ?";
         $statement = $this->db->prepare($query);
         $statement->bind_param('i', $codQuestionario);
         if (!$statement) {

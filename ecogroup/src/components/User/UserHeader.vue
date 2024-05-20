@@ -15,7 +15,7 @@
   export default{
     methods: {
       logout(){
-        axios.get('http://localhost/api/api-logout.php').then(
+        axios.get('./api/api-logout.php').then(
           this.$emit('logout') //temporaneo solo per dimostrazione
         ).catch(error => {
           console.error(error);

@@ -101,7 +101,7 @@ import axios from 'axios';
     },
     methods: {
       updateCategories(){
-        axios.get('http://localhost/www/api/api-admin-get-category.php')
+        axios.get('./../../../api/api-admin-get-category.php')
         .then(response => {
           this.categorie = response.data;
         }).catch(error => {
@@ -123,7 +123,7 @@ import axios from 'axios';
       disponiDomande() {
         const formData = new FormData();
         formData.append('categoria', this.categoriaCorrente);
-        axios.post('http://localhost/www/api/api-admin-get-questions.php', formData)
+        axios.post('./../../../api/api-admin-get-questions.php', formData)
         .then(response => {
           this.domandeInCategoria = response.data;
           if(this.domandeInCategoria !== undefined)
@@ -224,7 +224,7 @@ import axios from 'axios';
           formData.append('sezione', this.sezioniDomandaAssoc);
           formData.append('sezioniDaAggiungere', this.sezioni);
 
-          axios.post('http://localhost/www/api/api-admin-add-survey.php', 
+          axios.post('./../../../api/api-admin-add-survey.php', 
           formData).then(response => {
           if (response.data.error == ''){
             this.risultato = response.data.result;

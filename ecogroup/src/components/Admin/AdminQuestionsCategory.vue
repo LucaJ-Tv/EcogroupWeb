@@ -51,7 +51,7 @@ export default {
       const formData = new FormData();
       formData.append('categoria', this.categoriaAggiungere);
       
-      axios.post('http://localhost/www/api/api-admin-add-category.php', 
+      axios.post('./../../../api/api-admin-add-category.php', 
       formData).then(response => {
         if (response.data.error == ''){
           this.risultato = 'categoria aggiunta';
@@ -67,7 +67,7 @@ export default {
       });    
     },
     updateCategories(){
-      axios.get('http://localhost/www/api/api-admin-get-category.php')
+      axios.get('./../../../api/api-admin-get-category.php')
       .then(response => {
         this.categorie = response.data;
       }).catch(error => {

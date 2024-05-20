@@ -16,7 +16,7 @@
     },
     methods: {
       restoreSession() {
-        axios.get('http://localhost/www/session.php').then(response => {
+        axios.get('./www/session.php').then(response => {
           this.session = response.data
         }).catch(error => {
           console.error(error);
