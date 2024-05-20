@@ -125,7 +125,7 @@ export default {
 
       this.submitValidator();
       if (this.formOk) {
-        axios.post('./www/api/api-user-signup.php', 
+        axios.post('./../api/api-user-signup.php', 
         formData).then(response => {
           if (response.data.error == ''){
             this.$router.push({name: 'QuestionarioObbligatorio', params: {userid: response.data.userid}});

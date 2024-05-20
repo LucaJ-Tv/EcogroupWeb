@@ -28,7 +28,7 @@ export default {
     mostraQuestionari () {
       const formData = new FormData();
       formData.append('codAzienda', this.userid);
-      axios.post('./www/api/api-user-get-survey-score.php', formData)
+      axios.post('./../../api/api-user-get-survey-score.php', formData)
       .then(response => {
         this.punteggi = response.data.result;
       }).catch(error => {

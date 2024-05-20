@@ -47,7 +47,7 @@ export default {
     mostraQuestionario() {
       const formData = new FormData();
       formData.append('titolo', 'Questionario obbligatorio');
-      axios.post('./www/api/api-user-get-survey.php', formData)
+      axios.post('./../../api/api-user-get-survey.php', formData)
       .then(response => {
         this.titolo = response.data.titolo;
         this.domande = response.data.result;
@@ -66,7 +66,7 @@ export default {
       formData.append('codAzienda', this.userid);
       formData.append('codDomande', Object.keys(this.scelte));
       formData.append('risposte', this.convertiScelteInPunteggio());
-      axios.post('./www/api/api-user-add-done-survey.php', formData)
+      axios.post('./../../api/api-user-add-done-survey.php', formData)
       .then(response => {
         this.error = '';
         if(response.data.error == '') {
